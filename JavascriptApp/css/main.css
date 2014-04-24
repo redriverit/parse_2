@@ -28,6 +28,10 @@ body {
     font-size: 16px;
 }
 
+.table-note{
+    font-size: x-small;
+}
+
 .form-button{
     margin-top: 15px;
 }

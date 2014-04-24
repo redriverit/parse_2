@@ -1,0 +1,61 @@
+======HTML Files=======
+  login.html -> file for login screen
+  signup.html -> file for signup details and register user
+  forgotpass.html -> file to allow enter to request restoring his password, checking for email
+
+======HTML design======
+  V Login Screen
+
+  V Forgot Password Screen
+
+  V Sign Up Screen
+
+  * Groups List Screen
+
+  *
+
+=====Backbone Development=====
+ * Implementing models, collections ( Group, User, Groups)
+
+ * LoginView -> button handlers on Login page
+ * GroupsListView -> button handlers, renderer
+ *
+
+=====Use cases==========
+
+  Login Screen Valid Credentials
+    1) User filled email, password
+
+  Login Screen Invalid credentials
+    1) User filled invalid email, password
+    2) User clicks 'Login' button
+    3) 'Invalid Username/Password' is shown
+
+  Login screen Sign Up Click
+    1) User clicks sign up button
+    2) User is redirected to 'Sign up' screen and can see user sign up details
+
+  Login screen Forgot Password Click
+    1) User clicks 'Forgot Password' link
+    2) User is redirected to 'Forgot Password' screen and can see 'Forgot Password Screen'
+
+  Sign Up Invalid(There is such email, already taken)
+    1) User fills details on screen
+    2) User clicks 'Sign Up' button
+    3) 'Email already in use" is shown to user
+
+  Sign Up Successful (successful sign up)
+    1) User fills details on screen
+    2) Use clicks 'Sign Up' button
+    3) User moves to 'Main screen' and get logged in
+
+  Forgot Password Invalid (No Such email)
+    1) User enters email in 'enter your email' input box
+    2) User clicks 'Restore Password' button
+    2) 'Email is not found in our system' is shown
+
+  Forgot Password Successful (Valid email)
+    1) User enters his email in 'enter your email' input box
+    2) User clicks 'Restore Password' button
+    3) 'Password reset was sent to your email'
+
