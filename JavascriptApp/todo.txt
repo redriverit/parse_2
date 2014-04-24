@@ -60,3 +60,10 @@
     2) User clicks 'Restore Password' button
     3) 'Password reset was sent to your email'
 
+
+
+Notes by Daniel:
+
+- When a user creates a group, he will become the administrator of the group and the group will be in their list
+- When a user clicks on a group, he is presented with a few buttons or tabs that will each show a table list of items related to the group. I will do a few mockups of this to better explain.
+
