@@ -5,7 +5,7 @@ body {
 }
 
 .form-signin {
-    max-width: 330px;
+    max-width: 350px;
     padding: 15px;
     margin: 0 auto;
 }
@@ -28,6 +28,10 @@ body {
     font-size: 16px;
 }
 
+button {
+    margin-top: 15px;
+}
+
 .form-signin a {
     text-align: center;
     width: 100%;
@@ -44,7 +48,6 @@ body {
 }
 
 .form-signin input[type="password"] {
-    margin-bottom: 10px;
     border-top-left-radius: 0;
     border-top-right-radius: 0;
 }
