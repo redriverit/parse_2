@@ -2,7 +2,8 @@
   login.html -> file for login screen
   signup.html -> file for signup details and register user
   forgotpass.html -> file to allow enter to request restoring his password, checking for email
-
+  group list -> list of groups
+  group details -> details for specific group
 ======HTML design======
   V Login Screen
 
@@ -10,9 +11,9 @@
 
   V Sign Up Screen
 
-  * Groups List Screen
+  V Groups List Screen
 
-  *
+  V Group Details
 
 =====Backbone Development=====
  * Implementing models, collections ( Group, User, Groups)
