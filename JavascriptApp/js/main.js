@@ -57,7 +57,8 @@ var LoginView = Backbone.view.extend({
     },
 
     initialize: function () {
-        this.listenTo(this.model, "change", this.render);
+        this.listenTo(this.model, 'change', this.render);
+        this.listenTo(this.model, 'destroy', this.remove);
     },
 
     signIn: function () {
@@ -77,7 +78,8 @@ var SignUpView = Backbone.view.extend({
     },
 
     initialize: function () {
-        this.listenTo(this.model, "change", this.render);
+        this.listenTo(this.model, 'change', this.render);
+        this.listenTo(this.model, 'destroy', this.remove);
     },
 
     signUp: function () {
@@ -98,7 +100,8 @@ var ForgotPasswordView = Backbone.view.extend(
         },
 
         initialize: function () {
-            this.listenTo(this.model, "change", this.render);
+            this.listenTo(this.model, 'change', this.render);
+            this.listenTo(this.model, 'destroy', this.remove);
         },
 
         restorePassword: function () {
@@ -119,7 +122,8 @@ var GroupsListView = Backbone.view.extend({
     },
 
     initialize: function () {
-        this.listenTo(this.model, "change", this.render);
+        this.listenTo(this.model, 'change', this.render);
+        this.listenTo(this.model, 'destroy', this.remove);
     }
 
 });
@@ -135,7 +139,8 @@ var GroupDetailsView = Backbone.view.extend({
     },
 
     initialize: function () {
-        this.listenTo(this.model, "change", this.render);
+        this.listenTo(this.model, 'change', this.render);
+        this.listenTo(this.model, 'destroy', this.remove);
     }
 
 });
