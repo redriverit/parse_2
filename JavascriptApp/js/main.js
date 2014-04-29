@@ -144,3 +144,15 @@ var GroupDetailsView = Backbone.view.extend({
     }
 
 });
+
+var AppView = Backbone.view.extend({
+
+        el: $("#parse_com_app"),
+
+        initialize: function () {
+            console.log('App View initialized')
+        }
+
+    }
+
+);
