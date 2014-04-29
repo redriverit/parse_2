@@ -50,6 +50,8 @@ var LoginView = Backbone.view.extend({
 
     tagName: "div",
 
+    template: _.template($('#loginTemplate').html()),
+
     events: {
         "click #signIn": "signIn"
     },
@@ -67,6 +69,8 @@ var LoginView = Backbone.view.extend({
 var SignUpView = Backbone.view.extend({
 
     tagName: "div",
+
+    template: _.template($('#signUpTemplate').html()),
 
     events: {
         "click #signUp": "signUp"
@@ -87,6 +91,8 @@ var ForgotPasswordView = Backbone.view.extend(
 
         tagName: "div",
 
+        template: _.template($('#forgotPasswordTemplate').html()),
+
         events: {
             "click #forgotPassword": "restorePassword"
         },
@@ -106,6 +112,8 @@ var GroupsListView = Backbone.view.extend({
 
     tagName: "div",
 
+    template: _.template($('#groupListTemplate').html()),
+
     events: {
 
     },
@@ -119,6 +127,8 @@ var GroupsListView = Backbone.view.extend({
 var GroupDetailsView = Backbone.view.extend({
 
     tagName: "div",
+
+    template: _.template($('#groupDetailsTemplate').html()),
 
     events: {
 
