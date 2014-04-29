@@ -16,11 +16,178 @@
 
 <body>
 
-<div id="demoapp">
+<div id="parse_com_app">
 
 </div>
 
 <!-- Templates -->
+
+<div id="forgotPasswordTemplate" class="container">
+
+    <form class="form-signin" role="form">
+        <h2 class="form-signin-heading">Please password restore details: </h2>
+        <input type="email" class="form-control" placeholder="Email address" required autofocus>
+        <button class="btn btn-lg btn-primary btn-block form-button" type="submit">Restore Password</button>
+    </form>
+
+</div>
+
+<div id="groupDetailsTemplate" class="container">
+
+    <form class="form-signin" role="form">
+        <div>
+            <button class="btn btn-primary">Logout Group 1</button>
+            <span style="padding-left: 8.5%; padding-right: 8.6%">Group 1 Menu </span>
+            <button class="btn btn-primary">Edit Group Info</button>
+        </div>
+
+        <br/>
+
+        <table class="table table-bordered">
+            <thead>
+            <tr>
+                <th style="text-align: center">Recent Group Activity Class Objects</th>
+            </tr>
+            </thead>
+
+            <tbody>
+
+            <!-- row #1 -->
+            <tr>
+                <td>
+                    New Item Added #1 <br/>
+                    <span class="table-note">Created on Tuesday April 21, 2014</span>
+                </td>
+            </tr>
+
+            <!-- row #2 -->
+            <tr>
+                <td>
+                    New Item Added #2 <br/>
+                    <span class="table-note">Created on Tuesday April 22, 2014</span>
+                </td>
+            </tr>
+
+            <!-- row #3 -->
+            <tr>
+                <td>
+                    New Item Added #3 <br/>
+                    <span class="table-note">Created on Tuesday April 23, 2014</span>
+                </td>
+            </tr>
+
+            <!-- row #4 -->
+            <tr>
+                <td>
+                    New Item Added #4 <br/>
+                    <span class="table-note">Created on Tuesday April 24, 2014</span>
+                </td>
+            </tr>
+
+            </tbody>
+
+        </table>
+
+    </form>
+
+</div>
+
+<div id="groupListTemplate" class="container">
+
+    <form class="form-signin" role="form">
+        <button class="btn btn-lg btn-primary btn-block">Create New Group</button>
+        <br/>
+
+        <table class="table table-bordered">
+            <thead>
+            <tr>
+                <th colspan="2" style="text-align: center">My Groups</th>
+            </tr>
+            </thead>
+
+            <tbody>
+
+            <!-- row #1 -->
+            <tr>
+                <td style="width: 80%">
+                    Group 1 <br/>
+                    <span class="table-note">Created on Tuesday April 21, 2014</span>
+                </td>
+                <td>
+                    <button class="btn btn-success">View</button>
+                </td>
+            </tr>
+
+            <!-- row #2 -->
+            <tr>
+                <td style="width: 80%">
+                    Group 2 <br/>
+                    <span class="table-note">Created on Tuesday April 22, 2014</span>
+                </td>
+                <td>
+                    <button class="btn btn-success">View</button>
+                </td>
+            </tr>
+
+            <!-- row #3 -->
+            <tr>
+                <td style="width: 80%">
+                    Group 3 <br/>
+                    <span class="table-note">Created on Tuesday April 23, 2014</span>
+                </td>
+                <td>
+                    <button class="btn btn-success">View</button>
+                </td>
+            </tr>
+
+            <!-- row #4 -->
+            <tr>
+                <td style="width: 80%">
+                    Group 4 <br/>
+                    <span class="table-note">Created on Tuesday April 24, 2014</span>
+                </td>
+                <td>
+                    <button class="btn btn-success">View</button>
+                </td>
+            </tr>
+
+            </tbody>
+
+        </table>
+
+    </form>
+
+</div>
+
+<div id="loginTemplate" class="container">
+
+    <form class="form-signin" role="form">
+        <h2 class="form-signin-heading">Please Sign In</h2>
+        <input type="email" class="form-control" placeholder="Email address" required autofocus>
+        <input type="password" class="form-control" placeholder="Password" required>
+        <button class="btn btn-lg btn-primary btn-block form-button" id="signIn" type="submit">Sign In</button>
+        <div id="extraLinks">
+            <a href="#/signup">Sign Up</a> <br/> <br/>
+            <a href="#/forgotpassword">Forgot Password</a> <br/>
+        </div>
+    </form>
+
+</div>
+
+<div id="signUpTemplate" class="container">
+
+    <form class="form-signin" role="form">
+        <h2 class="form-signup-heading">Please fill info:</h2>
+        <input type="email" class="form-control" placeholder="Email address" required autofocus>
+        <input type="password" class="form-control" placeholder="Password" required>
+        <input type="password" class="form-control" placeholder="Password Again" required>
+        <input type="text" class="form-control" placeholder="First Name" required>
+        <input type="text" class="form-control" placeholder="Last Name" required>
+        <input type="text" class="form-control" placeholder="Phone" required>
+        <button class="btn btn-lg btn-primary btn-block form-button" id="signUp" type="submit">Sign Up</button>
+    </form>
+
+</div>
 
 
 </body>
