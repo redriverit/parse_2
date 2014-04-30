@@ -1,5 +1,14 @@
+// Initialize Parse.com
+
+Parse.$ = jQuery;
+
+// Initialize Parse with your Parse application javascript keys
+Parse.initialize("hQMq9rXEIauuSFYHotuxDYdy8t1wNEKP9yK8rZoi"/*Application Id */,
+    "kh6MDcrDJvBlGY5eBGP2jN7Sh8okO0b2DFDiP6ou"/*Javascript key */);
+
+
 // models
-var LoginModel = Backbone.model.extend(
+var LoginModel = Parse.Object.extend("Login",
     {
         defaults: {
             "email": "",
@@ -8,7 +17,7 @@ var LoginModel = Backbone.model.extend(
     }
 );
 
-var SignUpModel = Backbone.model.extend(
+var SignUpModel = Parse.Object.extend('SignUp',
     {
         defaults: {
             "email": "",
@@ -21,7 +30,7 @@ var SignUpModel = Backbone.model.extend(
     }
 );
 
-var RestorePasswordModel = Backbone.model.extend(
+var RestorePasswordModel = Parse.Object.extend('RestorePassword',
     {
         defaults: {
             "email": ""
@@ -29,13 +38,13 @@ var RestorePasswordModel = Backbone.model.extend(
     }
 );
 
-var GroupsCollection = Backbone.collection.extend(
+var GroupsCollection = Parse.Collection.extend(
     {
 
     }
 );
 
-var Group = Backbone.model.extend(
+var Group = Parse.Object.extend('Group',
     {
         defaults: {
             "name": "",
@@ -46,9 +55,9 @@ var Group = Backbone.model.extend(
 
 // views
 
-var LoginView = Backbone.view.extend({
+var LoginView = Parse.View.extend({
 
-    tagName: "div",
+    el: '#content',
 
     template: _.template($('#loginTemplate').html()),
 
@@ -57,19 +66,51 @@ var LoginView = Backbone.view.extend({
     },
 
     initialize: function () {
-        this.listenTo(this.model, 'change', this.render);
-        this.listenTo(this.model, 'destroy', this.remove);
+        _.bindAll(this, "signIn");
+        this.render();
     },
 
     signIn: function () {
-        console.log("Doing sign in");
+        var self = this;
+
+        var username = this.$('#signin-username').val();
+        var password = this.$('#signin-password').val();
+
+        //TODO enable later when we need integrated use
+        // start hack
+        new GroupsListView();
+        // end of hack
+
+        /*
+         Parse.User.logIn(username, password, {
+         success: function (user) {
+         new GroupsListView();
+
+         self.undelegateEvents();
+         delete self;
+         },
+
+         error: function (user, error) {
+         self.$("#signInForm .error").html("Invalid username or password. Please try again.").show();
+         this.$("#signInForm button").removeAttr("disabled");
+         }
+         });
+
+         this.$("#signInForm button").attr("disabled", "disabled"); */
+    },
+
+    render: function () {
+        $(this.el).html(this.template);
+        this.delegateEvents();
+
+        return this;
     }
 
 });
 
-var SignUpView = Backbone.view.extend({
+var SignUpView = Parse.View.extend({
 
-    tagName: "div",
+    el: '#content',
 
     template: _.template($('#signUpTemplate').html()),
 
@@ -78,8 +119,11 @@ var SignUpView = Backbone.view.extend({
     },
 
     initialize: function () {
-        this.listenTo(this.model, 'change', this.render);
-        this.listenTo(this.model, 'destroy', this.remove);
+        this.render();
+    },
+
+    render: function () {
+        $(this.el).html(this.template);
     },
 
     signUp: function () {
@@ -88,7 +132,7 @@ var SignUpView = Backbone.view.extend({
 
 });
 
-var ForgotPasswordView = Backbone.view.extend(
+var ForgotPasswordView = Parse.View.extend(
     {
 
         tagName: "div",
@@ -100,8 +144,11 @@ var ForgotPasswordView = Backbone.view.extend(
         },
 
         initialize: function () {
-            this.listenTo(this.model, 'change', this.render);
-            this.listenTo(this.model, 'destroy', this.remove);
+            this.render();
+        },
+
+        render: function () {
+            $(this.el).html(this.template);
         },
 
         restorePassword: function () {
@@ -111,9 +158,9 @@ var ForgotPasswordView = Backbone.view.extend(
     }
 );
 
-var GroupsListView = Backbone.view.extend({
+var GroupsListView = Parse.View.extend({
 
-    tagName: "div",
+    el: '#content',
 
     template: _.template($('#groupListTemplate').html()),
 
@@ -122,15 +169,18 @@ var GroupsListView = Backbone.view.extend({
     },
 
     initialize: function () {
-        this.listenTo(this.model, 'change', this.render);
-        this.listenTo(this.model, 'destroy', this.remove);
+        this.render();
+    },
+
+    render: function () {
+        $(this.el).html(this.template);
     }
 
 });
 
-var GroupDetailsView = Backbone.view.extend({
+var GroupDetailsView = Parse.View.extend({
 
-    tagName: "div",
+    el: '#content',
 
     template: _.template($('#groupDetailsTemplate').html()),
 
@@ -139,20 +189,60 @@ var GroupDetailsView = Backbone.view.extend({
     },
 
     initialize: function () {
-        this.listenTo(this.model, 'change', this.render);
-        this.listenTo(this.model, 'destroy', this.remove);
+        this.render();
+    },
+
+    render: function () {
+        $(this.el).html(this.template);
     }
 
 });
 
-var AppView = Backbone.view.extend({
+var AppRouter = Parse.Router.extend({
+        routes: {
+            "one": "one",
+            "two": "two",
+            "three": "three"
+        },
+
+        initialize: function (options) {
+
+        },
+
+        one: function () {
+            console.log("one visited");
+        },
+
+        two: function () {
+            console.log("two visited");
+        },
+
+        three: function () {
+            console.log("three visited");
+        }
+    }
+);
+
+var AppView = Parse.View.extend({
 
         el: $("#parse_com_app"),
 
         initialize: function () {
-            console.log('App View initialized')
+            this.render();
+        },
+
+        render: function () {
+            if (Parse.User.current()) {
+                // main view
+            } else {
+                new LoginView();
+            }
         }
 
     }
 
 );
+
+new AppRouter;
+new AppView;
+//Parse.history.start();
