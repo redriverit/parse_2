@@ -7,6 +7,13 @@ Parse.initialize("hQMq9rXEIauuSFYHotuxDYdy8t1wNEKP9yK8rZoi"/*Application Id */,
     "kh6MDcrDJvBlGY5eBGP2jN7Sh8okO0b2DFDiP6ou"/*Javascript key */);
 
 
+// This is the transient application state, not persisted on Parse
+var AppState = Parse.Object.extend("AppState", {
+    defaults: {
+        view: "index"
+    }
+});
+
 // models
 var LoginModel = Parse.Object.extend("Login",
     {
@@ -66,7 +73,6 @@ var LoginView = Parse.View.extend({
     },
 
     initialize: function () {
-        _.bindAll(this, "signIn");
         this.render();
     },
 
@@ -101,7 +107,6 @@ var LoginView = Parse.View.extend({
 
     render: function () {
         $(this.el).html(this.template);
-        this.delegateEvents();
 
         return this;
     }
@@ -119,11 +124,13 @@ var SignUpView = Parse.View.extend({
     },
 
     initialize: function () {
+        console.log('Sign up initialized');
         this.render();
     },
 
     render: function () {
         $(this.el).html(this.template);
+        console.log('Sign up rendered');
     },
 
     signUp: function () {
@@ -135,7 +142,7 @@ var SignUpView = Parse.View.extend({
 var ForgotPasswordView = Parse.View.extend(
     {
 
-        tagName: "div",
+        el: '#content',
 
         template: _.template($('#forgotPasswordTemplate').html()),
 
@@ -200,49 +207,45 @@ var GroupDetailsView = Parse.View.extend({
 
 var AppRouter = Parse.Router.extend({
         routes: {
-            "one": "one",
-            "two": "two",
-            "three": "three"
+            '': "index",
+            'forgotPassword': 'forgotPassword',
+            'signup': 'signUp',
+            'groups': 'groupsList',
+            'group/:id': 'groupDetails'
         },
 
         initialize: function (options) {
-
         },
 
-        one: function () {
-            console.log("one visited");
+        index: function () {
+            this.loadView(new LoginView());
         },
 
-        two: function () {
-            console.log("two visited");
+        forgotPassword: function () {
+            this.loadView(new ForgotPasswordView());
         },
 
-        three: function () {
-            console.log("three visited");
-        }
-    }
-);
-
-var AppView = Parse.View.extend({
-
-        el: $("#parse_com_app"),
-
-        initialize: function () {
-            this.render();
+        signUp: function () {
+            console.log('Signup route');
+            this.loadView(new SignUpView());
         },
 
-        render: function () {
-            if (Parse.User.current()) {
-                // main view
-            } else {
-                new LoginView();
-            }
+        groupsList: function () {
+            this.loadView(new GroupsListView());
+        },
+
+        groupDetails: function (id) {
+            console.log("Getting group details with id: " + id);
+            this.loadView(new GroupDetailsView());
+        },
+
+        loadView: function (view) {
+            this.view = view;
         }
 
     }
-
 );
 
-new AppRouter;
-new AppView;
-//Parse.history.start();
+new AppRouter();
+
+Parse.history.start();
