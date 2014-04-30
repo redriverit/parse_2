@@ -36,6 +36,10 @@ body {
     margin-top: 15px;
 }
 
+.title {
+    text-align: center;
+}
+
 .form-signin a {
     text-align: center;
     width: 100%;
