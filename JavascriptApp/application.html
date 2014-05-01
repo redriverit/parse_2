@@ -34,8 +34,8 @@
 
         <form class="form-signin" role="form">
             <h2 class="form-signin-heading">Please password restore details: </h2>
-            <input type="email" class="form-control" placeholder="Email address" required autofocus>
-            <button class="btn btn-lg btn-primary btn-block form-button" type="button">Restore Password</button>
+            <input type="text" class="form-control" placeholder="Email address" required autofocus>
+            <button id="forgotPassword" class="btn btn-lg btn-primary btn-block form-button" type="button">Restore Password</button>
         </form>
 
     </div>
@@ -107,7 +107,7 @@
     <div class="container">
 
         <form class="form-signin" role="form">
-            <button class="btn btn-lg btn-primary btn-block">Create New Group</button>
+            <button id="createGroup" class="btn btn-lg btn-primary btn-block">Create New Group</button>
             <br/>
 
             <table class="table table-bordered">
@@ -177,8 +177,11 @@
 
         <form id="signInForm" class="form-signin" role="form">
             <h2 class="form-signin-heading">Please Sign In</h2>
-            <input type="email" class="form-control" placeholder="Email address" required autofocus>
-            <input type="password" class="form-control" placeholder="Password" required>
+            <input type="text" class="form-control" id="signin-username" placeholder="Username" required autofocus>
+            <input type="password" class="form-control" id="signin-password" placeholder="Password" required>
+            <!-- place for errors -->
+            <div class="error" style="display:none"></div>
+
             <button class="btn btn-lg btn-primary btn-block form-button" id="signIn" type="button">Sign In</button>
             <div id="extraLinks">
                 <a href="#/signup">Sign Up</a> <br/> <br/>

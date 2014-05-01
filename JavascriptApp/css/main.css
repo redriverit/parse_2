@@ -40,6 +40,13 @@ body {
     text-align: center;
 }
 
+.error {
+    border: 1px solid red;
+    background: #FDEFF0;
+    padding: 5px 15px;
+    margin-bottom: 15px;
+}
+
 .form-signin a {
     text-align: center;
     width: 100%;

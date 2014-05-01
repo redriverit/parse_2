@@ -4,16 +4,6 @@
   forgotpass.html -> file to allow enter to request restoring his password, checking for email
   group list -> list of groups
   group details -> details for specific group
-======HTML design======
-  V Login Screen
-
-  V Forgot Password Screen
-
-  V Sign Up Screen
-
-  V Groups List Screen
-
-  V Group Details
 
 =====Backbone Development=====
  * Implementing models, collections ( Group, User, Groups)
@@ -60,3 +50,18 @@
     2) User clicks 'Restore Password' button
     3) 'Password reset was sent to your email'
 
+Define router with separate url for each view with id
+
+============== Parse.com ==============
+ V User class
+ Group class
+
+ Computer class
+   - group id
+ Equipment class
+   - group id
+ Activity class
+   - group id
+
+
+=========================================================================

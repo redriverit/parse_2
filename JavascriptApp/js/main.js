@@ -82,27 +82,22 @@ var LoginView = Parse.View.extend({
         var username = this.$('#signin-username').val();
         var password = this.$('#signin-password').val();
 
-        //TODO enable later when we need integrated use
-        // start hack
-        new GroupsListView();
-        // end of hack
+        Parse.User.logIn(username, password, {
+            success: function (user) {
+                console.log('Login successful');
 
-        /*
-         Parse.User.logIn(username, password, {
-         success: function (user) {
-         new GroupsListView();
+                self.undelegateEvents();
+                delete self;
+            },
 
-         self.undelegateEvents();
-         delete self;
-         },
+            error: function (user, error) {
+                console.log('login failed');
+                self.$("#signInForm .error").html("Invalid username or password. Please try again.").show();
+                self.$("#signInForm button").removeAttr("disabled");
+            }
+        });
 
-         error: function (user, error) {
-         self.$("#signInForm .error").html("Invalid username or password. Please try again.").show();
-         this.$("#signInForm button").removeAttr("disabled");
-         }
-         });
-
-         this.$("#signInForm button").attr("disabled", "disabled"); */
+        this.$("#signInForm button").attr("disabled", "disabled");
     },
 
     render: function () {
@@ -172,11 +167,15 @@ var GroupsListView = Parse.View.extend({
     template: _.template($('#groupListTemplate').html()),
 
     events: {
-
+        "click #createGroup": "createGroup"
     },
 
     initialize: function () {
         this.render();
+    },
+
+    createGroup: function () {
+        console.log('Creating group');
     },
 
     render: function () {
@@ -217,17 +216,21 @@ var AppRouter = Parse.Router.extend({
         initialize: function (options) {
         },
 
+        login: function () {
+            this.loadView(new LoginView(), true/*skip authorization*/);
+        },
+
         index: function () {
-            this.loadView(new LoginView());
+            // groups list is our main
+            this.groupsList();
         },
 
         forgotPassword: function () {
-            this.loadView(new ForgotPasswordView());
+            this.loadView(new ForgotPasswordView(), true/*skip authorization*/);
         },
 
         signUp: function () {
-            console.log('Signup route');
-            this.loadView(new SignUpView());
+            this.loadView(new SignUpView(), true/*skip authorization*/);
         },
 
         groupsList: function () {
@@ -239,8 +242,20 @@ var AppRouter = Parse.Router.extend({
             this.loadView(new GroupDetailsView());
         },
 
-        loadView: function (view) {
-            this.view = view;
+        checkCredentials: function () {
+            console.log('Checking creds');
+
+            if (!Parse.User.current()) {
+                this.login();
+            }
+        },
+
+        loadView: function (view, skipAuthorization) {
+            if (!Parse.User.current() && !skipAuthorization) {
+                this.view = new LoginView();
+            } else {
+                this.view = view;
+            }
         }
 
     }
