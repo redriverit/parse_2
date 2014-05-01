@@ -68,7 +68,7 @@
                 <tr>
                     <td>
                         <%= item.name %> <br/>
-                        <span class="table-note">Created on <%=item.createdAt %></span>
+                        <span class="table-note">Created on <%=dateFormat(Date.parse(item.createdAt), "dddd, mmmm dS, yyyy, h:MM:ss TT")%></span>
                     </td>
                 </tr>
 
@@ -103,7 +103,7 @@
                 <tr>
                     <td style="width: 80%">
                         <%= group.name %> <br/>
-                        <span class="table-note">Created on <%= group.createdAt %></span>
+                        <span class="table-note">Created on <%=dateFormat(Date.parse(group.createdAt), "dddd, mmmm dS, yyyy, h:MM:ss TT")%></span>
                     </td>
 
                     <td>
@@ -164,6 +164,7 @@
 <script type="text/javascript" src="js/backbone-min.js"></script>
 <script type="text/javascript" src="js/backbone-local-storage.js"></script>
 <script type="text/javascript" src="js/parse-1.2.13.min.js"></script>
+<script type="text/javascript" src="js/date-format.js"></script>
 <script type="text/javascript" src="js/main.js"></script>
 
 </body>
