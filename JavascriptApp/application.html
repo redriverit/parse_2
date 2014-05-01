@@ -64,12 +64,15 @@
 
                 <tbody>
 
+                <% _.each(items, function(item) { %>
                 <tr>
                     <td>
-                        New Item Added #1 <br/>
-                        <span class="table-note">Created on Tuesday April 21, 2014</span>
+                        <%= item.name %> <br/>
+                        <span class="table-note">Created on <%=item.createdAt %></span>
                     </td>
                 </tr>
+
+                <% }); %>
 
                 </tbody>
 

@@ -1,35 +1,4 @@
-======HTML Files=======
-  login.html -> file for login screen
-  signup.html -> file for signup details and register user
-  forgotpass.html -> file to allow enter to request restoring his password, checking for email
-  group list -> list of groups
-  group details -> details for specific group
-
-=====Backbone Development=====
- * Implementing models, collections ( Group, User, Groups)
-
- * LoginView -> button handlers on Login page
- * GroupsListView -> button handlers, renderer
- *
-
 =====Use cases==========
-
-  Login Screen Valid Credentials
-    1) User filled email, password
-
-  Login Screen Invalid credentials
-    1) User filled invalid email, password
-    2) User clicks 'Login' button
-    3) 'Invalid Username/Password' is shown
-
-  Login screen Sign Up Click
-    1) User clicks sign up button
-    2) User is redirected to 'Sign up' screen and can see user sign up details
-
-  Login screen Forgot Password Click
-    1) User clicks 'Forgot Password' link
-    2) User is redirected to 'Forgot Password' screen and can see 'Forgot Password Screen'
-
   Sign Up Invalid(There is such email, already taken)
     1) User fills details on screen
     2) User clicks 'Sign Up' button

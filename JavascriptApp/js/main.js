@@ -165,7 +165,11 @@ var GroupsListView = Parse.View.extend({
     },
 
     initialize: function () {
+        _.bindAll(this, 'render');
+
         this.model = new GroupsCollection();
+
+        this.model.bind('reset', this.render);
 
         this.model.query = new Parse.Query(Group);
 
@@ -177,7 +181,6 @@ var GroupsListView = Parse.View.extend({
     },
 
     render: function () {
-        console.log('model: ' + this.model.toJSON());
         $(this.el).html(_.template($('#groupListTemplate').html(), {'groups': this.model.toJSON()}));
     }
 
@@ -185,20 +188,37 @@ var GroupsListView = Parse.View.extend({
 
 var GroupDetailsView = Parse.View.extend({
 
-    el: '#content',
+    defaults: {
+        groupId: ''
+    },
 
-    template: _.template($('#groupDetailsTemplate').html()),
+    el: '#content',
 
     events: {
 
     },
 
-    initialize: function () {
-        this.render();
+    initialize: function (options) {
+        _.bindAll(this, 'render');
+
+        if (options.hasOwnProperty('groupId')) {
+            this.groupId = options['groupId'];
+        }
+
+        this.model = new ActivitiesCollection();
+        this.model.bind('reset', this.render);
+
+        this.model.query = new Parse.Query(Activity);
+
+        if (this.groupId && this.groupId != '') {
+            this.model.query.equalTo("groupId", this.groupId);
+        }
+
+        this.model.fetch();
     },
 
     render: function () {
-        $(this.el).html(this.template);
+        $(this.el).html(_.template($('#groupDetailsTemplate').html(), {'items': this.model.toJSON()}));
     }
 
 });
@@ -237,7 +257,7 @@ var AppRouter = Parse.Router.extend({
         },
 
         groupDetails: function (id) {
-            this.loadView(new GroupDetailsView());
+            this.loadView(new GroupDetailsView({'groupId': id}));
         },
 
         loadView: function (view, skipAuthorization) {
@@ -255,6 +275,3 @@ var AppRouter = Parse.Router.extend({
 new AppRouter();
 
 Parse.history.start();
-
-// temporary hack
-var groupsList = new GroupsListView();
