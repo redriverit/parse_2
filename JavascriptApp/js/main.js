@@ -14,43 +14,9 @@ var AppState = Parse.Object.extend("AppState", {
     }
 });
 
-// models
-var LoginModel = Parse.Object.extend("Login",
-    {
-        defaults: {
-            "email": "",
-            "password": ""
-        }
-    }
-);
+///// models
 
-var SignUpModel = Parse.Object.extend('SignUp',
-    {
-        defaults: {
-            "email": "",
-            "password": "",
-            "repeatPassword": "",
-            "firstName": "",
-            "lastName": "",
-            "phone": ""
-        }
-    }
-);
-
-var RestorePasswordModel = Parse.Object.extend('RestorePassword',
-    {
-        defaults: {
-            "email": ""
-        }
-    }
-);
-
-var GroupsCollection = Parse.Collection.extend(
-    {
-
-    }
-);
-
+// group
 var Group = Parse.Object.extend('Group',
     {
         defaults: {
@@ -60,8 +26,38 @@ var Group = Parse.Object.extend('Group',
     }
 );
 
-// views
+var GroupsCollection = Parse.Collection.extend(
+    {
+        model: Group
+    }
+);
 
+// activity
+var Activity = Parse.Object.extend('Activity');
+
+var ActivitiesCollection = Parse.Collection.extend({
+    model: Activity
+});
+
+// computer
+var Computer = Parse.Object.extend('Computer');
+
+var ComputersCollection = Parse.Collection.extend(
+    {
+        model: Computer
+    }
+);
+
+// equipment
+var Equipment = Parse.Object.extend('Equipment');
+
+var EquipmentCollection = Parse.Collection.extend(
+    {
+        model: Equipment
+    }
+);
+
+// views
 var LoginView = Parse.View.extend({
 
     el: '#content',
@@ -164,14 +160,16 @@ var GroupsListView = Parse.View.extend({
 
     el: '#content',
 
-    template: _.template($('#groupListTemplate').html()),
-
     events: {
         "click #createGroup": "createGroup"
     },
 
     initialize: function () {
-        this.render();
+        this.model = new GroupsCollection();
+
+        this.model.query = new Parse.Query(Group);
+
+        this.model.fetch();
     },
 
     createGroup: function () {
@@ -179,7 +177,8 @@ var GroupsListView = Parse.View.extend({
     },
 
     render: function () {
-        $(this.el).html(this.template);
+        console.log('model: ' + this.model.toJSON());
+        $(this.el).html(_.template($('#groupListTemplate').html(), {'groups': this.model.toJSON()}));
     }
 
 });
@@ -238,19 +237,11 @@ var AppRouter = Parse.Router.extend({
         },
 
         groupDetails: function (id) {
-            console.log("Getting group details with id: " + id);
             this.loadView(new GroupDetailsView());
         },
 
-        checkCredentials: function () {
-            console.log('Checking creds');
-
-            if (!Parse.User.current()) {
-                this.login();
-            }
-        },
-
         loadView: function (view, skipAuthorization) {
+            // credentials check
             if (!Parse.User.current() && !skipAuthorization) {
                 this.view = new LoginView();
             } else {
@@ -264,3 +255,6 @@ var AppRouter = Parse.Router.extend({
 new AppRouter();
 
 Parse.history.start();
+
+// temporary hack
+var groupsList = new GroupsListView();

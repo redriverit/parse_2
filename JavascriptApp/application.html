@@ -35,7 +35,9 @@
         <form class="form-signin" role="form">
             <h2 class="form-signin-heading">Please password restore details: </h2>
             <input type="text" class="form-control" placeholder="Email address" required autofocus>
-            <button id="forgotPassword" class="btn btn-lg btn-primary btn-block form-button" type="button">Restore Password</button>
+            <button id="forgotPassword" class="btn btn-lg btn-primary btn-block form-button" type="button">Restore
+                Password
+            </button>
         </form>
 
     </div>
@@ -62,35 +64,10 @@
 
                 <tbody>
 
-                <!-- row #1 -->
                 <tr>
                     <td>
                         New Item Added #1 <br/>
                         <span class="table-note">Created on Tuesday April 21, 2014</span>
-                    </td>
-                </tr>
-
-                <!-- row #2 -->
-                <tr>
-                    <td>
-                        New Item Added #2 <br/>
-                        <span class="table-note">Created on Tuesday April 22, 2014</span>
-                    </td>
-                </tr>
-
-                <!-- row #3 -->
-                <tr>
-                    <td>
-                        New Item Added #3 <br/>
-                        <span class="table-note">Created on Tuesday April 23, 2014</span>
-                    </td>
-                </tr>
-
-                <!-- row #4 -->
-                <tr>
-                    <td>
-                        New Item Added #4 <br/>
-                        <span class="table-note">Created on Tuesday April 24, 2014</span>
                     </td>
                 </tr>
 
@@ -119,49 +96,18 @@
 
                 <tbody>
 
-                <!-- row #1 -->
+                <% _.each(groups, function(group) { %>
                 <tr>
                     <td style="width: 80%">
-                        Group 1 <br/>
-                        <span class="table-note">Created on Tuesday April 21, 2014</span>
+                        <%= group.name %> <br/>
+                        <span class="table-note">Created on <%= group.createdAt %></span>
                     </td>
-                    <td>
-                        <button class="btn btn-success">View</button>
-                    </td>
-                </tr>
 
-                <!-- row #2 -->
-                <tr>
-                    <td style="width: 80%">
-                        Group 2 <br/>
-                        <span class="table-note">Created on Tuesday April 22, 2014</span>
-                    </td>
                     <td>
-                        <button class="btn btn-success">View</button>
+                        <a href="#/group/<%=group.objectId %>" class="btn btn-success">View</a>
                     </td>
                 </tr>
-
-                <!-- row #3 -->
-                <tr>
-                    <td style="width: 80%">
-                        Group 3 <br/>
-                        <span class="table-note">Created on Tuesday April 23, 2014</span>
-                    </td>
-                    <td>
-                        <button class="btn btn-success">View</button>
-                    </td>
-                </tr>
-
-                <!-- row #4 -->
-                <tr>
-                    <td style="width: 80%">
-                        Group 4 <br/>
-                        <span class="table-note">Created on Tuesday April 24, 2014</span>
-                    </td>
-                    <td>
-                        <button class="btn btn-success">View</button>
-                    </td>
-                </tr>
+                <% }); %>
 
                 </tbody>
 
