@@ -1,25 +1,14 @@
+Forgot password functionality
+  * Setup Parse.com cloud functions environment
+  * Create dummy function to return "Ok, email was sent" or "Error, no such email address, please double check"
+  * Post that function online and bind with user interface
+
+  * During sign up - check if there is such email already, if there is such email, then show error
+    and disable create button
+
+  * Write functionality to be triggered by User Sign Up button
+
 =====Use cases==========
-    Create new Group Screen
-    1) User enters group details - name, type, description, notes, picture or logo
-    2) User becomes the default creator/administrator of the group
-    3) User clicks cancel if they do not want to create a group
-    4) User clicks save button and group is successfully created, this screen view closes, and user now sees the new created group in the table on Group List Screen
-
-  Sign Up Invalid(There is such email, already taken)
-    1) User fills details on screen
-    2) User clicks 'Sign Up' button
-    3) 'Email already in use" is shown to user
-
-  Sign Up Successful (successful sign up)
-    1) User fills details on screen
-    2) Use clicks 'Sign Up' button
-    3) User moves to 'Main screen' and get logged in
-
-  Forgot Password Invalid (No Such email)
-    1) User enters email in 'enter your email' input box
-    2) User clicks 'Restore Password' button
-    2) 'Email is not found in our system' is shown
-
   Forgot Password Successful (Valid email)
     1) User enters his email in 'enter your email' input box
     2) User clicks 'Restore Password' button
@@ -28,34 +17,30 @@
 User successfully Logs in - Group List Screen:
 1) User sees a table listing all of the groups they have access too
 2) User can select a group they wish to access
-3) User can click button to create new group
+V 3) User can click button to create new group
 
 Group Menu Screen - See screenshot I sent (Screenshot_2014-04-24)
 1)User email is displayed on the top right
 2)Group Name is top centered
 3)User clicks Logout Group to go back to the Group List Screen
 4)User clicks Edit Group to view group details - lightbox view may be good here
-5)Buttons for Classes related to the group appear on the left column on the screen - EQUIPMENT, Inventory. When a button is clicked, the center portion of the screen displays a table of objects within the class that is related to the Group.
+5)Buttons for Classes related to the group appear on the left column on the screen - EQUIPMENT, Inventory.
+When a button is clicked, the center portion of the screen displays a table of objects within the class that is related to the Group.
 6)User can add a new object or view/edit existing object - use pop out lightbox for this.
 7)In the right column, display a table of ACTIVITY class that lists all recent activity for the group.
-
-I am most concerned with just getting this all connected and the layout for the app. I am very knowledgeable to creating the appropriate queries and once i see a few examples, i can assist with this process. I don't want to spend too much time on the little details, just get the general functionality working. I will be using this app as a template for several projects, so the class names/attributes will change as projects change.
 
 Keep up the great work and i look forward to seeing some more progress. Also, please push out latest changes. I have many other projects i am looking to hire developers for so as long as we continue making progress in a reasonable timeframe, i will definitely want to consider you for these projects.
 
 
 Define router with separate url for each view with id
 
-============== Parse.com ==============
- V User class
- Group class
+Parse.com custom backend logic
 
- Computer class
-   - group id
- Equipment class
-   - group id
- Activity class
-   - group id
+* Add file uploading and saving file functionality:
+    var fileUploadControl = $("#profilePhotoFileUpload")[0];
+    if (fileUploadControl.files.length > 0) {
+      var file = fileUploadControl.files[0];
+      var name = "photo.jpg";
 
-
-=========================================================================
+      var parseFile = new Parse.File(name, file);
+    }

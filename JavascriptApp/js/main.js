@@ -1,4 +1,4 @@
-//$(function () {
+$(function () {
 
 // Initialize Parse.com
 Parse.$ = jQuery;
@@ -362,4 +362,4 @@ var router = new AppRouter();
 
 Parse.history.start();
 
-//});
+});
