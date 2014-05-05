@@ -87,7 +87,7 @@
     <div class="container">
 
         <form class="form-signin" role="form">
-            <button id="createGroup" class="btn btn-lg btn-primary btn-block">Create New Group</button>
+            <a href="#/create-group" id="createGroup" class="btn btn-lg btn-primary btn-block">Create New Group</a>
             <br/>
 
             <table class="table table-bordered">
@@ -146,10 +146,10 @@
 
         <form class="form-signin" role="form">
             <h2 class="form-signup-heading">Please fill Group details:</h2>
-            <input type="text" class="form-control" placeholder="Name" required autofocus/>
-            <input type="text" class="form-control" placeholder="Description" required/>
-            <input type="text" class="form-control" placeholder="Notes" required/>
-            <input type="file" class="form-control" placeholder="Logo/Image" required/>
+            <input type="text" class="form-control" id="new-group-name" placeholder="Name" required autofocus/>
+            <input type="text" class="form-control" id="new-group-description" placeholder="Description" required/>
+            <input type="text" class="form-control" id="new-group-notes" placeholder="Notes" required/>
+            <input type="file" class="form-control" id="new-group-logo" placeholder="Logo" required/>
             <button class="btn btn-lg btn-primary btn-block form-button" id="saveGroup" type="button">Create Group
             </button>
             <a href="#/groups" class="btn btn-lg btn-block btn-danger">Cancel</a>
