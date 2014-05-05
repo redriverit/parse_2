@@ -1,4 +1,4 @@
-$(function() {
+$(function () {
 
 // Initialize Parse.com
     Parse.$ = jQuery;
@@ -224,13 +224,76 @@ $(function() {
 
     });
 
+    var CreateGroupView = Parse.View.extend({
+
+        defaults: {
+            groupId: ''
+        },
+
+        el: '#content',
+
+        events: {
+            'click #saveGroup': 'saveGroup'
+        },
+
+        initialize: function () {
+            _.bindAll(this, 'render');
+
+            this.model = new Group();
+            this.model.bind('change', this.render);
+
+            this.render();
+        },
+
+        render: function () {
+            $(this.el).html(_.template($('#groupNew').html()));
+        },
+
+        saveGroup: function () {
+            console.log('Saving group');
+        }
+
+    });
+
+    var EditGroupView = Parse.View.extend({
+
+        defaults: {
+            groupId: ''
+        },
+
+        el: '#content',
+
+        events: {
+
+        },
+
+        initialize: function (options) {
+            _.bindAll(this, 'render');
+
+            if (options.hasOwnProperty('groupId')) {
+                this.groupId = options['groupId'];
+            }
+
+            this.model = new Group();
+            this.model.bind('reset', this.render);
+
+        },
+
+        render: function () {
+            $(this.el).html(_.template($('#groupNewEdit').html()/*, {'group': this.model.toJSON()}*/));
+        }
+
+    });
+
     var AppRouter = Parse.Router.extend({
             routes: {
                 '': "index",
                 'forgotPassword': 'forgotPassword',
                 'signup': 'signUp',
                 'groups': 'groupsList',
-                'group/:id': 'groupDetails'
+                'group/:id': 'groupDetails',
+                'create-group': 'createGroup',
+                'group/edit/:id': 'editGroup'
             },
 
             initialize: function (options) {
@@ -251,6 +314,14 @@ $(function() {
 
             signUp: function () {
                 this.loadView(new SignUpView(), true/*skip authorization*/);
+            },
+
+            createGroup: function () {
+                this.loadView(new CreateGroupView());
+            },
+
+            editGroup: function (groupId) {
+                this.loadView(new EditGroupView({'groupId': groupId}));
             },
 
             groupsList: function () {
