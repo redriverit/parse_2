@@ -48,9 +48,9 @@
 
         <form class="form-signin" role="form">
             <div>
-                <button class="btn btn-primary">Logout Group 1</button>
-                <span style="padding-left: 8.5%; padding-right: 8.6%">Group 1 Menu </span>
-                <button class="btn btn-primary">Edit Group Info</button>
+                <button id="backToList" class="btn btn-primary">Logout <%= group.name %></button>
+                <span style="padding-left: 8.5%; padding-right: 8.6%"><%= group.name %> Menu </span>
+                <button id="editGroup" class="btn btn-primary">Edit Group Info</button>
             </div>
 
             <br/>
@@ -64,15 +64,24 @@
 
                 <tbody>
 
-                <% _.each(items, function(item) { %>
+                <% if (activities.length == 0) {%>
+                  <tr>
+                      <td>There are no activities for this group yet</td>
+                  </tr>
+                <% } else { %>
+
+                <% _.each(activities, function(activity) { %>
                 <tr>
                     <td>
-                        <%= item.name %> <br/>
-                        <span class="table-note">Created on <%=dateFormat(Date.parse(item.createdAt), "dddd, mmmm dS, yyyy, h:MM:ss TT")%></span>
+                        <%= activity.name %> <br/>
+                        <span class="table-note">Created on <%=dateFormat(Date.parse(activity.createdAt), "dddd, mmmm dS, yyyy, h:MM:ss TT")%></span>
                     </td>
                 </tr>
 
                 <% }); %>
+
+                <!-- end of else -->
+                <% } %>
 
                 </tbody>
 

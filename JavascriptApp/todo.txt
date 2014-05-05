@@ -14,6 +14,8 @@ Forgot password functionality
     2) User clicks 'Restore Password' button
     3) 'Password reset was sent to your email'
 
+Handle case when there are no activities
+
 User successfully Logs in - Group List Screen:
 1) User sees a table listing all of the groups they have access too
 2) User can select a group they wish to access
@@ -28,9 +30,6 @@ Group Menu Screen - See screenshot I sent (Screenshot_2014-04-24)
 When a button is clicked, the center portion of the screen displays a table of objects within the class that is related to the Group.
 6)User can add a new object or view/edit existing object - use pop out lightbox for this.
 7)In the right column, display a table of ACTIVITY class that lists all recent activity for the group.
-
-Keep up the great work and i look forward to seeing some more progress. Also, please push out latest changes. I have many other projects i am looking to hire developers for so as long as we continue making progress in a reasonable timeframe, i will definitely want to consider you for these projects.
-
 
 Define router with separate url for each view with id
 
