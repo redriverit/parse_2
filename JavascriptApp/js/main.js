@@ -29,7 +29,7 @@ $(function () {
 
     var GroupsCollection = Parse.Collection.extend(
         {
-            model: Group
+            myGroups: Group
         }
     );
 
@@ -37,7 +37,7 @@ $(function () {
     var Activity = Parse.Object.extend('Activity');
 
     var ActivitiesCollection = Parse.Collection.extend({
-        model: Activity
+        myGroups: Activity
     });
 
 // computer
@@ -45,7 +45,7 @@ $(function () {
 
     var ComputersCollection = Parse.Collection.extend(
         {
-            model: Computer
+            myGroups: Computer
         }
     );
 
@@ -54,7 +54,7 @@ $(function () {
 
     var EquipmentCollection = Parse.Collection.extend(
         {
-            model: Equipment
+            myGroups: Equipment
         }
     );
 
@@ -167,17 +167,31 @@ $(function () {
         initialize: function () {
             _.bindAll(this, 'render');
 
-            this.model = new GroupsCollection();
+            // retrieving my groups
+            this.myGroups = new GroupsCollection();
+            this.myGroups.bind('reset', this.render);
+            this.myGroups.query = new Parse.Query(Group);
+            this.myGroups.query.equalTo("ownerId", Parse.User.current().id);
+            this.myGroups.fetch();
 
-            this.model.bind('reset', this.render);
-
-            this.model.query = new Parse.Query(Group);
-
-            this.model.fetch();
+            // retrieving other groups
+            this.otherGroups = new GroupsCollection();
+            this.otherGroups.bind('reset', this.render);
+            this.otherGroups.query = new Parse.Query(Group);
+            this.otherGroups.query.notEqualTo("ownerId", Parse.User.current().id);
+            this.otherGroups.fetch({
+                success: function(){
+                    console.log('Other groups retrieved');
+                }
+            });
         },
 
         render: function () {
-            $(this.el).html(_.template($('#groupListTemplate').html(), {'groups': this.model.toJSON()}));
+            $(this.el).html(_.template($('#groupListTemplate').html(),
+                {
+                    'myGroups': this.myGroups.toJSON(),
+                    'otherGroups': this.otherGroups.toJSON()
+                }));
         }
 
     });
@@ -191,7 +205,7 @@ $(function () {
         el: '#content',
 
         events: {
-
+            'click #backToList': 'backToGroupsList'
         },
 
         initialize: function (options) {
@@ -201,12 +215,20 @@ $(function () {
                 this.groupId = options['groupId'];
             }
 
+            // retrieving activities for group
             this.activities = new ActivitiesCollection();
             this.activities.bind('reset', this.render);
             this.activities.query = new Parse.Query(Activity);
 
             if (this.groupId && this.groupId != '') {
                 this.activities.query.equalTo("groupId", this.groupId);
+            }
+
+            // retrieving equipment for group
+            this.equipment = new EquipmentCollection();
+            this.equipment.query = new Parse.Query(Equipment);
+            if (this.groupId && this.groupId != '') {
+                this.equipment.query.equalTo('groupId', this.groupId);
             }
 
             this.group = new Group({'objectId': this.groupId});
@@ -216,6 +238,7 @@ $(function () {
             this.group.fetch({
                 success: function () {
                     self.activities.fetch();
+                    self.equipment.fetch();
                 },
 
                 error: function () {
@@ -227,10 +250,16 @@ $(function () {
 
         render: function () {
             $(this.el).html(_.template($('#groupDetailsTemplate').html(),
-                {'activities': this.activities.toJSON(),
+                {
+                    'activities': this.activities.toJSON(),
+                    'equipment': this.equipment.toJSON(),
                     'group': this.group.toJSON()
                 })
             );
+        },
+
+        backToGroupsList: function () {
+            router.navigate('groups', true);
         }
 
     });
@@ -250,8 +279,7 @@ $(function () {
         initialize: function () {
             _.bindAll(this, 'render');
 
-            this.model = new Group();
-            this.model.bind('change', this.render);
+            this.group = new Group();
 
             this.render();
         },
@@ -266,13 +294,13 @@ $(function () {
             var groupNotes = this.$('#new-group-notes').val();
 //            var groupLogo = this.$('#new-group-logo').val();
 
-            this.model.set('name', groupName);
-            this.model.set('description', groupDescription);
-            this.model.set('notes', groupNotes);
+            this.myGroups.set('name', groupName);
+            this.myGroups.set('description', groupDescription);
+            this.myGroups.set('notes', groupNotes);
 //            this.model.set('logo', groupLogo);
-            this.model.set('ownerId', Parse.User.current().id);
+            this.myGroups.set('ownerId', Parse.User.current().id);
 
-            this.model.save({
+            this.myGroups.save({
                 error: function () {
                     console.log('Saving failed');
                 },
@@ -304,13 +332,14 @@ $(function () {
                 this.groupId = options['groupId'];
             }
 
-            this.model = new Group();
-            this.model.bind('reset', this.render);
+            this.myGroups = new Group();
+            this.myGroups.bind('reset', this.render);
 
+            //TODO retrieve group that has ID, or we just redirect back to list of groups
         },
 
         render: function () {
-            $(this.el).html(_.template($('#groupNewEdit').html()/*, {'group': this.model.toJSON()}*/));
+            $(this.el).html(_.template($('#groupEdit').html()/*, {'group': this.model.toJSON()}*/));
         }
 
     });

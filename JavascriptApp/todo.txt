@@ -14,22 +14,29 @@ Forgot password functionality
     2) User clicks 'Restore Password' button
     3) 'Password reset was sent to your email'
 
-Handle case when there are no activities
+* Request list of groups that we don't have access to
+   * Create extra logic call to get those groups
 
 User successfully Logs in - Group List Screen:
-1) User sees a table listing all of the groups they have access too
-2) User can select a group they wish to access
-V 3) User can click button to create new group
+    1) User sees a table listing all of the groups they have access too
+    2) User can select a group they wish to access
 
+
+======================== Layout details =================================
 Group Menu Screen - See screenshot I sent (Screenshot_2014-04-24)
 1)User email is displayed on the top right
 2)Group Name is top centered
-3)User clicks Logout Group to go back to the Group List Screen
 4)User clicks Edit Group to view group details - lightbox view may be good here
 5)Buttons for Classes related to the group appear on the left column on the screen - EQUIPMENT, Inventory.
 When a button is clicked, the center portion of the screen displays a table of objects within the class that is related to the Group.
 6)User can add a new object or view/edit existing object - use pop out lightbox for this.
 7)In the right column, display a table of ACTIVITY class that lists all recent activity for the group.
+==========================================================================
+
+* retrieve and handle list of computers
+
+* Create layout for groups page
+* Create popup functionality
 
 Define router with separate url for each view with id
 

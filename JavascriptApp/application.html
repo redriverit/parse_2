@@ -47,6 +47,11 @@
     <div class="container">
 
         <form class="form-signin" role="form">
+
+            <div style="padding-bottom:20px">
+                Welcome, <%= Parse.User.current().get('name') %>
+            </div>
+
             <div>
                 <button id="backToList" class="btn btn-primary">Logout <%= group.name %></button>
                 <span style="padding-left: 8.5%; padding-right: 8.6%"><%= group.name %> Menu </span>
@@ -55,10 +60,11 @@
 
             <br/>
 
+            <!-- group activities table -->
             <table class="table table-bordered">
                 <thead>
                 <tr>
-                    <th style="text-align: center">Recent Group Activity Class Objects</th>
+                    <th style="text-align: center">Recent Group Activities</th>
                 </tr>
                 </thead>
 
@@ -76,6 +82,43 @@
                         <%= activity.name %> <br/>
                         <span class="table-note">Created on <%=dateFormat(Date.parse(activity.createdAt), "dddd, mmmm dS, yyyy, h:MM:ss TT")%></span>
                     </td>
+                </tr>
+
+                <% }); %>
+
+                <!-- end of else -->
+                <% } %>
+
+                </tbody>
+
+            </table>
+
+            <!-- equipment list -->
+            <h3 class="title">Equipment List</h3>
+            <table class="table table-bordered">
+                <thead>
+                <tr>
+                    <th>Name</th>
+                    <th>Type</th>
+                    <th>Notes</th>
+                    <th>Action</th>
+                </tr>
+                </thead>
+
+                <tbody>
+
+                <% if (equipment.length == 0) {%>
+                <tr>
+                    <td colspan="3">No equipment in this group</td>
+                </tr>
+                <% } else { %>
+
+                <% _.each(equipment, function(equipmentItem) { %>
+                <tr>
+                    <td> <%= equipmentItem.name %>  </td>
+                    <td> <%= equipmentItem.type %>  </td>
+                    <td> <%= equipmentItem.notes %> </td>
+                    <td> <button type="button" class="btn btn-info">View/Edit</button> </td>
                 </tr>
 
                 <% }); %>
@@ -108,7 +151,7 @@
 
                 <tbody>
 
-                <% _.each(groups, function(group) { %>
+                <% _.each(myGroups, function(group) { %>
                 <tr>
                     <td style="width: 80%">
                         <%= group.name %> <br/>
@@ -117,6 +160,33 @@
 
                     <td>
                         <a href="#/group/<%=group.objectId %>" class="btn btn-success">View</a>
+                    </td>
+                </tr>
+                <% }); %>
+
+                </tbody>
+
+            </table>
+
+            <!-- other groups we may request access to --->
+            <table class="table table-bordered">
+                <thead>
+                <tr>
+                    <th colspan="2" style="text-align: center">Other Groups</th>
+                </tr>
+                </thead>
+
+                <tbody>
+
+                <% _.each(otherGroups, function(group) { %>
+                <tr>
+                    <td style="width: 80%">
+                        <%= group.name %> <br/>
+                        <span class="table-note">Created on <%=dateFormat(Date.parse(group.createdAt), "dddd, mmmm dS, yyyy, h:MM:ss TT")%></span>
+                    </td>
+
+                    <td>
+                        <button class="btn btn-danger">Request Access</button>
                     </td>
                 </tr>
                 <% }); %>
