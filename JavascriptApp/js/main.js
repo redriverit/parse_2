@@ -181,11 +181,7 @@ $(function () {
             this.otherGroups.query = new Parse.Query(Group);
             this.otherGroups.query.notEqualTo("ownerId", Parse.User.current().id);
             this.otherGroups.query.ascending("name");
-            this.otherGroups.fetch({
-                success: function(){
-                    console.log('Other groups retrieved');
-                }
-            });
+            this.otherGroups.fetch();
         },
 
         render: function () {
@@ -229,8 +225,17 @@ $(function () {
             // retrieving equipment for group
             this.equipment = new EquipmentCollection();
             this.equipment.query = new Parse.Query(Equipment);
+            this.equipment.bind('reset', this.render);
             if (this.groupId && this.groupId != '') {
                 this.equipment.query.equalTo('groupId', this.groupId);
+            }
+
+            // retrieving computers for group
+            this.inventory = new ComputersCollection();
+            this.inventory.query = new Parse.Query(Computer);
+            this.inventory.bind('reset', this.render);
+            if (this.groupId && this.groupId != '') {
+                this.inventory.query.equalTo('groupId', this.groupId);
             }
 
             this.group = new Group({'objectId': this.groupId});
@@ -241,6 +246,7 @@ $(function () {
                 success: function () {
                     self.activities.fetch();
                     self.equipment.fetch();
+                    self.inventory.fetch();
                 },
 
                 error: function () {
@@ -255,6 +261,7 @@ $(function () {
                 {
                     'activities': this.activities.toJSON(),
                     'equipment': this.equipment.toJSON(),
+                    'inventory': this.inventory.toJSON(),
                     'group': this.group.toJSON()
                 })
             );

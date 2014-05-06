@@ -17,11 +17,6 @@ Forgot password functionality
 * Request list of groups that we don't have access to
    * Create extra logic call to get those groups
 
-User successfully Logs in - Group List Screen:
-    1) User sees a table listing all of the groups they have access too
-    2) User can select a group they wish to access
-
-
 ======================== Layout details =================================
 Group Menu Screen - See screenshot I sent (Screenshot_2014-04-24)
 1)User email is displayed on the top right
@@ -34,6 +29,8 @@ When a button is clicked, the center portion of the screen displays a table of o
 ==========================================================================
 
 * retrieve and handle list of computers
+
+
 
 * Create layout for groups page
 * Create popup functionality

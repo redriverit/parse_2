@@ -109,7 +109,7 @@
 
                 <% if (equipment.length == 0) {%>
                 <tr>
-                    <td colspan="3">No equipment in this group</td>
+                    <td colspan="4">No equipment in this group</td>
                 </tr>
                 <% } else { %>
 
@@ -118,6 +118,45 @@
                     <td> <%= equipmentItem.name %>  </td>
                     <td> <%= equipmentItem.type %>  </td>
                     <td> <%= equipmentItem.notes %> </td>
+                    <td> <button type="button" class="btn btn-info">View/Edit</button> </td>
+                </tr>
+
+                <% }); %>
+
+                <!-- end of else -->
+                <% } %>
+
+                </tbody>
+
+            </table>
+
+            <!-- computers list -->
+            <h3 class="title">Inventory List</h3>
+            <table class="table table-bordered">
+                <thead>
+                <tr>
+                    <th>Name</th>
+                    <th>Type</th>
+                    <th>Value</th>
+                    <th>Notes</th>
+                    <th>Action</th>
+                </tr>
+                </thead>
+
+                <tbody>
+
+                <% if (inventory.length == 0) {%>
+                <tr>
+                    <td colspan="5">No computers in this group</td>
+                </tr>
+                <% } else { %>
+
+                <% _.each(inventory, function(computer) { %>
+                <tr>
+                    <td> <%= computer.name %>  </td>
+                    <td> <%= computer.type %>  </td>
+                    <td> <%= computer.value %>  </td>
+                    <td> <%= computer.notes %> </td>
                     <td> <button type="button" class="btn btn-info">View/Edit</button> </td>
                 </tr>
 
