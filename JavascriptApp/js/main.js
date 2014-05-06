@@ -172,6 +172,7 @@ $(function () {
             this.myGroups.bind('reset', this.render);
             this.myGroups.query = new Parse.Query(Group);
             this.myGroups.query.equalTo("ownerId", Parse.User.current().id);
+            this.myGroups.query.ascending("name");
             this.myGroups.fetch();
 
             // retrieving other groups
@@ -179,6 +180,7 @@ $(function () {
             this.otherGroups.bind('reset', this.render);
             this.otherGroups.query = new Parse.Query(Group);
             this.otherGroups.query.notEqualTo("ownerId", Parse.User.current().id);
+            this.otherGroups.query.ascending("name");
             this.otherGroups.fetch({
                 success: function(){
                     console.log('Other groups retrieved');
