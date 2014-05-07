@@ -292,8 +292,7 @@
             <input type="text" class="form-control" id="edit-group-notes" placeholder="Notes" value="<%= group.notes %>"
                    required/>
             <input type="file" class="form-control" id="edit-group-logo" placeholder="Logo" required/>
-            <button class="btn btn-lg btn-primary btn-block form-button" id="saveEditGroup" type="button">Save Group
-            </button>
+            <button class="btn btn-lg btn-primary btn-block form-button" id="saveEditGroup" type="button">Save Group</button>
             <a href="#/group/<%= group.objectId %>" class="btn btn-lg btn-block btn-danger">Cancel</a>
         </form>
 
@@ -305,6 +304,8 @@
 
         <form class="form-signin" role="form">
             <h2 class="form-signup-heading">Please fill info:</h2>
+            <div id="signup-error" class="error" style="display:none"></div>
+            <input type="text" class="form-control" id="signup-username" placeholder="Username"/>
             <input type="email" class="form-control" id="signup-email" placeholder="Email address" required autofocus>
             <input type="password" class="form-control" id="signup-password" placeholder="Password" required>
             <input type="password" class="form-control" id="signup-password2" placeholder="Password Again" required>

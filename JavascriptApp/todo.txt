@@ -30,6 +30,8 @@ When a button is clicked, the center portion of the screen displays a table of o
 7)In the right column, display a table of ACTIVITY class that lists all recent activity for the group.
 ==========================================================================
 
+* Indicate if there are no my groups or no other groups
+
 * Create layout for groups page
 * Create popup functionality
 

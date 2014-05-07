@@ -126,7 +126,37 @@ $(function () {
         },
 
         signUp: function () {
-            console.log("Doing sign up operation");
+            var username = this.$('#signup-username').val();
+            var email = this.$('#signup-email').val();
+            var password = this.$('#signup-password').val();
+            var verifyPassword = this.$('#signup-password2').val();
+
+            if (password != verifyPassword) {
+                this.$('#signup-error').html("Passwords don't match. Please double check").show();
+            }
+
+            var name = this.$('#signup-name').val();
+            var type = this.$('#signup-type').val();
+            var value = this.$('#signup-value').val();
+            var notes = this.$('#signup-notes').val();
+
+            var self = this;
+
+            Parse.User.signUp(username, password, {
+                    'email': email,
+                    'name': name,
+                    'type': type,
+                    'value': value,
+                    'notes': notes},
+                {
+                    success: function () {
+                        router.navigate('groups', true);
+                    },
+
+                    error: function () {
+                        self.$('#signup-error').html('Email was already taken, please try other').show();
+                    }
+                });
         }
 
     });
