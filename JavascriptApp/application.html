@@ -194,6 +194,12 @@
 
                 <tbody>
 
+                <% if (myGroups.length == 0) { %>
+                   <tr>
+                       <td colspan="2" class="title"> You don't have own groups. Go ahead and create them.</td>
+                   </tr>
+                <% } else { %>
+                <!-- else begin -->
                 <% _.each(myGroups, function(group) { %>
                 <tr>
                     <td style="width: 80%">
@@ -206,6 +212,9 @@
                     </td>
                 </tr>
                 <% }); %>
+
+                <!-- end of else -->
+                <% } %>
 
                 </tbody>
 
@@ -221,6 +230,12 @@
 
                 <tbody>
 
+                <% if (otherGroups.length == 0) { %>
+                <tr>
+                    <td colspan="2" class="title"> There are no other groups for now</td>
+                </tr>
+                <% } else { %>
+
                 <% _.each(otherGroups, function(group) { %>
                 <tr>
                     <td style="width: 80%">
@@ -233,6 +248,8 @@
                     </td>
                 </tr>
                 <% }); %>
+
+                <% } %>
 
                 </tbody>
 
