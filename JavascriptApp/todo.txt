@@ -1,9 +1,4 @@
-Forgot password functionality
-  * Setup Parse.com cloud functions environment
-  * Create dummy function to return "Ok, email was sent" or "Error, no such email address, please double check"
-  * Post that function online and bind with user interface
-
-  * During sign up - check if there is such email already, if there is such email, then show error
+  V During sign up - check if there is such email already, if there is such email, then show error
     and disable create button
 
   * Write functionality to be triggered by User Sign Up button

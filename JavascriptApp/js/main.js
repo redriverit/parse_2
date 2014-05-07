@@ -88,7 +88,6 @@ $(function () {
                 },
 
                 error: function (user, error) {
-                    console.log('login failed');
                     self.$("#signInForm .error").html("Invalid username or password. Please try again.").show();
                     self.$("#signInForm button").removeAttr("disabled");
                 }
@@ -126,6 +125,9 @@ $(function () {
         },
 
         signUp: function () {
+            // turning off button
+            this.$("#signUpForm button").attr("disabled", "disabled");
+
             var username = this.$('#signup-username').val();
             var email = this.$('#signup-email').val();
             var password = this.$('#signup-password').val();
@@ -154,6 +156,7 @@ $(function () {
                     },
 
                     error: function () {
+                        self.$("#signUpForm button").removeAttr("disabled");
                         self.$('#signup-error').html('Email was already taken, please try other').show();
                     }
                 });
