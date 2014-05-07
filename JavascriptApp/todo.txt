@@ -17,6 +17,8 @@ Forgot password functionality
 * Request list of groups that we don't have access to
    * Create extra logic call to get those groups
 
+* Save/Update group
+
 ======================== Layout details =================================
 Group Menu Screen - See screenshot I sent (Screenshot_2014-04-24)
 1)User email is displayed on the top right
@@ -28,14 +30,8 @@ When a button is clicked, the center portion of the screen displays a table of o
 7)In the right column, display a table of ACTIVITY class that lists all recent activity for the group.
 ==========================================================================
 
-* retrieve and handle list of computers
-
-
-
 * Create layout for groups page
 * Create popup functionality
-
-Define router with separate url for each view with id
 
 Parse.com custom backend logic
 

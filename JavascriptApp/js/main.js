@@ -203,7 +203,8 @@ $(function () {
         el: '#content',
 
         events: {
-            'click #backToList': 'backToGroupsList'
+            'click #backToList': 'backToGroupsList',
+            'click #editGroup': 'editGroup'
         },
 
         initialize: function (options) {
@@ -269,6 +270,10 @@ $(function () {
 
         backToGroupsList: function () {
             router.navigate('groups', true);
+        },
+
+        editGroup: function () {
+            router.navigate('group/edit/' + this.groupId, true);
         }
 
     });
@@ -337,18 +342,30 @@ $(function () {
         initialize: function (options) {
             _.bindAll(this, 'render');
 
+            this.group = new Group();
+
             if (options.hasOwnProperty('groupId')) {
-                this.groupId = options['groupId'];
+                this.group.set('objectId', options['groupId']);
+            } else {
+                router.navigate('groups', true);
             }
 
-            this.myGroups = new Group();
-            this.myGroups.bind('reset', this.render);
+            var self = this;
 
-            //TODO retrieve group that has ID, or we just redirect back to list of groups
+            this.group.fetch(
+                {
+                    success: function () {
+                        console.log('Retrieved edit group model successfully');
+                        self.render();
+                    },
+                    error: function () {
+                        console.log('Error retrieving group');
+                    }
+                });
         },
 
         render: function () {
-            $(this.el).html(_.template($('#groupEdit').html()/*, {'group': this.model.toJSON()}*/));
+            $(this.el).html(_.template($('#groupEdit').html(), {'group': this.group.toJSON()}));
         }
 
     });
@@ -389,6 +406,8 @@ $(function () {
             },
 
             editGroup: function (groupId) {
+                console.log('Visited edit group route with id ' + groupId);
+
                 this.loadView(new EditGroupView({'groupId': groupId}));
             },
 

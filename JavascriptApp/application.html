@@ -55,7 +55,7 @@
             <div>
                 <button id="backToList" class="btn btn-primary">Logout <%= group.name %></button>
                 <span style="padding-left: 8.5%; padding-right: 8.6%"><%= group.name %> Menu </span>
-                <button id="editGroup" class="btn btn-primary">Edit Group Info</button>
+                <button type="button" id="editGroup" class="btn btn-primary">Edit Group Info</button>
             </div>
 
             <br/>
@@ -71,9 +71,9 @@
                 <tbody>
 
                 <% if (activities.length == 0) {%>
-                  <tr>
-                      <td>There are no activities for this group yet</td>
-                  </tr>
+                <tr>
+                    <td>There are no activities for this group yet</td>
+                </tr>
                 <% } else { %>
 
                 <% _.each(activities, function(activity) { %>
@@ -115,10 +115,12 @@
 
                 <% _.each(equipment, function(equipmentItem) { %>
                 <tr>
-                    <td> <%= equipmentItem.name %>  </td>
-                    <td> <%= equipmentItem.type %>  </td>
-                    <td> <%= equipmentItem.notes %> </td>
-                    <td> <button type="button" class="btn btn-info">View/Edit</button> </td>
+                    <td> <%= equipmentItem.name %></td>
+                    <td> <%= equipmentItem.type %></td>
+                    <td> <%= equipmentItem.notes %></td>
+                    <td>
+                        <button type="button" class="btn btn-info">View/Edit</button>
+                    </td>
                 </tr>
 
                 <% }); %>
@@ -153,11 +155,13 @@
 
                 <% _.each(inventory, function(computer) { %>
                 <tr>
-                    <td> <%= computer.name %>  </td>
-                    <td> <%= computer.type %>  </td>
-                    <td> <%= computer.value %>  </td>
-                    <td> <%= computer.notes %> </td>
-                    <td> <button type="button" class="btn btn-info">View/Edit</button> </td>
+                    <td> <%= computer.name %></td>
+                    <td> <%= computer.type %></td>
+                    <td> <%= computer.value %></td>
+                    <td> <%= computer.notes %></td>
+                    <td>
+                        <button type="button" class="btn btn-info">View/Edit</button>
+                    </td>
                 </tr>
 
                 <% }); %>
@@ -276,17 +280,38 @@
     </div>
 </script>
 
+<script type="text/template" id="groupEdit">
+    <div class="container">
+
+        <form class="form-signin" role="form">
+            <h2 class="form-signup-heading">Please update Group details:</h2>
+            <input type="text" class="form-control" id="edit-group-name" placeholder="Name" value="<%= group.name %>"
+                   required autofocus/>
+            <input type="text" class="form-control" id="edit-group-description" placeholder="Description"
+                   value="<%= group.description %>" required/>
+            <input type="text" class="form-control" id="edit-group-notes" placeholder="Notes" value="<%= group.notes %>"
+                   required/>
+            <input type="file" class="form-control" id="edit-group-logo" placeholder="Logo" required/>
+            <button class="btn btn-lg btn-primary btn-block form-button" id="saveEditGroup" type="button">Save Group
+            </button>
+            <a href="#/group/<%= group.objectId %>" class="btn btn-lg btn-block btn-danger">Cancel</a>
+        </form>
+
+    </div>
+</script>
+
 <script type="text/template" id="signUpTemplate">
     <div class="container">
 
         <form class="form-signin" role="form">
             <h2 class="form-signup-heading">Please fill info:</h2>
-            <input type="email" class="form-control" placeholder="Email address" required autofocus>
-            <input type="password" class="form-control" placeholder="Password" required>
-            <input type="password" class="form-control" placeholder="Password Again" required>
-            <input type="text" class="form-control" placeholder="First Name" required>
-            <input type="text" class="form-control" placeholder="Last Name" required>
-            <input type="text" class="form-control" placeholder="Phone" required>
+            <input type="email" class="form-control" id="signup-email" placeholder="Email address" required autofocus>
+            <input type="password" class="form-control" id="signup-password" placeholder="Password" required>
+            <input type="password" class="form-control" id="signup-password2" placeholder="Password Again" required>
+            <input type="text" class="form-control" id="signup-name" placeholder="Name" required>
+            <input type="text" class="form-control" id="signup-type" placeholder="Type" required>
+            <input type="text" class="form-control" id="signup-value" placeholder="Value" required>
+            <input type="text" class="form-control" id="signup-notes" placeholder="Notes" required>
             <button class="btn btn-lg btn-primary btn-block form-button" id="signUp" type="button">Sign Up</button>
         </form>
 
