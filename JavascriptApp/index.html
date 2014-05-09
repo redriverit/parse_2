@@ -9,6 +9,8 @@
     <!-- Optional theme -->
     <link rel="stylesheet" href="css/bootstrap-theme.min.css">
 
+    <link rel="stylesheet" href="http://code.jquery.com/ui/1.10.4/themes/smoothness/jquery-ui.css">
+
     <!-- Style customizations -->
     <link rel="stylesheet" href="css/main.css">
 </head>
@@ -45,6 +47,14 @@
 
 <script type="text/template" id="groupDetailsTemplate">
     <div class="container">
+
+        <div id="equipmentDialog" title="Equipment Details" style="display: none">
+            <p>This is equipment dialog</p>
+        </div>
+
+        <div id="inventoryDialog" title="Inventory Details" style="display:none">
+            <p>This is inventory dialog</p>
+        </div>
 
         <form class="form-signin" role="form">
 
@@ -125,7 +135,9 @@
                         <td> <%= equipmentItem.type %></td>
                         <td> <%= equipmentItem.notes %></td>
                         <td>
-                            <button type="button" class="btn btn-info">View/Edit</button>
+                            <button type="button" data-id="<%=equipmentItem.objectId%>"
+                                    class="btn btn-info equipmentView">View/Edit
+                            </button>
                         </td>
                     </tr>
 
@@ -394,6 +406,7 @@
 <script type="text/javascript" src="js/backbone-local-storage.js"></script>
 <script type="text/javascript" src="js/parse-1.2.13.min.js"></script>
 <script type="text/javascript" src="js/date-format.js"></script>
+<script type="text/javascript" src="js/jquery-ui.js"></script>
 <script type="text/javascript" src="js/main.js"></script>
 
 </body>

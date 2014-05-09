@@ -239,7 +239,9 @@ $(function () {
             'click #backToList': 'backToGroupsList',
             'click #editGroup': 'editGroup',
             'click #equipmentListBtn': 'showEquipmentList',
-            'click #inventoryListBtn': 'showInventoryList'
+            'click #inventoryListBtn': 'showInventoryList',
+            'click .equipmentView': 'showEquipmentDetails',
+            'click .inventoryView': 'showInventoryDetails'
         },
 
         initialize: function (options) {
@@ -307,16 +309,16 @@ $(function () {
             router.navigate('groups', true);
         },
 
-        showEquipmentInventory: function(whatToShow){
+        showEquipmentInventory: function (whatToShow) {
             var showInventory = whatToShow == 'inventory';
 
-            if (showInventory){
+            if (showInventory) {
                 this.$('#inventoryListBtn').attr('disabled', 'disabled');
                 this.$('#equipmentListBtn').removeAttr('disabled');
 
                 this.$('#inventoryList').show();
                 this.$('#equipmentList').hide();
-            } else{
+            } else {
                 this.$('#inventoryListBtn').removeAttr('disabled');
                 this.$('#equipmentListBtn').attr('disabled', 'disabled');
 
@@ -327,11 +329,29 @@ $(function () {
         },
 
         showEquipmentList: function () {
+            // triggering reusable function
             this.showEquipmentInventory('equipment');
         },
 
+        showEquipmentDetails: function (event) {
+            var id = this.$(event.currentTarget).data("id");
+
+            this.$("#equipmentDialog").dialog({
+                height: 300,
+                width: 350,
+                modal: true
+            });
+
+        },
+
+        showInventoryDetails: function (event) {
+            var id = $(event.currentTarget).data("id");
+
+        },
+
         showInventoryList: function () {
-           this.showEquipmentInventory('inventory');
+            // triggering reusable function
+            this.showEquipmentInventory('inventory');
         },
 
         editGroup: function () {
