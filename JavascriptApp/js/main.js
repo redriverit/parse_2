@@ -237,7 +237,9 @@ $(function () {
 
         events: {
             'click #backToList': 'backToGroupsList',
-            'click #editGroup': 'editGroup'
+            'click #editGroup': 'editGroup',
+            'click #equipmentListBtn': 'showEquipmentList',
+            'click #inventoryListBtn': 'showInventoryList'
         },
 
         initialize: function (options) {
@@ -305,6 +307,33 @@ $(function () {
             router.navigate('groups', true);
         },
 
+        showEquipmentInventory: function(whatToShow){
+            var showInventory = whatToShow == 'inventory';
+
+            if (showInventory){
+                this.$('#inventoryListBtn').attr('disabled', 'disabled');
+                this.$('#equipmentListBtn').removeAttr('disabled');
+
+                this.$('#inventoryList').show();
+                this.$('#equipmentList').hide();
+            } else{
+                this.$('#inventoryListBtn').removeAttr('disabled');
+                this.$('#equipmentListBtn').attr('disabled', 'disabled');
+
+                this.$('#inventoryList').hide();
+                this.$('#equipmentList').show();
+            }
+
+        },
+
+        showEquipmentList: function () {
+            this.showEquipmentInventory('equipment');
+        },
+
+        showInventoryList: function () {
+           this.showEquipmentInventory('inventory');
+        },
+
         editGroup: function () {
             router.navigate('group/edit/' + this.groupId, true);
         }
@@ -341,18 +370,18 @@ $(function () {
             var groupNotes = this.$('#new-group-notes').val();
 //            var groupLogo = this.$('#new-group-logo').val();
 
-            this.myGroups.set('name', groupName);
-            this.myGroups.set('description', groupDescription);
-            this.myGroups.set('notes', groupNotes);
+            this.group.set('name', groupName);
+            this.group.set('description', groupDescription);
+            this.group.set('notes', groupNotes);
 //            this.model.set('logo', groupLogo);
-            this.myGroups.set('ownerId', Parse.User.current().id);
+            this.group.set('ownerId', Parse.User.current().id);
 
-            this.myGroups.save({
+            this.group.save({
                 error: function () {
-                    console.log('Saving failed');
+                    // save-group-error
+                    self.$("#create-group-error .error").html("Failed to save group. Please try again later.").show();
                 },
                 success: function () {
-                    console.log('Saving was successful');
                     router.navigate("/groups", true);
                 }
             });
@@ -401,7 +430,26 @@ $(function () {
         },
 
         saveGroup: function () {
-            console.log('Saving group');
+            var groupName = this.$('#edit-group-name').val();
+            var groupDescription = this.$('#edit-group-description').val();
+            var groupNotes = this.$('#edit-group-notes').val();
+//            var groupLogo = this.$('#new-group-logo').val();
+
+            this.group.set('name', groupName);
+            this.group.set('description', groupDescription);
+            this.group.set('notes', groupNotes);
+//            this.model.set('logo', groupLogo);
+            this.group.set('ownerId', Parse.User.current().id);
+
+            this.group.save({
+                error: function () {
+                    // save-group-error
+                    self.$("#edit-group-error .error").html("Failed to save group. Please try again later.").show();
+                },
+                success: function () {
+                    router.navigate("/groups", true);
+                }
+            });
         }
 
     });
