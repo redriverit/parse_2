@@ -309,6 +309,7 @@
             <input type="text" class="form-control" id="edit-group-notes" placeholder="Notes" value="<%= group.notes %>"
                    required/>
             <input type="file" class="form-control" id="edit-group-logo" placeholder="Logo" required/>
+            <div id="save-group-error" class="error" style="display:none"></div>
             <button class="btn btn-lg btn-primary btn-block form-button" id="saveEditGroup" type="button">Save Group</button>
             <a href="#/group/<%= group.objectId %>" class="btn btn-lg btn-block btn-danger">Cancel</a>
         </form>
