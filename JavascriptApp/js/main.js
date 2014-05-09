@@ -369,7 +369,7 @@ $(function () {
         el: '#content',
 
         events: {
-
+            'click #saveEditGroup': 'saveGroup'
         },
 
         initialize: function (options) {
@@ -388,17 +388,20 @@ $(function () {
             this.group.fetch(
                 {
                     success: function () {
-                        console.log('Retrieved edit group model successfully');
                         self.render();
                     },
                     error: function () {
-                        console.log('Error retrieving group');
+                        router.navigate('groups', true);
                     }
                 });
         },
 
         render: function () {
             $(this.el).html(_.template($('#groupEdit').html(), {'group': this.group.toJSON()}));
+        },
+
+        saveGroup: function () {
+            console.log('Saving group');
         }
 
     });
