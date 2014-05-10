@@ -84,7 +84,7 @@ $(function () {
 
             Parse.User.logIn(username, password, {
                 success: function () {
-                    router.navigate('groups',true);
+                    router.navigate('groups', true);
 
                     self.$("#signInForm button").removeAttr('disabled');
                 },
@@ -116,13 +116,11 @@ $(function () {
         },
 
         initialize: function () {
-            console.log('Sign up initialized');
             this.render();
         },
 
         render: function () {
             $(this.el).html(this.template);
-            console.log('Sign up rendered');
         },
 
         signUp: function () {
@@ -185,7 +183,6 @@ $(function () {
             },
 
             restorePassword: function () {
-                console.log('Restoring password');
             }
 
         }
@@ -196,6 +193,8 @@ $(function () {
         el: '#content',
 
         events: {
+
+            'click #logoutBtn': 'logout'
         },
 
         initialize: function () {
@@ -205,7 +204,11 @@ $(function () {
             this.myGroups = new GroupsCollection();
             this.myGroups.bind('reset', this.render);
             this.myGroups.query = new Parse.Query(Group);
-            this.myGroups.query.equalTo("ownerId", Parse.User.current().id);
+
+            if (Parse.User.current()) {
+                this.myGroups.query.equalTo("ownerId", Parse.User.current().id);
+            }
+
             this.myGroups.query.ascending("name");
             this.myGroups.fetch();
 
@@ -213,7 +216,11 @@ $(function () {
             this.otherGroups = new GroupsCollection();
             this.otherGroups.bind('reset', this.render);
             this.otherGroups.query = new Parse.Query(Group);
-            this.otherGroups.query.notEqualTo("ownerId", Parse.User.current().id);
+
+            if (Parse.User.current()) {
+                this.otherGroups.query.notEqualTo("ownerId", Parse.User.current().id);
+            }
+
             this.otherGroups.query.ascending("name");
             this.otherGroups.fetch();
         },
@@ -224,6 +231,14 @@ $(function () {
                     'myGroups': this.myGroups.toJSON(),
                     'otherGroups': this.otherGroups.toJSON()
                 }));
+        },
+
+        logout: function () {
+            // logging out current user
+            Parse.User.logOut();
+
+            // getting back to login view
+            router.navigate('', true);
         }
 
     });
@@ -519,8 +534,6 @@ $(function () {
             },
 
             editGroup: function (groupId) {
-                console.log('Visited edit group route with id ' + groupId);
-
                 this.loadView(new EditGroupView({'groupId': groupId}));
             },
 
@@ -533,11 +546,10 @@ $(function () {
             },
 
             loadView: function (view, skipAuthorization) {
-                // credentials check
-                if (!Parse.User.current() && !skipAuthorization) {
-                    this.view = new LoginView();
-                } else {
+                if (Parse.User.current() != null || skipAuthorization == true) {
                     this.view = view;
+                } else {
+                    this.view = new LoginView();
                 }
             }
 
