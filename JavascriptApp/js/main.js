@@ -74,26 +74,27 @@ $(function () {
         },
 
         signIn: function () {
+            // prevent double submit
+            this.$("#signInForm button").attr("disabled", "disabled");
+
             var self = this;
 
             var username = this.$('#signin-username').val();
             var password = this.$('#signin-password').val();
 
             Parse.User.logIn(username, password, {
-                success: function (user) {
-                    console.log('Login successful');
+                success: function () {
+                    router.navigate('groups',true);
 
-                    self.undelegateEvents();
-                    delete self;
+                    self.$("#signInForm button").removeAttr('disabled');
                 },
 
-                error: function (user, error) {
+                error: function () {
                     self.$("#signInForm .error").html("Invalid username or password. Please try again.").show();
                     self.$("#signInForm button").removeAttr("disabled");
                 }
             });
 
-            this.$("#signInForm button").attr("disabled", "disabled");
         },
 
         render: function () {
@@ -375,8 +376,6 @@ $(function () {
         initialize: function () {
             _.bindAll(this, 'render');
 
-            this.group = new Group();
-
             this.render();
         },
 
@@ -385,6 +384,9 @@ $(function () {
         },
 
         saveGroup: function () {
+
+            this.group = new Group();
+
             var groupName = this.$('#new-group-name').val();
             var groupDescription = this.$('#new-group-description').val();
             var groupNotes = this.$('#new-group-notes').val();
@@ -450,6 +452,9 @@ $(function () {
         },
 
         saveGroup: function () {
+            // disable to avoid double submit
+            this.$('#saveEditGroup').attr('disabled', 'disabled');
+
             var groupName = this.$('#edit-group-name').val();
             var groupDescription = this.$('#edit-group-description').val();
             var groupNotes = this.$('#edit-group-notes').val();
@@ -463,8 +468,8 @@ $(function () {
 
             this.group.save({
                 error: function () {
-                    // save-group-error
                     self.$("#edit-group-error .error").html("Failed to save group. Please try again later.").show();
+                    self.$('#saveEditGroup').removeAttr('disabled');
                 },
                 success: function () {
                     router.navigate("/groups", true);
@@ -476,7 +481,7 @@ $(function () {
 
     var AppRouter = Parse.Router.extend({
             routes: {
-                '': "index",
+                '': "login",
                 'forgotPassword': 'forgotPassword',
                 'signup': 'signUp',
                 'groups': 'groupsList',
@@ -489,7 +494,11 @@ $(function () {
             },
 
             login: function () {
-                this.loadView(new LoginView(), true/*skip authorization*/);
+                if (Parse.User.current()) {
+                    this.index();
+                } else {
+                    this.loadView(new LoginView(), true/*skip authorization*/);
+                }
             },
 
             index: function () {
