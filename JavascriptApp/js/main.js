@@ -496,7 +496,8 @@ $(function () {
 
     var AppRouter = Parse.Router.extend({
             routes: {
-                '': "login",
+                '': "index",
+                'login': 'login',
                 'forgotPassword': 'forgotPassword',
                 'signup': 'signUp',
                 'groups': 'groupsList',
@@ -505,52 +506,61 @@ $(function () {
                 'group/edit/:id': 'editGroup'
             },
 
-            initialize: function (options) {
-            },
-
             login: function () {
-                if (Parse.User.current()) {
-                    this.index();
-                } else {
-                    this.loadView(new LoginView(), true/*skip authorization*/);
-                }
+                this.loadView(new LoginView());
             },
 
             index: function () {
-                // groups list is our main
-                this.groupsList();
+                if (this.checkAuthorized()) {
+                    // groups list is our main
+                    this.groupsList();
+                }
             },
 
             forgotPassword: function () {
-                this.loadView(new ForgotPasswordView(), true/*skip authorization*/);
+                this.loadView(new ForgotPasswordView());
             },
 
             signUp: function () {
-                this.loadView(new SignUpView(), true/*skip authorization*/);
+                this.loadView(new SignUpView());
             },
 
             createGroup: function () {
-                this.loadView(new CreateGroupView());
+                if (this.checkAuthorized()) {
+                    this.loadView(new CreateGroupView());
+                }
             },
 
             editGroup: function (groupId) {
-                this.loadView(new EditGroupView({'groupId': groupId}));
+                if (this.checkAuthorized()) {
+                    this.loadView(new EditGroupView({'groupId': groupId}));
+                }
             },
 
             groupsList: function () {
-                this.loadView(new GroupsListView());
+                if (this.checkAuthorized()) {
+                    this.loadView(new GroupsListView());
+                }
             },
 
             groupDetails: function (id) {
-                this.loadView(new GroupDetailsView({'groupId': id}));
+                if (this.checkAuthorized()) {
+                    this.loadView(new GroupDetailsView({'groupId': id}));
+                }
             },
 
-            loadView: function (view, skipAuthorization) {
-                if (Parse.User.current() != null || skipAuthorization == true) {
-                    this.view = view;
-                } else {
-                    this.view = new LoginView();
+            loadView: function (view) {
+                this.view = view;
+            },
+
+            checkAuthorized: function () {
+                if (Parse.User.current() == null) {
+                    router.navigate('login', true);
+
+                    return false;
                 }
+
+                return true;
             }
 
         }
