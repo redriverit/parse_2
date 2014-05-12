@@ -45,6 +45,26 @@ var RecipeCollection = Parse.Collection.extend(
 
 );
 
+//ingredients
+
+    var ingredients = Parse.Object.extend("INGREDIENT");
+
+    var IngredientsCollection = Parse.Collection.extend(
+    {
+        model:ingredients
+    }
+    );
+
+//steps
+
+    var steps = Parse.Object.extend("STEPS");
+
+    var StepsCollection = Parse.Collection.extend(
+    {
+        model:steps
+    }
+    );
+
 // activity
 var Activity = Parse.Object.extend('Activity');
 
@@ -357,6 +377,80 @@ var RecipeListView = Parse.View.extend({
 
 });
 
+//**************************************************************************************** RECIPE DETAIL
+
+    var RecipeDetailView = Parse.View.extend({
+
+        defaults:{
+            recipeId:''
+        },
+
+        el:'#content',
+
+        events:{
+
+        },
+
+        initialize:function (options) {
+            _.bindAll(this, 'render');
+
+            if (options.hasOwnProperty('recipeId')) {
+                this.recipeId = options['recipeId'];
+            }
+
+            // retrieving ingredients for recipe
+            this.ingredients = new IngredientsCollection();
+            this.ingredients.bind('reset', this.render);
+            this.ingredients.query = new Parse.Query(ingredients);
+
+            if (this.recipeId && this.recipeId != '') {
+                this.ingredients.query.equalTo("recipeId", this.recipeId);
+            }
+
+            // retrieving steps for recipe
+            this.steps = new StepsCollection();
+            this.steps.query = new Parse.Query(steps);
+            this.steps.bind('reset', this.render);
+            if (this.recipeId && this.recipeId != '') {
+                this.steps.query.equalTo("recipeId", this.recipeId);
+            }
+
+            this.recipe = new recipe({'objectId':this.recipeId});
+
+            var self = this;
+
+            this.recipe.fetch({
+                success:function () {
+                    self.ingredients.fetch();
+                    self.steps.fetch();
+                },
+
+                error:function () {
+                    router.navigate('groups', true);
+                }
+            });
+
+        },
+
+        render:function () {
+            $(this.el).html(_.template($('#recipeDetailTemplate').html(),
+                {
+                    'ingredients':this.ingredients.toJSON(),
+                    'steps':this.steps.toJSON(),
+                    'recipe':this.recipe.toJSON()
+                })
+            );
+        },
+
+        logout:function () {
+            // logging out current user
+            Parse.User.logOut();
+
+            // getting back to login view
+            router.navigate('', true);
+        }
+
+    });
 
 var GroupDetailsView = Parse.View.extend({
 
@@ -615,8 +709,17 @@ var AppRouter = Parse.Router.extend({
             'create-category':'createCategory',
             'category/edit/:id':'editCategory',
             'category/:id':"recipeList",
-            'files':'handleFiles'
+            'files':'handleFiles',
+            'recipe/:id':"recipeView"
         },
+
+//recipe view
+            recipeView:function (recipeId) {
+
+                if (this.checkAuthorized()) {
+                    this.loadView(new RecipeDetailView({'recipeId':recipeId}));
+                }
+            },
 
         login:function () {
             this.loadView(new LoginView());
