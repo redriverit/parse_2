@@ -256,13 +256,9 @@ $(function () {
             this.recipes.bind('reset', this.render);
             this.recipes.query = new Parse.Query(recipe);
 
-//           if (this.categoryId && this.categoryId != '') {
-//                this.myRecipes.query.equalTo("groupId", this.categoryId);
-//           }
-
-            //if (Parse.User.current()) {
-            //    this.recipecategorys.query.equalTo("ownerId", Parse.User.current().id);
-            // }
+            if (this.categoryId && this.categoryId != '') {
+                this.recipes.query.equalTo("categoryId", this.categoryId);
+            }
 
             this.recipes.query.ascending("NAME");
             this.recipes.fetch();
@@ -271,7 +267,7 @@ $(function () {
         render:function () {
             $(this.el).html(_.template($('#recipeListTemplate').html(),
                 {
-                    'categories':this.categories.toJSON()
+                    'recipes':this.recipes.toJSON()
                 }));
         },
 

@@ -96,7 +96,7 @@ Parse.com custom backend logic
             </div>
 
             <div class="col-md-6">
-                <a href="#/create-group" id="createGroup" class="btn btn-primary btn-sm btn-block">Add New Recipe Category</a>
+                <a href="#/create-category" id="createCategory" class="btn btn-primary btn-sm btn-block">Add New Recipe Category</a>
             </div>
 
 
