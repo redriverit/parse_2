@@ -49,161 +49,7 @@
     </div>
 </script>
 
-<script type="text/template" id="groupDetailsTemplate">
-    <div class="container">
-
-        <div id="equipmentDialog" title="Equipment Details" style="display: none">
-            <p>This is equipment dialog</p>
-        </div>
-
-        <div id="inventoryDialog" title="Inventory Details" style="display:none">
-            <p>This is inventory dialog</p>
-        </div>
-
-        <form class="form-signin" role="form">
-
-            <div style="padding-bottom:20px">
-                Welcome, <%= Parse.User.current().get('name') %>
-            </div>
-
-            <div>
-                <button id="backToList" class="btn btn-primary">Logout <%= group.name %></button>
-                <span style="padding-left: 8.5%; padding-right: 8.6%"><%= group.name %> Menu </span>
-                <button type="button" id="editGroup" class="btn btn-primary">Edit Group Info</button>
-            </div>
-
-            <div>
-                <button id="equipmentListBtn" type="button" class="btn btn-success" disabled>Equipment</button>
-                <button id="inventoryListBtn" type="button" class="btn btn-success">Inventory</button>
-            </div>
-
-            <br/>
-
-            <!-- group activities table -->
-            <table class="table table-bordered">
-                <thead>
-                <tr>
-                    <th style="text-align: center">Recent Group Activities</th>
-                </tr>
-                </thead>
-
-                <tbody>
-
-                <% if (activities.length == 0) {%>
-                <tr>
-                    <td>There are no activities for this group yet</td>
-                </tr>
-                <% } else { %>
-
-                <% _.each(activities, function(activity) { %>
-                <tr>
-                    <td>
-                        <%= activity.name %> <br/>
-                        <span class="table-note">Created on <%=dateFormat(Date.parse(activity.createdAt), "dddd, mmmm dS, yyyy, h:MM:ss TT")%></span>
-                    </td>
-                </tr>
-
-                <% }); %>
-
-                <!-- end of else -->
-                <% } %>
-
-                </tbody>
-
-            </table>
-
-            <!-- equipment list -->
-            <div id="equipmentList">
-                <h3 class="title">Equipment List</h3>
-                <table class="table table-bordered">
-                    <thead>
-                    <tr>
-                        <th>Name</th>
-                        <th>Type</th>
-                        <th>Notes</th>
-                        <th>Action</th>
-                    </tr>
-                    </thead>
-
-                    <tbody>
-
-                    <% if (equipment.length == 0) {%>
-                    <tr>
-                        <td colspan="4">No equipment in this group</td>
-                    </tr>
-                    <% } else { %>
-
-                    <% _.each(equipment, function(equipmentItem) { %>
-                    <tr>
-                        <td> <%= equipmentItem.name %></td>
-                        <td> <%= equipmentItem.type %></td>
-                        <td> <%= equipmentItem.notes %></td>
-                        <td>
-                            <button type="button" data-id="<%=equipmentItem.objectId%>"
-                                    class="btn btn-info equipmentView">View/Edit
-                            </button>
-                        </td>
-                    </tr>
-
-                    <% }); %>
-
-                    <!-- end of else -->
-                    <% } %>
-
-                    </tbody>
-
-                </table>
-            </div>
-
-            <!-- computers list -->
-            <div id="inventoryList" style="display:none">
-                <h3 class="title">Inventory List</h3>
-                <table class="table table-bordered">
-                    <thead>
-                    <tr>
-                        <th>Name</th>
-                        <th>Type</th>
-                        <th>Value</th>
-                        <th>Notes</th>
-                        <th>Action</th>
-                    </tr>
-                    </thead>
-
-                    <tbody>
-
-                    <% if (inventory.length == 0) {%>
-                    <tr>
-                        <td colspan="5">No computers in this group</td>
-                    </tr>
-                    <% } else { %>
-
-                    <% _.each(inventory, function(computer) { %>
-                    <tr>
-                        <td> <%= computer.name %></td>
-                        <td> <%= computer.type %></td>
-                        <td> <%= computer.value %></td>
-                        <td> <%= computer.notes %></td>
-                        <td>
-                            <button type="button" class="btn btn-info">View/Edit</button>
-                        </td>
-                    </tr>
-
-                    <% }); %>
-
-                    <!-- end of else -->
-                    <% } %>
-
-                    </tbody>
-
-                </table>
-            </div>
-
-        </form>
-
-    </div>
-</script>
-
-<script type="text/template" id="groupListTemplate">
+<script type="text/template" id="categoryListTemplate">
     <div class="container">
 
        
@@ -260,7 +106,7 @@
             </div>
 
             <div class="col-md-6">
-                <a href="#/create-group" id="createGroup" class="btn btn-primary btn-sm btn-block">Add New Recipe Category</a>
+                <a href="#/create-category" id="createCategory" class="btn btn-primary btn-sm btn-block">Add New Recipe Category</a>
             </div>
 
 
@@ -321,11 +167,11 @@
 
         <div class="row">
             <div class="col-md-6">
-                <button type="button" id="logoutBtn" class="btn btn-danger btn-sm btn-block">Logout</button>
+                <button type="button" id="logoutBtn2" class="btn btn-danger btn-sm btn-block">Logout</button>
             </div>
 
             <div class="col-md-6">
-                <a href="#/create-group" id="createGroup" class="btn btn-primary btn-sm btn-block">Add New Recipe Category</a>
+                <a href="#/create-category" id="createRecipe" class="btn btn-primary btn-sm btn-block">Add New Recipe Category</a>
             </div>
 
 
@@ -354,18 +200,18 @@
     </div>
 </script>
 
-<script type="text/template" id="groupNew">
+<script type="text/template" id="categoryNew">
     <div class="container">
 
         <form class="form-signin" role="form">
             <h2 class="form-signup-heading">Add New Recipe Category Name:</h2>
-            <input type="text" class="form-control" id="new-group-name" placeholder="Name" required autofocus/>
+            <input type="text" class="form-control" id="new-category-name" placeholder="Name" required autofocus/>
 
 
-            <div id="create-group-error" class="error" style="display:none"></div>
+            <div id="create-category-error" class="error" style="display:none"></div>
             <button class="btn btn-lg btn-primary btn-block form-button" id="saveGroup" type="button">Create New Category
             </button>
-            <a href="#/groups" class="btn btn-lg btn-block btn-danger">Cancel</a>
+            <a href="#/categories" class="btn btn-lg btn-block btn-danger">Cancel</a>
         </form>
 
     </div>
