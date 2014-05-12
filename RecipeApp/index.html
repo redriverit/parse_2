@@ -49,6 +49,21 @@
     </div>
 </script>
 
+<script type="text/template" id="filesTemplate">
+    <div class="container">
+
+        <form class="form-signin" role="form">
+            <h2 class="form-signin-heading">Please choose file to upload: </h2>
+            <input type="file" id="imageFile"/>
+
+            <div id="upload-file-error" class="error" style="display:none"></div>
+            <button type="button" class="btn btn-lg btn-primary btn-block form-button" id="uploadFile">Upload Image
+            </button>
+        </form>
+
+    </div>
+</script>
+
 <script type="text/template" id="categoryListTemplate">
     <div class="container">
 
@@ -79,8 +94,9 @@
 
                         <h2>
                             <%= CATEGORY.CAT_NAME %> <br/>
-
                         </h2>
+
+                        <img width="160" src="<%= CATEGORY.photo %>"/>
 
                     </td>
 
