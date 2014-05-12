@@ -13,8 +13,8 @@ $(function () {
 
 // This is the transient application state, not persisted on Parse
     var AppState = Parse.Object.extend("AppState", {
-        defaults: {
-            view: "index"
+        defaults:{
+            view:"index"
         }
     });
 
@@ -27,46 +27,26 @@ $(function () {
 
     var CategoryCollection = Parse.Collection.extend(
 
-            {
-                myGroups: category
-            }
+        {
+            model:category
+        }
 
-        );
+    );
 
     var recipe = Parse.Object.extend("RECIPE");
 
-    var RecipeCollection = Parse.Collection.extend (
-             {
-                myGroups: recipe
+    var RecipeCollection = Parse.Collection.extend(
+        {
+            model:recipe
+        }
 
-                                                                //does this have to be myGroups or could it be myRecipes??? 
-            }
-
-        );
-
-
-
-// group
-//    var Group = Parse.Object.extend('Group',
-//        {
-//            defaults: {
-//                "name": "",
-//                "dateCreated": ""
- //           }
-  //      }
- //   );
-
-//    var GroupsCollection = Parse.Collection.extend(
-//        {
-//            myGroups: Group
-//        }
-//    );
+    );
 
 // activity
     var Activity = Parse.Object.extend('Activity');
 
     var ActivitiesCollection = Parse.Collection.extend({
-        myGroups: Activity
+        model:Activity
     });
 
 // computer
@@ -74,7 +54,7 @@ $(function () {
 
     var ComputersCollection = Parse.Collection.extend(
         {
-            myGroups: Computer
+            model:Computer
         }
     );
 
@@ -83,26 +63,26 @@ $(function () {
 
     var EquipmentCollection = Parse.Collection.extend(
         {
-            myGroups: Equipment
+            model:Equipment
         }
     );
 
 // views
     var LoginView = Parse.View.extend({
 
-        el: '#content',
+        el:'#content',
 
-        template: _.template($('#loginTemplate').html()),
+        template:_.template($('#loginTemplate').html()),
 
-        events: {
-            "click #signIn": "signIn"
+        events:{
+            "click #signIn":"signIn"
         },
 
-        initialize: function () {
+        initialize:function () {
             this.render();
         },
 
-        signIn: function () {
+        signIn:function () {
             // prevent double submit
             this.$("#signInForm button").attr("disabled", "disabled");
 
@@ -112,13 +92,13 @@ $(function () {
             var password = this.$('#signin-password').val();
 
             Parse.User.logIn(username, password, {
-                success: function () {
+                success:function () {
                     router.navigate('groups', true);
 
                     self.$("#signInForm button").removeAttr('disabled');
                 },
 
-                error: function () {
+                error:function () {
                     self.$("#signInForm .error").html("Invalid username or password. Please try again.").show();
                     self.$("#signInForm button").removeAttr("disabled");
                 }
@@ -126,7 +106,7 @@ $(function () {
 
         },
 
-        render: function () {
+        render:function () {
             $(this.el).html(this.template);
 
             return this;
@@ -136,23 +116,23 @@ $(function () {
 
     var SignUpView = Parse.View.extend({
 
-        el: '#content',
+        el:'#content',
 
-        template: _.template($('#signUpTemplate').html()),
+        template:_.template($('#signUpTemplate').html()),
 
-        events: {
-            "click #signUp": "signUp"
+        events:{
+            "click #signUp":"signUp"
         },
 
-        initialize: function () {
+        initialize:function () {
             this.render();
         },
 
-        render: function () {
+        render:function () {
             $(this.el).html(this.template);
         },
 
-        signUp: function () {
+        signUp:function () {
             // turning off button
             this.$("#signUpForm button").attr("disabled", "disabled");
 
@@ -173,17 +153,17 @@ $(function () {
             var self = this;
 
             Parse.User.signUp(username, password, {
-                    'email': email,
-                    'name': name,
-                    'type': type,
-                    'value': value,
-                    'notes': notes},
+                    'email':email,
+                    'name':name,
+                    'type':type,
+                    'value':value,
+                    'notes':notes},
                 {
-                    success: function () {
+                    success:function () {
                         router.navigate('groups', true);
                     },
 
-                    error: function () {
+                    error:function () {
                         self.$("#signUpForm button").removeAttr("disabled");
                         self.$('#signup-error').html('Email was already taken, please try other').show();
                     }
@@ -195,23 +175,23 @@ $(function () {
     var ForgotPasswordView = Parse.View.extend(
         {
 
-            el: '#content',
+            el:'#content',
 
-            template: _.template($('#forgotPasswordTemplate').html()),
+            template:_.template($('#forgotPasswordTemplate').html()),
 
-            events: {
-                "click #forgotPassword": "restorePassword"
+            events:{
+                "click #forgotPassword":"restorePassword"
             },
 
-            initialize: function () {
+            initialize:function () {
                 this.render();
             },
 
-            render: function () {
+            render:function () {
                 $(this.el).html(this.template);
             },
 
-            restorePassword: function () {
+            restorePassword:function () {
             }
 
         }
@@ -219,35 +199,33 @@ $(function () {
 
     var GroupsListView = Parse.View.extend({
 
-        el: '#content',
+        el:'#content',
 
-        events: {
+        events:{
 
-            'click #logoutBtn': 'logout'
+            'click #logoutBtn':'logout'
         },
 
-        initialize: function () {
+        initialize:function () {
             _.bindAll(this, 'render');
 
             // retrieving my groups
-            this.myGroups = new CategoryCollection();
-            this.myGroups.bind('reset', this.render);
-            this.myGroups.query = new Parse.Query(category);
+            this.categories = new CategoryCollection();
+            this.categories.bind('reset', this.render);
+            this.categories.query = new Parse.Query(category);
 
-            this.myGroups.query.ascending("CAT_NAME");
-            this.myGroups.fetch();
-
+            this.categories.query.ascending("CAT_NAME");
+            this.categories.fetch();
         },
 
-        render: function () {
+        render:function () {
             $(this.el).html(_.template($('#groupListTemplate').html(),
                 {
-                    'myGroups': this.myGroups.toJSON(),
-
+                    'categories':this.categories.toJSON()
                 }));
         },
 
-        logout: function () {
+        logout:function () {
             // logging out current user
             Parse.User.logOut();
 
@@ -258,55 +236,51 @@ $(function () {
     });
 
 //RECIPE LIST VIEW*************************************************************************************************************
-var RecipeListView = Parse.View.extend({
+    var RecipeListView = Parse.View.extend({
 
-        defaults: {
-            categoryId: ''
+        defaults:{
+            categoryId:''
         },
 
-        el: '#content',
+        el:'#content',
 
-        events: {
+        events:{
 
-            'click #logoutBtn': 'logout'
+            'click #logoutBtn':'logout'
         },
 
-        initialize: function (options) {
+        initialize:function (options) {
             _.bindAll(this, 'render');
 
             if (options.hasOwnProperty('groupId')) {
                 this.categoryId = options['groupId'];
-                alert(this.categoryId);
-
             }
 
             // retrieving my groups
-            this.myGroups= new RecipeCollection();
-            this.myGroups.bind('reset', this.render);
-            this.myGroups.query = new Parse.Query(recipe);
+            this.recipes = new RecipeCollection();
+            this.recipes.bind('reset', this.render);
+            this.recipes.query = new Parse.Query(recipe);
 
-           // if (this.categoryId && this.categoryId != '') {
-           //     this.myRecipes.query.equalTo("groupId", this.categoryId);
-           // }
+//           if (this.categoryId && this.categoryId != '') {
+//                this.myRecipes.query.equalTo("groupId", this.categoryId);
+//           }
 
             //if (Parse.User.current()) {
             //    this.recipecategorys.query.equalTo("ownerId", Parse.User.current().id);
-           // }
+            // }
 
-            this.myGroups.query.ascending("NAME");
-            this.myGroups.fetch();
-
-
+            this.recipes.query.ascending("NAME");
+            this.recipes.fetch();
         },
 
-        render: function () {
+        render:function () {
             $(this.el).html(_.template($('#recipeListTemplate').html(),
                 {
-                    'myGroups': this.myGroups.toJSON(),
+                    'categories':this.categories.toJSON()
                 }));
         },
 
-        logout: function () {
+        logout:function () {
             // logging out current user
             Parse.User.logOut();
 
@@ -319,22 +293,22 @@ var RecipeListView = Parse.View.extend({
 
     var GroupDetailsView = Parse.View.extend({
 
-        defaults: {
-            groupId: ''
+        defaults:{
+            groupId:''
         },
 
-        el: '#content',
+        el:'#content',
 
-        events: {
-            'click #backToList': 'backToGroupsList',
-            'click #editGroup': 'editGroup',
-            'click #equipmentListBtn': 'showEquipmentList',
-            'click #inventoryListBtn': 'showInventoryList',
-            'click .equipmentView': 'showEquipmentDetails',
-            'click .inventoryView': 'showInventoryDetails'
+        events:{
+            'click #backToList':'backToGroupsList',
+            'click #editGroup':'editGroup',
+            'click #equipmentListBtn':'showEquipmentList',
+            'click #inventoryListBtn':'showInventoryList',
+            'click .equipmentView':'showEquipmentDetails',
+            'click .inventoryView':'showInventoryDetails'
         },
 
-        initialize: function (options) {
+        initialize:function (options) {
             _.bindAll(this, 'render');
 
             if (options.hasOwnProperty('groupId')) {
@@ -366,40 +340,40 @@ var RecipeListView = Parse.View.extend({
                 this.inventory.query.equalTo('groupId', this.groupId);
             }
 
-            this.group = new Group({'objectId': this.groupId});
+            this.group = new Group({'objectId':this.groupId});
 
             var self = this;
 
             this.group.fetch({
-                success: function () {
+                success:function () {
                     self.activities.fetch();
                     self.equipment.fetch();
                     self.inventory.fetch();
                 },
 
-                error: function () {
+                error:function () {
                     router.navigate('groups', true);
                 }
             });
 
         },
 
-        render: function () {
+        render:function () {
             $(this.el).html(_.template($('#groupDetailsTemplate').html(),
                 {
-                    'activities': this.activities.toJSON(),
-                    'equipment': this.equipment.toJSON(),
-                    'inventory': this.inventory.toJSON(),
-                    'group': this.group.toJSON()
+                    'activities':this.activities.toJSON(),
+                    'equipment':this.equipment.toJSON(),
+                    'inventory':this.inventory.toJSON(),
+                    'group':this.group.toJSON()
                 })
             );
         },
 
-        backToGroupsList: function () {
+        backToGroupsList:function () {
             router.navigate('groups', true);
         },
 
-        showEquipmentInventory: function (whatToShow) {
+        showEquipmentInventory:function (whatToShow) {
             var showInventory = whatToShow == 'inventory';
 
             if (showInventory) {
@@ -418,33 +392,33 @@ var RecipeListView = Parse.View.extend({
 
         },
 
-        showEquipmentList: function () {
+        showEquipmentList:function () {
             // triggering reusable function
             this.showEquipmentInventory('equipment');
         },
 
-        showEquipmentDetails: function (event) {
+        showEquipmentDetails:function (event) {
             var id = this.$(event.currentTarget).data("id");
 
             this.$("#equipmentDialog").dialog({
-                height: 300,
-                width: 350,
-                modal: true
+                height:300,
+                width:350,
+                modal:true
             });
 
         },
 
-        showInventoryDetails: function (event) {
+        showInventoryDetails:function (event) {
             var id = $(event.currentTarget).data("id");
 
         },
 
-        showInventoryList: function () {
+        showInventoryList:function () {
             // triggering reusable function
             this.showEquipmentInventory('inventory');
         },
 
-        editGroup: function () {
+        editGroup:function () {
             router.navigate('group/edit/' + this.groupId, true);
         }
 
@@ -454,42 +428,41 @@ var RecipeListView = Parse.View.extend({
 //********ADD A NEW CATEGORY***********
     var CreateGroupView = Parse.View.extend({
 
-        defaults: {
-            groupId: ''
+        defaults:{
+            groupId:''
         },
 
-        el: '#content',
+        el:'#content',
 
-        events: {
-            'click #saveGroup': 'saveGroup'
+        events:{
+            'click #saveGroup':'saveGroup'
         },
 
-        initialize: function () {
+        initialize:function () {
             _.bindAll(this, 'render');
 
             this.render();
         },
 
-        render: function () {
+        render:function () {
             $(this.el).html(_.template($('#groupNew').html()));
         },
 
-        saveGroup: function () {
+        saveGroup:function () {
 
             this.category = new category();
 
             var categoryname = this.$('#new-group-name').val();
 
-
             this.category.set('CAT_NAME', categoryname);
             this.category.set('ownerId', Parse.User.current().id);
 
             this.category.save({
-                error: function () {
+                error:function () {
                     // save-group-error
                     self.$("#create-group-error .error").html("Failed to save group. Please try again later.").show();
                 },
-                success: function () {
+                success:function () {
                     router.navigate("/groups", true);
                 }
             });
@@ -499,17 +472,17 @@ var RecipeListView = Parse.View.extend({
 
     var EditGroupView = Parse.View.extend({
 
-        defaults: {
-            groupId: ''
+        defaults:{
+            groupId:''
         },
 
-        el: '#content',
+        el:'#content',
 
-        events: {
-            'click #saveEditGroup': 'saveGroup'
+        events:{
+            'click #saveEditGroup':'saveGroup'
         },
 
-        initialize: function (options) {
+        initialize:function (options) {
             _.bindAll(this, 'render');
 
             this.group = new Group();
@@ -524,20 +497,20 @@ var RecipeListView = Parse.View.extend({
 
             this.group.fetch(
                 {
-                    success: function () {
+                    success:function () {
                         self.render();
                     },
-                    error: function () {
+                    error:function () {
                         router.navigate('groups', true);
                     }
                 });
         },
 
-        render: function () {
-            $(this.el).html(_.template($('#groupEdit').html(), {'group': this.group.toJSON()}));
+        render:function () {
+            $(this.el).html(_.template($('#groupEdit').html(), {'group':this.group.toJSON()}));
         },
 
-        saveGroup: function () {
+        saveGroup:function () {
             // disable to avoid double submit
             this.$('#saveEditGroup').attr('disabled', 'disabled');
 
@@ -553,11 +526,11 @@ var RecipeListView = Parse.View.extend({
             this.group.set('ownerId', Parse.User.current().id);
 
             this.group.save({
-                error: function () {
+                error:function () {
                     self.$("#edit-group-error .error").html("Failed to save group. Please try again later.").show();
                     self.$('#saveEditGroup').removeAttr('disabled');
                 },
-                success: function () {
+                success:function () {
                     router.navigate("/groups", true);
                 }
             });
@@ -566,75 +539,75 @@ var RecipeListView = Parse.View.extend({
     });
 
     var AppRouter = Parse.Router.extend({
-            routes: {
-                '': "index",
-                'login': 'login',
-                'forgotPassword': 'forgotPassword',
-                'signup': 'signUp',
-                'groups': 'groupsList',
-                'group/:id': 'groupDetails',
-                'create-group': 'createGroup',
-                'group/edit/:id': 'editGroup',
-                'category/:id': "recipeList"
+            routes:{
+                '':"index",
+                'login':'login',
+                'forgotPassword':'forgotPassword',
+                'signup':'signUp',
+                'groups':'groupsList',
+                'group/:id':'groupDetails',
+                'create-group':'createGroup',
+                'group/edit/:id':'editGroup',
+                'category/:id':"recipeList"
             },
 
-            login: function () {
+            login:function () {
                 this.loadView(new LoginView());
             },
 
-            index: function () {
+            index:function () {
                 if (this.checkAuthorized()) {
                     // groups list is our main
                     this.groupsList();
                 }
             },
 
-            forgotPassword: function () {
+            forgotPassword:function () {
                 this.loadView(new ForgotPasswordView());
             },
 
-            signUp: function () {
+            signUp:function () {
                 this.loadView(new SignUpView());
             },
 
-            createGroup: function () {
+            createGroup:function () {
                 if (this.checkAuthorized()) {
                     this.loadView(new CreateGroupView());
                 }
             },
 
-            editGroup: function (groupId) {
+            editGroup:function (groupId) {
                 if (this.checkAuthorized()) {
-                    this.loadView(new EditGroupView({'groupId': groupId}));
+                    this.loadView(new EditGroupView({'groupId':groupId}));
                 }
             },
 
-            groupsList: function () {
+            groupsList:function () {
                 if (this.checkAuthorized()) {
                     this.loadView(new GroupsListView());
                 }
             },
 
-            recipeList: function (catId) {
-                    
-                    if (this.checkAuthorized()) {
-                        this.loadView(new RecipeListView({'groupId': catId}));
-                    alert(catId);
-            }
-        },
+            recipeList:function (catId) {
 
-
-            groupDetails: function (id) {
                 if (this.checkAuthorized()) {
-                    this.loadView(new GroupDetailsView({'groupId': id}));
+                    this.loadView(new RecipeListView({'groupId':catId}));
+                    alert(catId);
                 }
             },
 
-            loadView: function (view) {
+
+            groupDetails:function (id) {
+                if (this.checkAuthorized()) {
+                    this.loadView(new GroupDetailsView({'groupId':id}));
+                }
+            },
+
+            loadView:function (view) {
                 this.view = view;
             },
 
-            checkAuthorized: function () {
+            checkAuthorized:function () {
                 if (Parse.User.current() == null) {
                     router.navigate('login', true);
 
