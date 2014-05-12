@@ -5,8 +5,8 @@ $(function () {
 
 // Initialize Parse with your Parse application javascript keys
     // local settings (Sergii)
-    Parse.initialize("hQMq9rXEIauuSFYHotuxDYdy8t1wNEKP9yK8rZoi"/*Application Id */,
-        "kh6MDcrDJvBlGY5eBGP2jN7Sh8okO0b2DFDiP6ou"/*Javascript key */);
+    Parse.initialize("85sYerTRbJUwbivYmxfzvNxja4HvxruQWNm64Duz"/*Application Id */,
+        "8i1YRG4RGoOuuCiyjSva4xEa3Hi7wkRjgbqCZLMe"/*Javascript key */);
 
     // Daniel's settings
 //    Parse.initialize("85sYerTRbJUwbivYmxfzvNxja4HvxruQWNm64Duz"/*Application Id */,
