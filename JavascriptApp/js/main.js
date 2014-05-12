@@ -4,9 +4,13 @@ $(function () {
     Parse.$ = jQuery;
 
 // Initialize Parse with your Parse application javascript keys
-    Parse.initialize("85sYerTRbJUwbivYmxfzvNxja4HvxruQWNm64Duz"/*Application Id */,
-        "8i1YRG4RGoOuuCiyjSva4xEa3Hi7wkRjgbqCZLMe"/*Javascript key */);
+    // local settings (Sergii)
+    Parse.initialize("hQMq9rXEIauuSFYHotuxDYdy8t1wNEKP9yK8rZoi"/*Application Id */,
+        "kh6MDcrDJvBlGY5eBGP2jN7Sh8okO0b2DFDiP6ou"/*Javascript key */);
 
+    // Daniel's settings
+//    Parse.initialize("85sYerTRbJUwbivYmxfzvNxja4HvxruQWNm64Duz"/*Application Id */,
+//        "8i1YRG4RGoOuuCiyjSva4xEa3Hi7wkRjgbqCZLMe"/*Javascript key */);
 
 // This is the transient application state, not persisted on Parse
     var AppState = Parse.Object.extend("AppState", {
@@ -257,7 +261,9 @@ $(function () {
             'click #equipmentListBtn': 'showEquipmentList',
             'click #inventoryListBtn': 'showInventoryList',
             'click .equipmentView': 'showEquipmentDetails',
-            'click .inventoryView': 'showInventoryDetails'
+            'click .inventoryView': 'showInventoryDetails',
+            'click #createNewEquipment': 'createNewEquipment'
+
         },
 
         initialize: function (options) {
@@ -344,6 +350,12 @@ $(function () {
 
         },
 
+        createNewEquipment: function (event) {
+            var groupId = this.$(event.currentTarget).data("id");
+
+            router.navigate('create-equipment/' + groupId, true);
+        },
+
         showEquipmentList: function () {
             // triggering reusable function
             this.showEquipmentInventory('equipment');
@@ -352,11 +364,14 @@ $(function () {
         showEquipmentDetails: function (event) {
             var id = this.$(event.currentTarget).data("id");
 
-            this.$("#equipmentDialog").dialog({
-                height: 300,
-                width: 350,
-                modal: true
-            });
+            router.navigate('edit-equipment/' + id, true);
+
+            // TODO use dialogs later
+            /*this.$("#equipmentDialog").dialog({
+             height: 300,
+             width: 350,
+             modal: true
+             });*/
 
         },
 
@@ -422,6 +437,86 @@ $(function () {
                     router.navigate("/groups", true);
                 }
             });
+        }
+
+    });
+
+    var CreateEquipmentView = Parse.View.extend({
+
+        defaults: {
+            groupId: '',
+            isUpdate: false,
+            equipment: null
+        },
+
+        el: '#content',
+
+        events: {
+            'click #saveEquipment': 'saveEquipment',
+            'click #cancelSaveEquipment': 'backToGroup'
+        },
+
+        initialize: function (options) {
+
+            if (options.hasOwnProperty('groupId')) {
+                this.groupId = options['groupId'];
+            }
+
+            this.equipment = new Equipment();
+
+            var self = this;
+
+            if (options.hasOwnProperty('equipmentId')) {
+                this.equipment.set('id', options['equipmentId']);
+                this.equipment.fetch({
+                    success: function () {
+                        self.groupId = self.equipment.get('groupId');
+                        self.render();
+                    }
+                });
+            }
+
+            _.bindAll(this, 'render');
+
+            this.render();
+        },
+
+        render: function () {
+            $(this.el).html(_.template($('#equipmentEdit').html(), {'equipment': this.equipment.toJSON()}));
+
+        },
+
+        saveEquipment: function () {
+            var equipmentName = this.$('#new-equipment-name').val();
+            var equipmentType = this.$('#new-equipment-type').val();
+            var equipmentValue = this.$('#new-equipment-value').val();
+            var equipmentNotes = this.$('#new-equipment-notes').val();
+
+            this.equipment.set('name', equipmentName);
+            this.equipment.set('type', equipmentType);
+            this.equipment.set('notes', equipmentNotes);
+            this.equipment.set('value', equipmentValue);
+
+            if (!this.isUpdate) {
+                this.equipment.set('groupId', this.groupId);
+            }
+
+            var self = this;
+
+            this.equipment.save({
+                error: function () {
+                    // save-group-error
+                    self.$("#new-equipment-error .error").html("Failed to save equipment. Please try again later.").show();
+                },
+                success: function () {
+                    console.log('Success group: ' + self.groupId);
+                    router.navigate("/group/" + self.groupId, true);
+                }
+            });
+        },
+
+        backToGroup: function () {
+            router.navigate('group/' + this.groupId, true);
         }
 
     });
@@ -503,7 +598,9 @@ $(function () {
                 'groups': 'groupsList',
                 'group/:id': 'groupDetails',
                 'create-group': 'createGroup',
-                'group/edit/:id': 'editGroup'
+                'group/edit/:id': 'editGroup',
+                'create-equipment/:id': 'createEquipment',
+                'edit-equipment/:id': 'editEquipment'
             },
 
             login: function () {
@@ -528,6 +625,18 @@ $(function () {
             createGroup: function () {
                 if (this.checkAuthorized()) {
                     this.loadView(new CreateGroupView());
+                }
+            },
+
+            createEquipment: function (groupId) {
+                if (this.checkAuthorized()) {
+                    this.loadView(new CreateEquipmentView({'groupId': groupId}));
+                }
+            },
+
+            editEquipment: function (equipmentId) {
+                if (this.checkAuthorized()) {
+                    this.loadView(new CreateEquipmentView({'isUpdate': true, 'equipmentId': equipmentId}));
                 }
             },
 

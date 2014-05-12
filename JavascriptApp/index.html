@@ -149,6 +149,8 @@
                     </tbody>
 
                 </table>
+
+                <button type="button" data-id="<%=group.objectId %>" id="createNewEquipment">Create New Equipment</button>
             </div>
 
             <!-- computers list -->
@@ -327,14 +329,14 @@
 
         <form class="form-signin" role="form">
             <h2 class="form-signup-heading">Please fill equipment details:</h2>
-            <input type="text" class="form-control" id="new-equipment-name" placeholder="Name" required autofocus/>
-            <input type="text" class="form-control" id="new-equipment-type" placeholder="Type" required/>
-            <input type="text" class="form-control" id="new-equipment-value" placeholder="Value" required/>
-            <input type="text" class="form-control" id="new-equipment-notes" placeholder="Notes" required/>
+            <input type="text" class="form-control" id="new-equipment-name" value="<%= equipment.name %>" placeholder="Name" required autofocus/>
+            <input type="text" class="form-control" id="new-equipment-type" value="<%= equipment.type %>" placeholder="Type" required/>
+            <input type="text" class="form-control" id="new-equipment-value" value="<%= equipment.value %>" placeholder="Value" required/>
+            <input type="text" class="form-control" id="new-equipment-notes" value="<%= equipment.notes %>" placeholder="Notes" required/>
 
             <div id="equipment-edit-error" class="error" style="display:none"></div>
             <button class="btn btn-lg btn-primary btn-block form-button" id="saveEquipment" type="button">Save</button>
-            <button class="btn btn-lg btn-block btn-danger">Cancel</button>
+            <button type="button" id="cancelSaveEquipment" class="btn btn-lg btn-block btn-danger">Cancel</button>
         </form>
 
     </div>
