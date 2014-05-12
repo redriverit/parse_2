@@ -3,6 +3,8 @@
 <head>
     <title>Dupree Dining</title>
 
+    <link href='http://fonts.googleapis.com/css?family=Indie+Flower' rel='stylesheet' type='text/css'>
+
     <!-- Latest compiled and minified CSS -->
     <link rel="stylesheet" href="css/bootstrap.min.css">
 
@@ -151,8 +153,6 @@
                     </tbody>
 
                 </table>
-
-                <button type="button" data-id="<%=group.objectId %>" id="createNewEquipment">Create New Equipment</button>
             </div>
 
             <!-- computers list -->
@@ -206,16 +206,19 @@
 <script type="text/template" id="groupListTemplate">
     <div class="container">
 
-        <button type="button" id="logoutBtn">Logout</button>
+       
 
         <form class="form-signin" role="form">
-            <a href="#/create-group" id="createGroup" class="btn btn-lg btn-primary btn-block">Create New Group</a>
-            <br/>
+        
 
             <table class="table table-bordered">
                 <thead>
                 <tr>
-                    <th colspan="2" style="text-align: center">My Groups</th>
+
+                <h2>
+                    <th colspan="2" style="text-align: center">Select a Recipe Category:</th>
+
+                </h2>
                 </tr>
                 </thead>
 
@@ -223,19 +226,23 @@
 
                 <% if (myGroups.length == 0) { %>
                 <tr>
-                    <td colspan="2" class="title"> You dont have own groups. Go ahead and create them.</td>
+                    <td colspan="2" class="title"> no groups</td>
                 </tr>
                 <% } else { %>
                 <!-- else begin -->
-                <% _.each(myGroups, function(group) { %>
+                <% _.each(myGroups, function(CATEGORY) { %>
                 <tr>
                     <td style="width: 80%">
-                        <%= group.name %> <br/>
-                        <span class="table-note">Created on <%=dateFormat(Date.parse(group.createdAt), "dddd, mmmm dS, yyyy, h:MM:ss TT")%></span>
+
+                    <h2>
+                        <%= CATEGORY.CAT_NAME %> <br/>
+
+                    </h2>
+                    
                     </td>
 
                     <td>
-                        <a href="#/group/<%=group.objectId %>" class="btn btn-success">View</a>
+                        <a href="#/category/<%=CATEGORY.objectId %>" class="btn btn-success">View Recipes</a>
                     </td>
                 </tr>
                 <% }); %>
@@ -245,46 +252,86 @@
 
                 </tbody>
 
-            </table>
+        </form>
 
-            <!-- other groups we may request access to --->
+        <div class="row">
+            <div class="col-md-6">
+                <button type="button" id="logoutBtn" class="btn btn-danger btn-sm btn-block">Logout</button>
+            </div>
+
+            <div class="col-md-6">
+                <a href="#/create-group" id="createGroup" class="btn btn-primary btn-sm btn-block">Add New Recipe Category</a>
+            </div>
+
+
+
+</div>
+
+    </div>
+
+<script type="text/template" id="recipeListTemplate">
+    <div class="container">
+
+       
+
+        <form class="form-signin" role="form">
+        
+
             <table class="table table-bordered">
                 <thead>
                 <tr>
-                    <th colspan="2" style="text-align: center">Other Groups</th>
+
+                <h2>
+                    <th colspan="2" style="text-align: center">Select a Recipe to View</th>
+
+                </h2>
                 </tr>
                 </thead>
 
                 <tbody>
 
-                <% if (otherGroups.length == 0) { %>
+                <% if (myGroups.length == 0) { %>
                 <tr>
-                    <td colspan="2" class="title"> There are no other groups for now</td>
+                    <td colspan="2" class="title"> no groups</td>
                 </tr>
                 <% } else { %>
-
-                <% _.each(otherGroups, function(group) { %>
+                <!-- else begin -->
+                <% _.each(myGroups, function(RECIPE) { %>
                 <tr>
                     <td style="width: 80%">
-                        <%= group.name %> <br/>
-                        <span class="table-note">Created on <%=dateFormat(Date.parse(group.createdAt), "dddd, mmmm dS, yyyy, h:MM:ss TT")%></span>
+
+                    <h2>
+                        <%= RECIPE.objectId %> <br/>
+                    </h2>
+                    
                     </td>
 
                     <td>
-                        <button class="btn btn-danger">Request Access</button>
+                        <a href="#/category/<%=RECIPE.objectId %>" class="btn btn-success">View Recipes</a>
                     </td>
                 </tr>
                 <% }); %>
 
+                <!-- end of else -->
                 <% } %>
 
                 </tbody>
 
-            </table>
-
         </form>
 
-    </div>
+        <div class="row">
+            <div class="col-md-6">
+                <button type="button" id="logoutBtn" class="btn btn-danger btn-sm btn-block">Logout</button>
+            </div>
+
+            <div class="col-md-6">
+                <a href="#/create-group" id="createGroup" class="btn btn-primary btn-sm btn-block">Add New Recipe Category</a>
+            </div>
+
+
+
+</div>
+
 </script>
 
 <script type="text/template" id="loginTemplate">
@@ -311,14 +358,12 @@
     <div class="container">
 
         <form class="form-signin" role="form">
-            <h2 class="form-signup-heading">Please fill Group details:</h2>
+            <h2 class="form-signup-heading">Add New Recipe Category Name:</h2>
             <input type="text" class="form-control" id="new-group-name" placeholder="Name" required autofocus/>
-            <input type="text" class="form-control" id="new-group-description" placeholder="Description" required/>
-            <input type="text" class="form-control" id="new-group-notes" placeholder="Notes" required/>
-            <input type="file" class="form-control" id="new-group-logo" placeholder="Logo" required/>
+
 
             <div id="create-group-error" class="error" style="display:none"></div>
-            <button class="btn btn-lg btn-primary btn-block form-button" id="saveGroup" type="button">Create Group
+            <button class="btn btn-lg btn-primary btn-block form-button" id="saveGroup" type="button">Create New Category
             </button>
             <a href="#/groups" class="btn btn-lg btn-block btn-danger">Cancel</a>
         </form>
@@ -331,14 +376,14 @@
 
         <form class="form-signin" role="form">
             <h2 class="form-signup-heading">Please fill equipment details:</h2>
-            <input type="text" class="form-control" id="new-equipment-name" value="<%= equipment.name %>" placeholder="Name" required autofocus/>
-            <input type="text" class="form-control" id="new-equipment-type" value="<%= equipment.type %>" placeholder="Type" required/>
-            <input type="text" class="form-control" id="new-equipment-value" value="<%= equipment.value %>" placeholder="Value" required/>
-            <input type="text" class="form-control" id="new-equipment-notes" value="<%= equipment.notes %>" placeholder="Notes" required/>
+            <input type="text" class="form-control" id="new-equipment-name" placeholder="Name" required autofocus/>
+            <input type="text" class="form-control" id="new-equipment-type" placeholder="Type" required/>
+            <input type="text" class="form-control" id="new-equipment-value" placeholder="Value" required/>
+            <input type="text" class="form-control" id="new-equipment-notes" placeholder="Notes" required/>
 
             <div id="equipment-edit-error" class="error" style="display:none"></div>
             <button class="btn btn-lg btn-primary btn-block form-button" id="saveEquipment" type="button">Save</button>
-            <button type="button" id="cancelSaveEquipment" class="btn btn-lg btn-block btn-danger">Cancel</button>
+            <button class="btn btn-lg btn-block btn-danger">Cancel</button>
         </form>
 
     </div>

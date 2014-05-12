@@ -4,13 +4,12 @@ $(function () {
     Parse.$ = jQuery;
 
 // Initialize Parse with your Parse application javascript keys
-    // local settings (Sergii)
-    Parse.initialize("85sYerTRbJUwbivYmxfzvNxja4HvxruQWNm64Duz"/*Application Id */,
-        "8i1YRG4RGoOuuCiyjSva4xEa3Hi7wkRjgbqCZLMe"/*Javascript key */);
-
-    // Daniel's settings
 //    Parse.initialize("85sYerTRbJUwbivYmxfzvNxja4HvxruQWNm64Duz"/*Application Id */,
 //        "8i1YRG4RGoOuuCiyjSva4xEa3Hi7wkRjgbqCZLMe"/*Javascript key */);
+
+// Initialize Parse with your Parse application javascript keys
+    Parse.initialize("43Ts5aEIVt2icWwgKK9KotJnlHX1ikg8Q4PI1DmS"/*Application Id */,
+        "FT93nK7JyRluP5nU9hoZfxf4EnXtFywoFXotF2oC"/*Javascript key */);
 
 // This is the transient application state, not persisted on Parse
     var AppState = Parse.Object.extend("AppState", {
@@ -19,23 +18,49 @@ $(function () {
         }
     });
 
-///// models
+///// models or classes
+
+
+//category
+
+    var category = Parse.Object.extend("CATEGORY");
+
+    var CategoryCollection = Parse.Collection.extend(
+
+            {
+                myGroups: category
+            }
+
+        );
+
+    var recipe = Parse.Object.extend("RECIPE");
+
+    var RecipeCollection = Parse.Collection.extend (
+             {
+                myGroups: recipe
+
+                                                                //does this have to be myGroups or could it be myRecipes??? 
+            }
+
+        );
+
+
 
 // group
-    var Group = Parse.Object.extend('Group',
-        {
-            defaults: {
-                "name": "",
-                "dateCreated": ""
-            }
-        }
-    );
+//    var Group = Parse.Object.extend('Group',
+//        {
+//            defaults: {
+//                "name": "",
+//                "dateCreated": ""
+ //           }
+  //      }
+ //   );
 
-    var GroupsCollection = Parse.Collection.extend(
-        {
-            myGroups: Group
-        }
-    );
+//    var GroupsCollection = Parse.Collection.extend(
+//        {
+//            myGroups: Group
+//        }
+//    );
 
 // activity
     var Activity = Parse.Object.extend('Activity');
@@ -205,35 +230,20 @@ $(function () {
             _.bindAll(this, 'render');
 
             // retrieving my groups
-            this.myGroups = new GroupsCollection();
+            this.myGroups = new CategoryCollection();
             this.myGroups.bind('reset', this.render);
-            this.myGroups.query = new Parse.Query(Group);
+            this.myGroups.query = new Parse.Query(category);
 
-            if (Parse.User.current()) {
-                this.myGroups.query.equalTo("ownerId", Parse.User.current().id);
-            }
-
-            this.myGroups.query.ascending("name");
+            this.myGroups.query.ascending("CAT_NAME");
             this.myGroups.fetch();
 
-            // retrieving other groups
-            this.otherGroups = new GroupsCollection();
-            this.otherGroups.bind('reset', this.render);
-            this.otherGroups.query = new Parse.Query(Group);
-
-            if (Parse.User.current()) {
-                this.otherGroups.query.notEqualTo("ownerId", Parse.User.current().id);
-            }
-
-            this.otherGroups.query.ascending("name");
-            this.otherGroups.fetch();
         },
 
         render: function () {
             $(this.el).html(_.template($('#groupListTemplate').html(),
                 {
                     'myGroups': this.myGroups.toJSON(),
-                    'otherGroups': this.otherGroups.toJSON()
+
                 }));
         },
 
@@ -246,6 +256,66 @@ $(function () {
         }
 
     });
+
+//RECIPE LIST VIEW*************************************************************************************************************
+var RecipeListView = Parse.View.extend({
+
+        defaults: {
+            categoryId: ''
+        },
+
+        el: '#content',
+
+        events: {
+
+            'click #logoutBtn': 'logout'
+        },
+
+        initialize: function (options) {
+            _.bindAll(this, 'render');
+
+            if (options.hasOwnProperty('groupId')) {
+                this.categoryId = options['groupId'];
+                alert(this.categoryId);
+
+            }
+
+            // retrieving my groups
+            this.myGroups= new RecipeCollection();
+            this.myGroups.bind('reset', this.render);
+            this.myGroups.query = new Parse.Query(recipe);
+
+           // if (this.categoryId && this.categoryId != '') {
+           //     this.myRecipes.query.equalTo("groupId", this.categoryId);
+           // }
+
+            //if (Parse.User.current()) {
+            //    this.recipecategorys.query.equalTo("ownerId", Parse.User.current().id);
+           // }
+
+            this.myGroups.query.ascending("NAME");
+            this.myGroups.fetch();
+
+
+        },
+
+        render: function () {
+            $(this.el).html(_.template($('#recipeListTemplate').html(),
+                {
+                    'myGroups': this.myGroups.toJSON(),
+                }));
+        },
+
+        logout: function () {
+            // logging out current user
+            Parse.User.logOut();
+
+            // getting back to login view
+            router.navigate('', true);
+        }
+
+    });
+
 
     var GroupDetailsView = Parse.View.extend({
 
@@ -261,9 +331,7 @@ $(function () {
             'click #equipmentListBtn': 'showEquipmentList',
             'click #inventoryListBtn': 'showInventoryList',
             'click .equipmentView': 'showEquipmentDetails',
-            'click .inventoryView': 'showInventoryDetails',
-            'click #createNewEquipment': 'createNewEquipment'
-
+            'click .inventoryView': 'showInventoryDetails'
         },
 
         initialize: function (options) {
@@ -350,12 +418,6 @@ $(function () {
 
         },
 
-        createNewEquipment: function (event) {
-            var groupId = this.$(event.currentTarget).data("id");
-
-            router.navigate('create-equipment/' + groupId, true);
-        },
-
         showEquipmentList: function () {
             // triggering reusable function
             this.showEquipmentInventory('equipment');
@@ -364,14 +426,11 @@ $(function () {
         showEquipmentDetails: function (event) {
             var id = this.$(event.currentTarget).data("id");
 
-            router.navigate('edit-equipment/' + id, true);
-
-            // TODO use dialogs later
-            /*this.$("#equipmentDialog").dialog({
-             height: 300,
-             width: 350,
-             modal: true
-             });*/
+            this.$("#equipmentDialog").dialog({
+                height: 300,
+                width: 350,
+                modal: true
+            });
 
         },
 
@@ -391,6 +450,8 @@ $(function () {
 
     });
 
+
+//********ADD A NEW CATEGORY***********
     var CreateGroupView = Parse.View.extend({
 
         defaults: {
@@ -415,20 +476,15 @@ $(function () {
 
         saveGroup: function () {
 
-            this.group = new Group();
+            this.category = new category();
 
-            var groupName = this.$('#new-group-name').val();
-            var groupDescription = this.$('#new-group-description').val();
-            var groupNotes = this.$('#new-group-notes').val();
-//            var groupLogo = this.$('#new-group-logo').val();
+            var categoryname = this.$('#new-group-name').val();
 
-            this.group.set('name', groupName);
-            this.group.set('description', groupDescription);
-            this.group.set('notes', groupNotes);
-//            this.model.set('logo', groupLogo);
-            this.group.set('ownerId', Parse.User.current().id);
 
-            this.group.save({
+            this.category.set('CAT_NAME', categoryname);
+            this.category.set('ownerId', Parse.User.current().id);
+
+            this.category.save({
                 error: function () {
                     // save-group-error
                     self.$("#create-group-error .error").html("Failed to save group. Please try again later.").show();
@@ -437,86 +493,6 @@ $(function () {
                     router.navigate("/groups", true);
                 }
             });
-        }
-
-    });
-
-    var CreateEquipmentView = Parse.View.extend({
-
-        defaults: {
-            groupId: '',
-            isUpdate: false,
-            equipment: null
-        },
-
-        el: '#content',
-
-        events: {
-            'click #saveEquipment': 'saveEquipment',
-            'click #cancelSaveEquipment': 'backToGroup'
-        },
-
-        initialize: function (options) {
-
-            if (options.hasOwnProperty('groupId')) {
-                this.groupId = options['groupId'];
-            }
-
-            this.equipment = new Equipment();
-
-            var self = this;
-
-            if (options.hasOwnProperty('equipmentId')) {
-                this.equipment.set('id', options['equipmentId']);
-                this.equipment.fetch({
-                    success: function () {
-                        self.groupId = self.equipment.get('groupId');
-                        self.render();
-                    }
-                });
-            }
-
-            _.bindAll(this, 'render');
-
-            this.render();
-        },
-
-        render: function () {
-            $(this.el).html(_.template($('#equipmentEdit').html(), {'equipment': this.equipment.toJSON()}));
-
-        },
-
-        saveEquipment: function () {
-            var equipmentName = this.$('#new-equipment-name').val();
-            var equipmentType = this.$('#new-equipment-type').val();
-            var equipmentValue = this.$('#new-equipment-value').val();
-            var equipmentNotes = this.$('#new-equipment-notes').val();
-
-            this.equipment.set('name', equipmentName);
-            this.equipment.set('type', equipmentType);
-            this.equipment.set('notes', equipmentNotes);
-            this.equipment.set('value', equipmentValue);
-
-            if (!this.isUpdate) {
-                this.equipment.set('groupId', this.groupId);
-            }
-
-            var self = this;
-
-            this.equipment.save({
-                error: function () {
-                    // save-group-error
-                    self.$("#new-equipment-error .error").html("Failed to save equipment. Please try again later.").show();
-                },
-                success: function () {
-                    console.log('Success group: ' + self.groupId);
-                    router.navigate("/group/" + self.groupId, true);
-                }
-            });
-        },
-
-        backToGroup: function () {
-            router.navigate('group/' + this.groupId, true);
         }
 
     });
@@ -599,8 +575,7 @@ $(function () {
                 'group/:id': 'groupDetails',
                 'create-group': 'createGroup',
                 'group/edit/:id': 'editGroup',
-                'create-equipment/:id': 'createEquipment',
-                'edit-equipment/:id': 'editEquipment'
+                'category/:id': "recipeList"
             },
 
             login: function () {
@@ -628,18 +603,6 @@ $(function () {
                 }
             },
 
-            createEquipment: function (groupId) {
-                if (this.checkAuthorized()) {
-                    this.loadView(new CreateEquipmentView({'groupId': groupId}));
-                }
-            },
-
-            editEquipment: function (equipmentId) {
-                if (this.checkAuthorized()) {
-                    this.loadView(new CreateEquipmentView({'isUpdate': true, 'equipmentId': equipmentId}));
-                }
-            },
-
             editGroup: function (groupId) {
                 if (this.checkAuthorized()) {
                     this.loadView(new EditGroupView({'groupId': groupId}));
@@ -651,6 +614,15 @@ $(function () {
                     this.loadView(new GroupsListView());
                 }
             },
+
+            recipeList: function (catId) {
+                    
+                    if (this.checkAuthorized()) {
+                        this.loadView(new RecipeListView({'groupId': catId}));
+                    alert(catId);
+            }
+        },
+
 
             groupDetails: function (id) {
                 if (this.checkAuthorized()) {
