@@ -91,6 +91,8 @@ var EquipmentCollection = Parse.Collection.extend(
 );
 
 // views
+
+//********************************************************************************************   LOGIN VIEW
 var LoginView = Parse.View.extend({
 
     el:'#content',
@@ -116,7 +118,7 @@ var LoginView = Parse.View.extend({
 
         Parse.User.logIn(username, password, {
             success:function () {
-                router.navigate('groups', true);
+                router.navigate('categories', true);
 
                 self.$("#signInForm button").removeAttr('disabled');
             },
@@ -136,6 +138,8 @@ var LoginView = Parse.View.extend({
     }
 
 });
+
+//********************************************************************************************   ADD FILES
 
 var FilesView = Parse.View.extend({
     el:'#content',
@@ -197,6 +201,8 @@ var FilesView = Parse.View.extend({
 
 });
 
+
+//********************************************************************************************   SIGNUP
 var SignUpView = Parse.View.extend({
 
     el:'#content',
@@ -243,7 +249,7 @@ var SignUpView = Parse.View.extend({
                 'notes':notes},
             {
                 success:function () {
-                    router.navigate('groups', true);
+                    router.navigate('categories', true);
                 },
 
                 error:function () {
@@ -254,6 +260,8 @@ var SignUpView = Parse.View.extend({
     }
 
 });
+
+//********************************************************************************************   FORGOT PASSWORD
 
 var ForgotPasswordView = Parse.View.extend(
     {
@@ -279,6 +287,9 @@ var ForgotPasswordView = Parse.View.extend(
 
     }
 );
+
+
+//********************************************************************************************   CATEGORY LIST
 
 var CategoriesListView = Parse.View.extend({
 
@@ -326,7 +337,7 @@ var CategoriesListView = Parse.View.extend({
 
 });
 
-//RECIPE LIST VIEW*************************************************************************************************************
+//********************************************************************************************   RECIPE LIST IN CATEGORY
 var RecipeListView = Parse.View.extend({
 
     defaults:{
@@ -361,6 +372,12 @@ var RecipeListView = Parse.View.extend({
     },
 
     render:function () {
+        this.recipes.each(function (recipe) {
+            if (recipe.get('imageFile') != null) {
+                recipe.set({'photo':recipe.get('imageFile').url()});
+            }
+        });    
+
         $(this.el).html(_.template($('#recipeListTemplate').html(),
             {
                 'recipes':this.recipes.toJSON()
@@ -413,6 +430,7 @@ var RecipeListView = Parse.View.extend({
             this.steps.bind('reset', this.render);
             if (this.recipeId && this.recipeId != '') {
                 this.steps.query.equalTo("recipeId", this.recipeId);
+                this.steps.query.ascending("STEP");
             }
 
             this.recipe = new recipe({'objectId':this.recipeId});
@@ -710,7 +728,8 @@ var AppRouter = Parse.Router.extend({
             'category/edit/:id':'editCategory',
             'category/:id':"recipeList",
             'files':'handleFiles',
-            'recipe/:id':"recipeView"
+            'recipe/:id':"recipeView",
+            'create-recipe':"newrecipe"
         },
 
 //recipe view
@@ -723,6 +742,10 @@ var AppRouter = Parse.Router.extend({
 
         login:function () {
             this.loadView(new LoginView());
+        },
+
+        newrecipe:function () {
+            alert("Coming Soon");
         },
 
         handleFiles:function () {
