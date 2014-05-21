@@ -1,0 +1,1278 @@
+<!DOCTYPE html>
+<html lang="en" class="no-js">
+
+<!--[if IE 8]> <html lang="en" class="ie8 no-js"> <![endif]-->
+<!--[if IE 9]> <html lang="en" class="ie9 no-js"> <![endif]-->
+<!--[if !IE]><!-->
+
+<head>
+    <!-- meta -->
+    <meta charset="utf-8"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+    <meta content="" name="description"/>
+    <meta content="" name="author"/>
+    <!-- end of meta -->
+
+    <title>No Bugs | Management System</title>
+
+    <!-- BEGIN GLOBAL MANDATORY STYLES -->
+    <link href="http://fonts.googleapis.com/css?family=Open+Sans:400,300,600,700&subset=all" rel="stylesheet" type="text/css"/>
+    <link href="metronic_assets/global/plugins/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css"/>
+    <link href="metronic_assets/global/plugins/simple-line-icons/simple-line-icons.min.css" rel="stylesheet" type="text/css"/>
+    <link href="metronic_assets/global/plugins/bootstrap/css/bootstrap.min.css" rel="stylesheet" type="text/css"/>
+    <link href="metronic_assets/global/plugins/uniform/css/uniform.default.css" rel="stylesheet" type="text/css"/>
+    <!-- END GLOBAL MANDATORY STYLES -->
+
+    <!-- BEGIN THEME STYLES -->
+    <link href="metronic_assets/global/css/components.css" rel="stylesheet" type="text/css"/>
+    <link href="metronic_assets/global/css/plugins.css" rel="stylesheet" type="text/css"/>
+    <link href="metronic_assets/admin/layout/css/layout.css" rel="stylesheet" type="text/css"/>
+    <link id="style_color" href="metronic_assets/admin/layout/css/themes/default.css" rel="stylesheet" type="text/css"/>
+    <link href="metronic_assets/admin/layout/css/custom.css" rel="stylesheet" type="text/css"/>
+
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+</head>
+
+<body>
+
+<div id="parse_com_app">
+
+    <div class="title">
+        
+    </div>
+
+    <div id="content">
+
+    </div>
+
+</div>
+
+<!-- Templates -->
+
+                                                                                                                            <!-- LOGIN -->
+
+<script type="text/template" id="loginTemplate">
+<div class="container">
+        <div class="logo">
+        <a href="index.html">
+        <img src="logo.png" alt=""/>
+        </a>
+        </div>
+    <!-- END LOGO -->
+<!-- BEGIN SIDEBAR TOGGLER BUTTON -->
+<div class="menu-toggler sidebar-toggler">
+</div>
+<!-- END SIDEBAR TOGGLER BUTTON -->
+<!-- BEGIN LOGIN -->
+<div class="content">
+
+
+<!-- BEGIN LOGIN FORM -->
+
+    <form id="signInForm" class="login-form" role="form">
+        <h3 class="form-title">Login to your account</h3>
+        <div class="alert alert-danger display-hide">
+            <button class="close" data-close="alert"></button>
+            <span>
+            Enter any username and password. </span>
+        </div>
+        <div class="form-group">
+            <!--ie8, ie9 does not support html5 placeholder, so we just show field title for that-->
+            <label class="control-label visible-ie8 visible-ie9">Username</label>
+            <div class="input-icon">
+                <i class="fa fa-user"></i>
+                <input class="form-control placeholder-no-fix" type="text" autocomplete="off" placeholder="Username" id="signin-username"/>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="control-label visible-ie8 visible-ie9">Password</label>
+            <div class="input-icon">
+                <i class="fa fa-lock"></i>
+                <input class="form-control placeholder-no-fix" type="password" autocomplete="off" placeholder="Password" id="signin-password"/>
+            </div>
+        </div>
+
+            <div class="form-actions">
+
+                <button type="button" class="btn green pull-right" id="signIn">
+                Login <i class="m-icon-swapright m-icon-white"></i>
+                </button>
+            </div>
+
+        
+        <div class="forget-password">
+            <h4>Forgot your password ?</h4>
+            <p>
+                 no worries, click <a href="#/forgotPassword" id="forget-password">
+                here </a>
+                to reset your password.
+            </p>
+        </div>
+        <div class="create-account">
+            <p>
+                 Dont have an account yet?&nbsp; <a href="#/signup">
+                Create an account </a>
+            </p>
+        </div>
+    </form>
+
+    </div>
+
+
+
+</script>
+
+                                                                                                                            <!-- SIGN UP -->
+<script type="text/template" id="signUpTemplate">
+    <div class="container">
+
+        <form id="signUpForm" class="form-signin" role="form">
+            <h2 class="form-signup-heading">Please fill info:</h2>
+
+            <div id="signup-error" class="error" style="display:none"></div>
+            <input type="email" class="form-control" id="signup-email" placeholder="Email" required autofocus>
+            <input type="email" class="form-control" id="signup-email2" placeholder="Verify Email address" required>
+            <input type="password" class="form-control" id="signup-password" placeholder="Password" required>
+            <input type="password" class="form-control" id="signup-password2" placeholder="Verify Password" required>
+            <input type="text" class="form-control" id="signup-firstname" placeholder="First Name" required>
+            <input type="text" class="form-control" id="signup-lastname" placeholder="Last Name" required>
+            <input type="text" class="form-control" id="signup-phone" placeholder="Phone" required>
+
+            <button class="btn btn-lg btn-primary btn-block form-button" id="btn_signUp" type="button">Sign Up</button>
+        </form>
+
+    </div>
+</script>
+
+                                                                                                                            <!-- Forgot Password -->
+<script type="text/template" id="forgotPasswordTemplate">
+    <div class="container">
+
+        <form class="form-signin" role="form">
+            <h2 class="form-signin-heading">Please password restore details: </h2>
+            <input type="text" class="form-control" id="emailreset" placeholder="Email address" required autofocus>
+            <button id="forgotPassword" class="btn btn-lg btn-primary btn-block form-button" type="button">Restore Password
+            </button>
+        </form>
+
+    </div>
+</script>
+
+                                                                                                                            <!-- GROUP LIST -->
+<script type="text/template" id="groupListTemplate">
+    <div class="container">
+
+        <div class="portlet box grey-cascade">
+                        <div class="portlet-title">
+                            <div class="caption">
+                                <i class="fa fa-cogs"></i>My Groups:
+                            </div>
+                            <div class="actions">
+                                <a href="#/create-group" class="btn btn-default btn-sm">
+                                <i class="fa fa-plus"></i> Add Group </a>
+                                <button type="button" id="logoutBtn" class="btn btn-default btn-sm">
+                                <i class="fa fa-sign-out"></i> Logout </a>
+                            </div>
+                        </div>
+                        <div class="portlet-body">
+                            
+
+                            <table class="table table-striped table-bordered table-hover" id="sample_1">
+                                <thead>
+                                <tr>
+                                    <th>
+                                         Company Name
+                                    </th>
+                                    <th>
+                                         Access Info
+                                    </th>
+
+                                </tr>
+                                </thead>
+
+                                    <tbody>
+
+                                        <% if (groups.length == 0) { %>
+                                        <tr>
+                                            <td colspan="2" class="title"> No categories</td>
+                                        </tr>
+                                        <% } else { %>
+                                        <!-- else begin -->
+                                        <% _.each(groups, function(GROUP) { %>
+                                        <tr>
+                                            <td style="width: 80%">
+
+                                                <h2>
+                                                    
+                                                    <%= GROUP.GROUP_NAME %> <br/>
+                                                </h2>
+                                            </td>
+
+                                             <td style="vertical-align:middle">
+                                            <a href="#/group/<%=GROUP.objectId %>" class="btn btn-success">Access Group</a>
+                                            </td>
+                                        </tr>
+                                        <% }); %>
+
+                                        <!-- end of else -->
+                                        <% } %>
+
+                                    </tbody>
+                              </table>
+                         </div>     
+                        </div>
+                    
+
+
+
+   
+</script>
+
+
+                                                                                                                            <!-- ADD NEW GROUP -->
+<script type="text/template" id="groupNew">
+    <div class="container">
+
+        <div class="portlet box green">
+                      <div class="portlet-title">
+                               <div class="caption">
+                                    <i class="fa fa-add"></i>Add a New Company or Group </div>
+       
+                                </div>
+
+            <div class="portlet-body form">
+                                        <!-- BEGIN FORM-->
+                    <form action="#" class="form-horizontal">
+                        <div class="form-body">
+                            <div class="form-group">
+                                <label class="col-md-3 control-label">Company Name:</label>
+                                <div class="col-md-4">
+                                    <input type="text" class="form-control" id="new-group-name" placeholder="Enter Company Name" required autofocus>
+                                    <span class="help-block">
+                                    Enter the name of your company or group </span>
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                            <label class="col-md-3 control-label">Dropdown</label>
+                                <div class="col-md-4">
+                                <select class="form-control">
+                                    <option>ACTIVE</option>
+                                    <option>INACTIVE</option>
+                                    <option>OTHER</option>
+                                </select>
+                                </div>
+                             </div>
+
+                        </div>
+                        <div class="form-actions fluid">
+                            <div class="col-md-offset-3 col-md-9">
+                                <div id="create-category-error" class="error" style="display:none"></div>
+                                <button type="submit" class="btn blue" id="btn_saveGroup">Create New Company</button>
+                                <a href="#/groups" class="btn default">Cancel</a>
+                            </div>
+                        </div>
+                    </form>
+
+    </div>
+</script>
+
+
+                                                                                                                            <!-- DASHBOARD -->
+<script type="text/template" id="dashboardTemplate">
+
+ 
+
+<div class="page-header navbar navbar-fixed-top">
+    <!-- BEGIN HEADER INNER -->
+    <div class="page-header-inner">
+        <!-- BEGIN LOGO -->
+        <div class="page-logo">
+            <a href="index.html">
+            <img src="logo.png" alt="logo" class="logo-default"/>
+            </a>
+            <div class="menu-toggler sidebar-toggler hide">
+                <!-- DOC: Remove the above "hide" to enable the sidebar toggler button on header -->
+            </div>
+        </div>
+        <!-- END LOGO -->
+
+        <!-- BEGIN RESPONSIVE MENU TOGGLER -->
+        <div class="menu-toggler responsive-toggler" data-toggle="collapse" data-target=".navbar-collapse">
+        </div>
+        <!-- END RESPONSIVE MENU TOGGLER -->
+        <!-- BEGIN TOP NAVIGATION MENU -->
+        <div class="top-menu">
+            <ul class="nav navbar-nav pull-right">
+                <!-- BEGIN NOTIFICATION DROPDOWN -->
+                <li class="dropdown dropdown-extended dropdown-notification" id="header_notification_bar">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" data-hover="dropdown" data-close-others="true">
+                    <i class="fa fa-warning"></i>
+                    <span class="badge badge-default">
+                    7 </span>
+                    </a>
+                    <ul class="dropdown-menu">
+                        <li>
+                            <p>
+                                 You have 14 new notifications
+                            </p>
+                        </li>
+                        <li>
+                            <ul class="dropdown-menu-list scroller" style="height: 250px;">
+                                <li>
+                                    <a href="#">
+                                    <span class="label label-sm label-icon label-success">
+                                    <i class="fa fa-plus"></i>
+                                    </span>
+                                    New user registered. <span class="time">
+                                    Just now </span>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="#">
+                                    <span class="label label-sm label-icon label-danger">
+                                    <i class="fa fa-bolt"></i>
+                                    </span>
+                                    Server #12 overloaded. <span class="time">
+                                    15 mins </span>
+                                    </a>
+                                </li>
+
+                            </ul>
+                        </li>
+                        <li class="external">
+                            <a href="#">
+                            See all notifications <i class="m-icon-swapright"></i>
+                            </a>
+                        </li>
+                    </ul>
+                </li>
+                <!-- END NOTIFICATION DROPDOWN -->
+
+                <!-- BEGIN TODO DROPDOWN -->
+                <li class="dropdown dropdown-extended dropdown-tasks" id="header_task_bar">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" data-hover="dropdown" data-close-others="true">
+                    <i class="fa fa-tasks"></i>
+                    <span class="badge badge-default">
+                    3 </span>
+                    </a>
+                    <ul class="dropdown-menu extended tasks">
+                        <li>
+                            <p>
+                                 You have 12 pending tasks
+                            </p>
+                        </li>
+                        <li>
+                            <ul class="dropdown-menu-list scroller" style="height: 250px;">
+                                <li>
+                                    <a href="#">
+                                    <span class="task">
+                                    <span class="desc">
+                                    New release v1.2 </span>
+                                    <span class="percent">
+                                    30% </span>
+                                    </span>
+                                    <span class="progress">
+                                    <span style="width: 40%;" class="progress-bar progress-bar-success" aria-valuenow="40" aria-valuemin="0" aria-valuemax="100">
+                                    <span class="sr-only">
+                                    40% Complete </span>
+                                    </span>
+                                    </span>
+                                    </a>
+                                </li>
+
+                            </ul>
+                        </li>
+                        <li class="external">
+                            <a href="#">
+                            See all tasks <i class="m-icon-swapright"></i>
+                            </a>
+                        </li>
+                    </ul>
+                </li>
+                <!-- END TODO DROPDOWN -->
+                <!-- BEGIN USER LOGIN DROPDOWN -->
+                <!-- BEGIN USER LOGIN DROPDOWN -->
+                <li class="dropdown dropdown-user">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" data-hover="dropdown" data-close-others="true">
+                    <img alt="" class="img-circle" src="metronic_assets/admin/layout/img/avatar3_small.jpg"/>
+                    <span class="username">
+                    Jay </span>
+                    <i class="fa fa-angle-down"></i>
+                    </a>
+                    <ul class="dropdown-menu">
+                        <li>
+                            <a href="extra_profile.html">
+                            <i class="fa fa-user"></i> My Profile </a>
+                        </li>
+                        <li>
+                            <a href="page_calendar.html">
+                            <i class="fa fa-calendar"></i> My Calendar </a>
+                        </li>
+                        <li>
+                            <a href="inbox.html">
+                            <i class="fa fa-envelope"></i> My Inbox <span class="badge badge-danger">
+                            3 </span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="#">
+                            <i class="fa fa-tasks"></i> My Tasks <span class="badge badge-success">
+                            7 </span>
+                            </a>
+                        </li>
+                        <li class="divider">
+                        </li>
+                        <li>
+                            <a href="extra_lock.html">
+                            <i class="fa fa-lock"></i> Lock Screen </a>
+                        </li>
+                        <li>
+                            <a href="login.html">
+                            <i class="fa fa-key"></i> Log Out </a>
+                        </li>
+                    </ul>
+                </li>
+                <!-- END USER LOGIN DROPDOWN -->
+                <!-- END USER LOGIN DROPDOWN -->
+            </ul>
+        </div>
+        <!-- END TOP NAVIGATION MENU -->
+    </div>
+    <!-- END HEADER INNER -->
+</div>
+<!-- END HEADER -->
+
+
+
+
+
+
+
+<div class="clearfix">
+</div>
+<!-- BEGIN CONTAINER -->
+<div class="page-container">
+    <!-- BEGIN SIDEBAR -->
+    <div class="page-sidebar-wrapper">
+        <!-- DOC: Set data-auto-scroll="false" to disable the sidebar from auto scrolling/focusing -->
+        <!-- DOC: Change data-auto-speed="200" to adjust the sub menu slide up/down speed -->
+        <div class="page-sidebar navbar-collapse collapse">
+            <!-- BEGIN SIDEBAR MENU -->
+            <ul class="page-sidebar-menu" data-auto-scroll="false" data-auto-speed="200">
+                <!-- DOC: To remove the sidebar toggler from the sidebar you just need to completely remove the below "sidebar-toggler-wrapper" LI element -->
+                <li class="sidebar-toggler-wrapper">
+                    <!-- BEGIN SIDEBAR TOGGLER BUTTON -->
+                    <div class="sidebar-toggler">
+                    </div>
+                    <!-- BEGIN SIDEBAR TOGGLER BUTTON -->
+                </li>
+                <!-- DOC: To remove the search box from the sidebar you just need to completely remove the below "sidebar-search-wrapper" LI element -->
+                <li class="sidebar-search-wrapper hidden-xs">
+                    <!-- BEGIN RESPONSIVE QUICK SEARCH FORM -->
+                    <!-- DOC: Apply "sidebar-search-bordered" class the below search form to have bordered search box -->
+                    <!-- DOC: Apply "sidebar-search-bordered sidebar-search-solid" class the below search form to have bordered & solid search box -->
+                    <form class="sidebar-search" action="extra_search.html" method="POST">
+                        <a href="javascript:;" class="remove">
+                        </a>
+                        <div class="input-group">
+                            <input type="text" class="form-control" placeholder="Search...">
+                            <span class="input-group-btn">
+                            <!-- DOC: value=" ", that is, value with space must be passed to the submit button -->
+                            <input class="btn submit" type="button" type="button" value=" "/>
+                            </span>
+                        </div>
+                    </form>
+                    <!-- END RESPONSIVE QUICK SEARCH FORM -->
+                </li>
+                <li class="start ">
+                    <a href="index.html">
+                    <i class="fa fa-home"></i>
+                    <span class="title">Dashboard</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="javascript:;">
+                    <i class="fa fa-shopping-cart"></i>
+                    <span class="title">Add New Customer</span>
+                    <span class="arrow "></span>
+                    </a>
+
+                </li>
+                <li>
+                    <a href="javascript:;">
+                    <i class="fa fa-shopping-cart"></i>
+                    <span class="title">Service System</span>
+                    <span class="arrow "></span>
+                    </a>
+
+                </li>
+                <li>
+                    <a href="javascript:;">
+                    <i class="fa fa-cogs"></i>
+                    <span class="title">Manage People</span>
+                    <span class="arrow "></span>
+                    </a>
+                </li>
+
+
+            </ul>
+            <!-- END SIDEBAR MENU -->
+        </div>
+    </div>
+    <!-- END SIDEBAR -->
+
+
+
+
+
+
+        <!-- BEGIN CONTENT -->
+    <div class="page-content-wrapper">
+        <div class="page-content">
+            <!-- BEGIN PAGE HEADER-->
+            <div class="row">
+                <div class="col-md-12">
+                    <!-- BEGIN PAGE TITLE & BREADCRUMB-->
+                    <h3 class="page-title">
+                    Dashboard <small>statistics and more</small>
+                    </h3>
+                    <ul class="page-breadcrumb breadcrumb">
+                        <li>
+                            <i class="fa fa-home"></i>
+                            <a href="index.html">Home</a>
+                            <i class="fa fa-angle-right"></i>
+                        </li>
+                        <li>
+                            <a href="#">Dashboard</a>
+                        </li>
+                        <li class="pull-right">
+                            <div id="dashboard-report-range" class="dashboard-date-range tooltips" data-placement="top" data-original-title="Change dashboard date range">
+                                <i class="fa fa-calendar"></i>
+                                <span></span>
+                                <i class="fa fa-angle-down"></i>
+                            </div>
+                        </li>
+                    </ul>
+                    <!-- END PAGE TITLE & BREADCRUMB-->
+                </div>
+            </div>
+            <!-- END PAGE HEADER-->
+            <!-- BEGIN DASHBOARD STATS -->
+            <div class="row">
+                <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
+                    <div class="dashboard-stat blue-madison">
+                        <div class="visual">
+                            <i class="fa fa-comments"></i>
+                        </div>
+                        <div class="details">
+                            <div class="number">
+                                 134
+                            </div>
+                            <div class="desc">
+                                 Active Customers
+                            </div>
+                        </div>
+                        <a class="more" href="#">
+                        View Customers<i class="m-icon-swapright m-icon-white"></i>
+                        </a>
+                    </div>
+                </div>
+                <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
+                    <div class="dashboard-stat red-intense">
+                        <div class="visual">
+                            <i class="fa fa-bar-chart-o"></i>
+                        </div>
+                        <div class="details">
+                            <div class="number">
+                                 257
+                            </div>
+                            <div class="desc">
+                                 Active Systems
+                            </div>
+                        </div>
+                        <a class="more" href="#">
+                        View more <i class="m-icon-swapright m-icon-white"></i>
+                        </a>
+                    </div>
+                </div>
+                <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
+                    <div class="dashboard-stat green-haze">
+                        <div class="visual">
+                            <i class="fa fa-shopping-cart"></i>
+                        </div>
+                        <div class="details">
+                            <div class="number">
+                                 549
+                            </div>
+                            <div class="desc">
+                                 Services
+                            </div>
+                        </div>
+                        <a class="more" href="#">
+                        View more <i class="m-icon-swapright m-icon-white"></i>
+                        </a>
+                    </div>
+                </div>
+                <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
+                    <div class="dashboard-stat purple-plum">
+                        <div class="visual">
+                            <i class="fa fa-globe"></i>
+                        </div>
+                        <div class="details">
+                            <div class="number">
+                                 33
+                            </div>
+                            <div class="desc">
+                                 Upcoming Service Appointments
+                            </div>
+                        </div>
+                        <a class="more" href="#">
+                        View more <i class="m-icon-swapright m-icon-white"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+            <!-- END DASHBOARD STATS -->
+            <div class="clearfix">
+            </div>
+            <div class="row">
+                <div class="col-md-6 col-sm-6">
+                    
+                </div>
+                <div class="col-md-6 col-sm-6">
+                   
+                </div>
+            </div>
+            <div class="clearfix">
+            </div>
+            <div class="row ">
+                <div class="col-md-6 col-sm-6">
+                    <div class="portlet box blue-steel">
+                        <div class="portlet-title">
+                            <div class="caption">
+                                <i class="fa fa-bell-o"></i>New Customers
+                            </div>
+                        </div>
+                        <div class="portlet-body">
+                            <div class="scroller" style="height: 300px;" data-always-visible="1" data-rail-visible="0">
+
+                            <!-- START CUSTOMER LIST -->
+
+                            <table class="table table-striped table-bordered table-hover" id="sample_1">
+                                <thead>
+                                <tr>
+                                    <th>
+                                         Customer Name
+                                    </th>
+                                    <th>
+                                         Email
+                                    </th>
+                                    <th>
+                                         Cell #
+                                    </th>
+                                </tr>
+                                </thead>
+
+                                    <tbody>
+
+                                        <% if (customers.length == 0) { %>
+                                        <tr>
+                                            <td colspan="2" class="title"> No activities</td>
+                                        </tr>
+                                        <% } else { %>
+                                        <!-- else begin -->
+                                        <% _.each(customers, function(CUSTOMER) { %>
+                                        <tr>
+                                            <td>
+                
+                                                    <%= CUSTOMER.CUST_FNAME %> <%= CUSTOMER.CUST_LNAME %> <br/>
+                                                
+                                            </td>
+                                            <td>
+                                                    <a href="mailto:<%= CUSTOMER.CUST_EMAIL %>"><%= CUSTOMER.CUST_EMAIL %></a>
+                                                
+                                            </td>
+                                                <td>
+
+                                                    <%= CUSTOMER.CUST_CELL %> <br/>
+                                                
+                                            </td>
+
+                                        </tr>
+                                        <% }); %>
+
+                                        <!-- end of else -->
+                                        <% } %>
+
+                                    </tbody>
+                              </table>
+
+
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6 col-sm-6">
+                    <div class="portlet box green-haze tasks-widget">
+                        <div class="portlet-title">
+                            <div class="caption">
+                                <i class="fa fa-check"></i>Recent Activity
+                            </div>
+                            
+                            
+                        </div>
+                        <div class="portlet-body">
+                            <div class="task-content">
+                                <div class="scroller" style="height: 305px;" data-always-visible="1" data-rail-visible1="1">
+                                    <!-- START ACTIVITY LIST -->
+                                    <table class="table table-striped table-bordered table-hover" id="sample_1">
+                                <thead>
+                                <tr>
+                                    <th>
+                                         Activity Type
+                                    </th>
+                                    <th>
+                                         Date
+                                    </th>
+
+                                </tr>
+                                </thead>
+
+                                    <tbody>
+
+                                        <% if (activities.length == 0) { %>
+                                        <tr>
+                                            <td colspan="2" class="title"> No activities</td>
+                                        </tr>
+                                        <% } else { %>
+                                        <!-- else begin -->
+                                        <% _.each(activities, function(ACTIVITY) { %>
+                                        <tr>
+                                            <td>
+                
+                                                    <%= ACTIVITY.TYPE %> <br/>
+                                                
+                                            </td>
+                                                                                        <td>
+                
+                                                    <%= ACTIVITY.createdAt %> <br/>
+                                                
+                                            </td>
+
+                                        </tr>
+                                        <% }); %>
+
+                                        <!-- end of else -->
+                                        <% } %>
+
+                                    </tbody>
+                              </table>
+                            
+                            
+                                </div>
+                            </div>
+                            
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="clearfix">
+            </div>
+
+            <div class="portlet box blue">
+        <div class="portlet-title">
+            <div class="caption">
+                
+                <i class="fa fa-gift"></i>Company Information - <%= group.GROUP_NAME %>
+
+
+            </div>
+
+        </div>
+        <div class="portlet-body form">
+            <!-- BEGIN FORM-->
+            <form class="form-horizontal" role="form">
+                <div class="form-body">
+                    <h2 class="margin-bottom-20"> Company Name - <%= group.GROUP_NAME %></h2>
+                    <h3 class="form-section">Contact Info</h3>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label class="control-label col-md-3">First Name:</label>
+                                <div class="col-md-9">
+                                    <p class="form-control-static">
+                                         Bob
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                        <!--/span-->
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label class="control-label col-md-3">Last Name:</label>
+                                <div class="col-md-9">
+                                    <p class="form-control-static">
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                        <!--/span-->
+                    </div>
+                    <!--/row-->
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label class="control-label col-md-3">Gender:</label>
+                                <div class="col-md-9">
+                                    <p class="form-control-static">
+                                         Male
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                        <!--/span-->
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label class="control-label col-md-3">Date of Birth:</label>
+                                <div class="col-md-9">
+                                    <p class="form-control-static">
+                                         20.01.1984
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                        <!--/span-->
+                    </div>
+                    <!--/row-->
+
+            </form>
+            <!-- END FORM-->
+           
+                </div>
+                </div>
+            </div>
+        <div class="portlet box green">
+                      <div class="portlet-title">
+                               <div class="caption">
+                                    <i class="fa fa-add"></i>Add New Customer</div>
+       
+                                </div>
+
+            <div class="portlet-body form">
+                                        <!-- BEGIN FORM-->
+                    <form class="form-horizontal">
+                        <div class="form-body">
+                            <div class="form-group">
+                                <label class="col-md-3 control-label">Name:</label>
+                                <div class="col-md-4">
+                                    <input type="text" class="form-control" id="customer_fname" placeholder="First Name" required autofocus>
+                                    <input type="text" class="form-control" id="customer_lname" placeholder="Last Name" required autofocus>
+
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label class="col-md-3 control-label">Phone:</label>
+                                <div class="col-md-4">
+                                    <input type="text" class="form-control" id="customer_cell" placeholder="Cell" required autofocus>
+                                    <input type="text" class="form-control" id="customer_home" placeholder="Home" required autofocus>
+
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label class="col-md-3 control-label">Email:</label>
+                                <div class="col-md-4">
+                                    <input type="text" class="form-control" id="customer_email" placeholder="email" required autofocus>
+
+
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label class="col-md-3 control-label">Address:</label>
+                                <div class="col-md-4">
+                                    <input type="text" class="form-control" id="customer_billing" placeholder="Billing" required autofocus>
+                                    <input type="text" class="form-control" id="customer_city" placeholder="City" required autofocus>
+                                    <input type="text" class="form-control" id="customer_state" placeholder="State" required autofocus>
+                                    <input type="text" class="form-control" id="customer_zip" placeholder="Zip" required autofocus>
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                            <label class="col-md-3 control-label">Status:</label>
+                                <div class="col-md-4">
+                                <select class="form-control">
+                                    <option>ACTIVE</option>
+                                    <option>INACTIVE</option>
+                                    <option>OTHER</option>
+                                </select>
+                                </div>
+                             </div>
+
+                        </div>
+                        <div class="form-actions fluid">
+                            <div class="col-md-offset-3 col-md-9">
+                                <div id="create-category-error" class="error" style="display:none"></div>
+                                <button type="button" class="btn blue" id="btn_addCustomer">Add Customer to System</button>
+                                <a href="#/groups" class="btn default">Cancel</a>
+                            </div>
+                        </div>
+                    </form>
+
+             </div>
+            </div>
+
+
+            </div>
+        </div>
+    </div>
+
+
+    <!-- END CONTENT -->
+</div>
+<!-- END CONTAINER -->
+<!-- BEGIN FOOTER -->
+<div class="page-footer">
+    <div class="page-footer-inner">
+         2014 &copy; Metronic by keenthemes.
+    </div>
+    <div class="page-footer-tools">
+        <span class="go-top">
+        <i class="fa fa-angle-up"></i>
+        </span>
+    </div>
+</div>
+<!-- END FOOTER -->
+
+
+            
+
+</div>
+
+</div>
+
+</script>
+
+
+
+
+<script type="text/template" id="filesTemplate">
+    <div class="container">
+
+        <form class="form-signin" role="form">
+            <h2 class="form-signin-heading">Please choose file to upload: </h2>
+            <input type="file" id="imageFile"/>
+
+            <div id="upload-file-error" class="error" style="display:none"></div>
+            <button type="button" class="btn btn-lg btn-primary btn-block form-button" id="uploadFile">Upload Image
+            </button>
+        </form>
+
+    </div>
+</script>
+
+<script type="text/template" id="recipeDetailTemplate">
+    <div class="container">
+
+        <div class="panel panel-default">
+            <div class="panel-heading">
+
+                <h3 class="panel-title">
+
+                <a href="#/category/<%= recipe.categoryId %>" class="btn btn-lg btn-primary" id="back-to-recipe-list">Back</button></a>
+                 
+                 <h3 class="panel-title" style="text-align:center">
+
+                 Recipe Details</h3>
+
+            </div>
+
+                     
+            <div class="panel-body">
+
+            <div class="row">
+                 <div class="col-md-4">
+
+    
+                         <table class="table table-bordered table-responsive">
+                                 <thead>
+                            <tr>
+
+                                <h2>
+                                    <th colspan="2" style="text-align: center">INGREDIENTS</th>
+
+                                </h2>
+                            </tr>
+                            </thead>
+
+                            <tbody>
+
+                            <% if (ingredients.length == 0) { %>
+                            <tr>
+                                <td colspan="2" class="title"> No ingredients</td>
+                            </tr>
+                            <% } else { %>
+                            <!-- else begin -->
+                            <% _.each(ingredients, function(INGREDIENT) { %>
+                            <tr>
+                                <td style="width: 30%">
+
+                                    <%= INGREDIENT.NAME %> <br/>
+
+                                </td>
+
+                            </tr>
+                            <% }); %>
+
+                            <!-- end of else -->
+                            <% } %>
+
+                            </tbody>
+                        </table>
+
+                 </div>
+
+                <div class="col-md-8">
+
+            <h3><%= recipe.NAME %></h3>
+            <h5>Original Cook: <h4><%= recipe.Cook %></h4></h5>
+
+
+                    <table class="table">
+                <thead>
+                <tr>
+
+                    <h2>
+                        <th colspan="2" style="text-align: left">Steps:</th>
+
+                    </h2>
+                </tr>
+                </thead>
+
+                <tbody>
+
+                <% if (ingredients.length == 0) { %>
+                <tr>
+                    <td colspan="2" class="title"> No ingredients</td>
+                </tr>
+                <% } else { %>
+                <!-- else begin -->
+                <% _.each(steps, function(STEPS) { %>
+                <tr>
+                    <td style="width: 70%">
+                            <%= STEPS.STEP %>
+                            <%= STEPS.DESCRIPTION %> <br/>
+
+                    </td>
+
+                </tr>
+                <% }); %>
+
+                <!-- end of else -->
+                <% } %>
+
+                </tbody>
+            </table>
+
+
+                </div>
+            
+
+
+
+
+            </div>
+
+       
+  </div>
+</div>
+    </div>
+</script>
+
+
+
+<script type="text/template" id="recipeListTemplate">
+    <div class="container">
+
+            <table class="table table-bordered">
+                <thead>
+                <tr>
+
+                    <h2>
+                    <a href="#/" class="btn btn-lg btn-primary" id="back-to-recipe-list">Back</button></a>
+                        <th colspan="2" style="text-align: center">Select a Recipe to View</th>
+
+                    </h2>
+                </tr>
+                </thead>
+
+                <tbody>
+
+                <% if (recipes.length == 0) { %>
+                <tr>
+                    <td colspan="2" class="title"> no recipes</td>
+                </tr>
+                <% } else { %>
+                <!-- else begin -->
+                <% _.each(recipes, function(recipe) { %>
+                <tr>
+                    <td style="width: 80%">
+
+                        <h2>
+                            <img width="120" src="<%= recipe.photo %>" class="img-rounded">
+                            <%= recipe.NAME %> <br/>
+                            
+                        </h2>
+
+                        <h5><%= recipe.Cook %></h5>
+                           <span class="badge pull-right">
+                            <%=recipe.Cook_Time%> 
+                            </span>
+
+                    </td>
+
+                    <td style="vertical-align:middle">
+                     <a href="#/recipe/<%=recipe.objectId %>" class="btn btn-success"> <span class="glyphicon glyphicon-cutlery"></span> View Recipe</a>
+                        </button
+                    </td>
+                </tr>
+                <% }); %>
+
+                <!-- end of else -->
+                <% } %>
+
+                </tbody>
+            </table>
+
+        <div class="row">
+
+            <div class="col-md-6">
+                <a href="#/create-recipe" id="createRecipe" class="btn btn-primary btn-sm btn-block">Add New Recipe</a>
+            </div>
+
+        </div>
+    </div>
+
+</script>
+
+
+
+
+
+<script type="text/template" id="equipmentEdit">
+    <div class="container">
+
+        <form class="form-signin" role="form">
+            <h2 class="form-signup-heading">Please fill equipment details:</h2>
+            <input type="text" class="form-control" id="new-equipment-name" placeholder="Name" required autofocus/>
+            <input type="text" class="form-control" id="new-equipment-type" placeholder="Type" required/>
+            <input type="text" class="form-control" id="new-equipment-value" placeholder="Value" required/>
+            <input type="text" class="form-control" id="new-equipment-notes" placeholder="Notes" required/>
+
+            <div id="equipment-edit-error" class="error" style="display:none"></div>
+            <button class="btn btn-lg btn-primary btn-block form-button" id="saveEquipment" type="button">Save</button>
+            <button class="btn btn-lg btn-block btn-danger">Cancel</button>
+        </form>
+
+    </div>
+</script>
+
+<script type="text/template" id="computerEdit">
+    <div class="container">
+
+        <form class="form-signin" role="form">
+            <h2 class="form-signup-heading">Please fill equipment details:</h2>
+            <input type="text" class="form-control" id="new-computer-name" placeholder="Name" required autofocus/>
+            <input type="text" class="form-control" id="new-computer-type" placeholder="Type" required/>
+            <input type="text" class="form-control" id="new-computer-value" placeholder="Value" required/>
+            <input type="text" class="form-control" id="new-computer-notes" placeholder="Notes" required/>
+
+            <div id="computer-edit-error" class="error" style="display:none"></div>
+            <button class="btn btn-lg btn-primary btn-block form-button" id="saveComputer" type="button">Save</button>
+            <button class="btn btn-lg btn-block btn-danger">Cancel</button>
+        </form>
+
+    </div>
+</script>
+
+<script type="text/template" id="groupEdit">
+    <div class="container">
+
+        <form class="form-signin" role="form">
+            <h2 class="form-signup-heading">Please update Group details:</h2>
+            <input type="text" class="form-control" id="edit-group-name" placeholder="Name" value="<%= group.name %>"
+                   required autofocus/>
+            <input type="text" class="form-control" id="edit-group-description" placeholder="Description"
+                   value="<%= group.description %>" required/>
+            <input type="text" class="form-control" id="edit-group-notes" placeholder="Notes" value="<%= group.notes %>"
+                   required/>
+            <input type="file" class="form-control" id="edit-group-logo" placeholder="Logo" required/>
+
+            <div id="save-group-error" class="error" style="display:none"></div>
+            <button class="btn btn-lg btn-primary btn-block form-button" id="saveEditGroup" type="button">Save Group
+            </button>
+            <a href="#/group/<%= group.objectId %>" class="btn btn-lg btn-block btn-danger">Cancel</a>
+        </form>
+
+    </div>
+</script>
+
+
+
+<!-- script files -->
+<script type="text/javascript" src="js/underscore-min.js"></script>
+<script type="text/javascript" src="js/jquery-1.11.min.js"></script>
+<script type="text/javascript" src="js/backbone-min.js"></script>
+<script type="text/javascript" src="js/backbone-local-storage.js"></script>
+<script type="text/javascript" src="js/parse-1.2.13.min.js"></script>
+<script type="text/javascript" src="js/date-format.js"></script>
+<script type="text/javascript" src="js/jquery-ui.js"></script>
+<script type="text/javascript" src="js/main.js"></script>
+
+<!-- BEGIN PAGE LEVEL PLUGINS -->
+<script src="metronic_assets/global/plugins/jqvmap/jqvmap/jquery.vmap.js" type="text/javascript"></script>
+<script src="metronic_assets/global/plugins/jqvmap/jqvmap/maps/jquery.vmap.russia.js" type="text/javascript"></script>
+<script src="metronic_assets/global/plugins/jqvmap/jqvmap/maps/jquery.vmap.world.js" type="text/javascript"></script>
+<script src="metronic_assets/global/plugins/jqvmap/jqvmap/maps/jquery.vmap.europe.js" type="text/javascript"></script>
+<script src="metronic_assets/global/plugins/jqvmap/jqvmap/maps/jquery.vmap.germany.js" type="text/javascript"></script>
+<script src="metronic_assets/global/plugins/jqvmap/jqvmap/maps/jquery.vmap.usa.js" type="text/javascript"></script>
+<script src="metronic_assets/global/plugins/jqvmap/jqvmap/data/jquery.vmap.sampledata.js" type="text/javascript"></script>
+<script src="metronic_assets/global/plugins/flot/jquery.flot.min.js" type="text/javascript"></script>
+<script src="metronic_assets/global/plugins/flot/jquery.flot.resize.min.js" type="text/javascript"></script>
+<script src="metronic_assets/global/plugins/flot/jquery.flot.categories.min.js" type="text/javascript"></script>
+<script src="metronic_assets/global/plugins/jquery.pulsate.min.js" type="text/javascript"></script>
+<script src="metronic_assets/global/plugins/bootstrap-daterangepicker/moment.min.js" type="text/javascript"></script>
+<script src="metronic_assets/global/plugins/bootstrap-daterangepicker/daterangepicker.js" type="text/javascript"></script>
+<!-- IMPORTANT! fullcalendar depends on jquery-ui-1.10.3.custom.min.js for drag & drop support -->
+<script src="metronic_assets/global/plugins/fullcalendar/fullcalendar/fullcalendar.min.js" type="text/javascript"></script>
+<script src="metronic_assets/global/plugins/jquery-easypiechart/jquery.easypiechart.min.js" type="text/javascript"></script>
+<script src="metronic_assets/global/plugins/jquery.sparkline.min.js" type="text/javascript"></script>
+<!-- END PAGE LEVEL PLUGINS -->
+<!-- BEGIN PAGE LEVEL SCRIPTS -->
+<script src="metronic_assets/global/scripts/metronic.js" type="text/javascript"></script>
+<script src="metronic_assets/admin/layout/scripts/layout.js" type="text/javascript"></script>
+<script src="metronic_assets/admin/pages/scripts/index.js" type="text/javascript"></script>
+<script src="metronic_assets/admin/pages/scripts/tasks.js" type="text/javascript"></script>
+<!-- END PAGE LEVEL SCRIPTS -->
+<script>
+jQuery(document).ready(function() {    
+   Metronic.init(); // init metronic core componets
+   Layout.init(); // init layout
+   Index.init();   
+   Index.initDashboardDaterange();
+   Index.initJQVMAP(); // init index page's custom scripts
+   Index.initCalendar(); // init index page's custom scripts
+   Index.initCharts(); // init index page's custom scripts
+   Index.initChat();
+   Index.initMiniCharts();
+   Index.initIntro();
+   Tasks.initDashboardWidget();
+});
+</script>
+
+</body>
+</html>
