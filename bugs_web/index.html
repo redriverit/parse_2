@@ -398,7 +398,7 @@
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown" data-hover="dropdown" data-close-others="true">
                     <img alt="" class="img-circle" src="metronic_assets/admin/layout/img/avatar3_small.jpg"/>
                     <span class="username">
-                    Jay </span>
+                    Jay</span>
                     <i class="fa fa-angle-down"></i>
                     </a>
                     <ul class="dropdown-menu">
@@ -652,7 +652,7 @@
                     <div class="portlet box blue-steel">
                         <div class="portlet-title">
                             <div class="caption">
-                                <i class="fa fa-bell-o"></i>New Customers
+                                <i class="fa fa-male"></i>New Customers
                             </div>
                         </div>
                         <div class="portlet-body">
@@ -719,7 +719,7 @@
                     <div class="portlet box green-haze tasks-widget">
                         <div class="portlet-title">
                             <div class="caption">
-                                <i class="fa fa-check"></i>Recent Activity
+                                <i class="fa fa-info-circle"></i>Recent Activity
                             </div>
                             
                             
@@ -736,6 +736,9 @@
                                     </th>
                                     <th>
                                          Date
+                                    </th>
+                                    <th>
+                                         Performed By
                                     </th>
 
                                 </tr>
@@ -779,90 +782,291 @@
                     </div>
                 </div>
             </div>
+
+
+<div class="clearfix">
+            </div>
+            <div class="row ">
+                <div class="col-md-6 col-sm-6">
+                    <div class="portlet box red-intense">
+                        <div class="portlet-title">
+                            <div class="caption">
+                                <i class="fa fa-fire-extinguisher"></i>Chemicals
+                            </div>
+                        </div>
+                        <div class="portlet-body">
+                            <div class="scroller" style="height: 300px;" data-always-visible="1" data-rail-visible="0">
+
+                            <!-- START CUSTOMER LIST -->
+
+                            <table class="table table-striped table-bordered table-hover" id="sample_1">
+                                <thead>
+                                <tr>
+                                    <th>
+                                         Chemical Name
+                                    </th>
+
+                                    <th>
+                                         EPA #
+                                    </th>
+                                </tr>
+                                </thead>
+
+                                    <tbody>
+
+                                        <% if (chemicals.length == 0) { %>
+                                        <tr>
+                                            <td colspan="2" class="title"> No Chemicals</td>
+                                        </tr>
+                                        <% } else { %>
+                                        <!-- else begin -->
+                                        <% _.each(chemicals, function(CHEMICAL) { %>
+                                        <tr>
+                                            <td>
+                
+                                                    <%= CHEMICAL.CHEM_NAME %> <br/>
+                                                
+                                            </td>
+
+                                                <td>
+
+                                                    <%= CHEMICAL.CHEM_EPA %> <br/>
+                                                
+                                            </td>
+
+                                        </tr>
+                                        <% }); %>
+
+                                        <!-- end of else -->
+                                        <% } %>
+
+                                    </tbody>
+                              </table>
+
+
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6 col-sm-6">
+                    <div class="portlet box yellow">
+                        <div class="portlet-title">
+                            <div class="caption">
+                                <i class="fa fa-group"></i>Upcoming Service Appointments
+                            </div>
+                            
+                            
+                        </div>
+                        <div class="portlet-body">
+                            <div class="task-content">
+                                <div class="scroller" style="height: 305px;" data-always-visible="1" data-rail-visible1="1">
+                                    <!-- START ACTIVITY LIST -->
+                                    <table class="table table-striped table-bordered table-hover" id="sample_1">
+                                <thead>
+                                <tr>
+                                    <th>
+                                         Date
+                                    </th>
+                                    <th>
+                                         Location
+                                    </th>
+                                    <th>
+                                         Status
+                                    </th>
+
+                                </tr>
+                                </thead>
+
+                                    <tbody>
+
+                                        <% if (systems.length == 0) { %>
+                                        <tr>
+                                            <td colspan="2" class="title"> No Upcoming Appointments</td>
+                                        </tr>
+                                        <% } else { %>
+                                        <!-- else begin -->
+                                        <% _.each(systems, function(SYSTEM) { %>
+                                        <tr>
+                                            <td>
+    
+                                                    <%= SYSTEM.SYS_NEXTSERVICE %> <br/>
+                                                
+                                            </td>
+                                            <td>
+                
+                                                    <%= SYSTEM.SYS_ADDRESS %> <br/>
+                                                
+                                            </td>
+                                             <td>
+                
+                                                    <%= SYSTEM.SYS_SERVICE_STATUS %> <br/>
+                                                
+                                            </td>
+
+                                        </tr>
+                                        <% }); %>
+
+                                        <!-- end of else -->
+                                        <% } %>
+
+                                    </tbody>
+                              </table>
+                            
+                            
+                                </div>
+                            </div>
+                            
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
             <div class="clearfix">
             </div>
 
+ <div class="row ">
+     <div class="col-md-6 col-sm-6">
+
             <div class="portlet box blue">
-        <div class="portlet-title">
-            <div class="caption">
-                
-                <i class="fa fa-gift"></i>Company Information - <%= group.GROUP_NAME %>
-
-
-            </div>
-
-        </div>
-        <div class="portlet-body form">
+                <div class="portlet-title">
+                    <div class="caption">
+                        <i class="fa fa-gift"></i>Company Information - <%= group.GROUP_NAME %>
+                    </div>
+                </div>
+            <div class="portlet-body form">
             <!-- BEGIN FORM-->
-            <form class="form-horizontal" role="form">
-                <div class="form-body">
-                    <h2 class="margin-bottom-20"> Company Name - <%= group.GROUP_NAME %></h2>
-                    <h3 class="form-section">Contact Info</h3>
-                    <div class="row">
-                        <div class="col-md-6">
-                            <div class="form-group">
-                                <label class="control-label col-md-3">First Name:</label>
-                                <div class="col-md-9">
-                                    <p class="form-control-static">
-                                         Bob
-                                    </p>
+                        <form class="form-horizontal" role="form">
+                            <div class="form-body">
+                                <h2 class="margin-bottom-20"> Company Name - <%= group.GROUP_NAME %></h2>
+                                <h3 class="form-section">Contact Info</h3>
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label class="control-label col-md-3">First Name:</label>
+                                            <div class="col-md-9">
+                                                <p class="form-control-static">
+                                                     Jay
+                                                </p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!--/span-->
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label class="control-label col-md-3">Last Name:</label>
+                                            <div class="col-md-9">
+                                                <p class="form-control-static"> Harrison
+                                                </p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!--/span-->
                                 </div>
-                            </div>
-                        </div>
-                        <!--/span-->
-                        <div class="col-md-6">
-                            <div class="form-group">
-                                <label class="control-label col-md-3">Last Name:</label>
-                                <div class="col-md-9">
-                                    <p class="form-control-static">
-                                    </p>
-                                </div>
-                            </div>
-                        </div>
-                        <!--/span-->
-                    </div>
-                    <!--/row-->
-                    <div class="row">
-                        <div class="col-md-6">
-                            <div class="form-group">
-                                <label class="control-label col-md-3">Gender:</label>
-                                <div class="col-md-9">
-                                    <p class="form-control-static">
-                                         Male
-                                    </p>
-                                </div>
-                            </div>
-                        </div>
-                        <!--/span-->
-                        <div class="col-md-6">
-                            <div class="form-group">
-                                <label class="control-label col-md-3">Date of Birth:</label>
-                                <div class="col-md-9">
-                                    <p class="form-control-static">
-                                         20.01.1984
-                                    </p>
-                                </div>
-                            </div>
-                        </div>
-                        <!--/span-->
-                    </div>
-                    <!--/row-->
+                                <!--/row-->
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label class="control-label col-md-3">Gender:</label>
+                                            <div class="col-md-9">
+                                                <p class="form-control-static">
+                                                     Male
+                                                </p>
+                                            </div>
+                                        </div>
+                                    </div>
 
-            </form>
+                                </div>
+                                <!--/row-->
+
+                            </form>
             <!-- END FORM-->
            
                 </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-md-6 col-sm-6">
+        <div class="portlet box blue-madison">
+            <div class="portlet-title">
+                <div class="caption">
+                    <i class="fa fa-group"></i>Employees
                 </div>
             </div>
-        <div class="portlet box green">
-                      <div class="portlet-title">
-                               <div class="caption">
-                                    <i class="fa fa-add"></i>Add New Customer</div>
-       
-                                </div>
+                <div class="portlet-body">
+                    <div class="task-content">
+                        <div class="scroller" style="height: 305px;" data-always-visible="1" data-rail-visible1="1">
+                            <!-- START ACTIVITY LIST -->
+                        <table class="table table-striped table-bordered table-hover" id="sample_1">
+                            <thead>
+                            <tr>
+                                <th>
+                                     Name
+                                </th>
+                                <th>
+                                     Phone
+                                </th>
+                                <th>
+                                     Email
+                                </th>
+                            </tr>
+                            </thead>
 
-            <div class="portlet-body form">
-                                        <!-- BEGIN FORM-->
+                            <tbody>
+
+                                <% if (activities.length == 0) { %>
+                                <tr>
+                                    <td colspan="2" class="title"> No activities</td>
+                                </tr>
+                                <% } else { %>
+                                <!-- else begin -->
+                                <% _.each(activities, function(ACTIVITY) { %>
+                                <tr>
+                                    <td>
+        
+                                            <%= ACTIVITY.TYPE %> <br/>
+                                        
+                                    </td>
+                                                                                <td>
+        
+                                            <%= ACTIVITY.createdAt %> <br/>
+                                        
+                                    </td>
+
+                                </tr>
+                                <% }); %>
+
+                                <!-- end of else -->
+                                <% } %>
+
+                            </tbody>
+                      </table>
+                     </div>
+                </div>        
+        </div>
+    </div>
+</div>
+</div>
+
+        <div class="clearfix">
+        </div>
+
+
+
+<div class="row ">
+     <div class="col-md-6 col-sm-6">
+
+        <div class="portlet box green">
+            <div class="portlet-title">
+               <div class="caption">
+                    <i class="fa fa-add"></i>Add New Customer
+                </div>
+
+            </div>
+                <div class="portlet-body form">
+                                                        <!-- BEGIN FORM-->
                     <form class="form-horizontal">
                         <div class="form-body">
                             <div class="form-group">
@@ -885,12 +1089,31 @@
 
                             <div class="form-group">
                                 <label class="col-md-3 control-label">Email:</label>
-                                <div class="col-md-4">
-                                    <input type="text" class="form-control" id="customer_email" placeholder="email" required autofocus>
-
+                                    <div class="col-md-4">
+                                     <div class="input-group">
+                                            <span class="input-group-addon">
+                                                <i class="fa fa-envelope"></i>
+                                            </span>
+                                        <input type="text" class="form-control" id="customer_email" placeholder="email" required autofocus>
+                                        </div>
 
                                 </div>
                             </div>
+
+                            <div class="form-group">
+                               <label class="col-md-3 control-label">Notification Preference</label>
+                                    <div class="col-md-4">
+                                        <div class="checkbox-list">
+                                            <label class="checkbox-inline">
+                                            <input type="checkbox" id="customer_checkbox_phone" value="Text"> Text Message</label>
+                                            <label class="checkbox-inline">
+                                            <input type="checkbox" id="customer_checkbox_email" value="Email"> Email </label>
+                                            <label class="checkbox-inline">
+                                            <input type="checkbox" id="customer_checkbox_other" value="option3" disabled> None</label>
+                                        </div>
+                                    </div>
+                                </div>
+                                      
 
                             <div class="form-group">
                                 <label class="col-md-3 control-label">Address:</label>
@@ -917,14 +1140,144 @@
                         <div class="form-actions fluid">
                             <div class="col-md-offset-3 col-md-9">
                                 <div id="create-category-error" class="error" style="display:none"></div>
-                                <button type="button" class="btn blue" id="btn_addCustomer">Add Customer to System</button>
+                                <button type="button" class="btn blue" id="btn_addCustomer">Add Customer</button>
                                 <a href="#/groups" class="btn default">Cancel</a>
                             </div>
                         </div>
                     </form>
-
-             </div>
+                                                        <!-- END FORM-->
+                 </div>
             </div>
+        </div>    
+
+
+
+
+<div class="col-md-6 col-sm-6">
+
+        <div class="portlet box purple-plum">
+                            <div class="portlet-title">
+                               <div class="caption">
+                                    <i class="fa fa-add"></i>Add New Bug System
+                                </div>
+       
+                            </div>
+
+                <div class="portlet-body form">
+                                        <!-- BEGIN FORM-->
+                    <form class="form-horizontal">
+                        <div class="form-body">
+
+
+                            <div class="form-group">
+                                <label class="col-md-3 control-label">Select a Customer:</label>
+                                    <div class="col-md-4">
+                                        <select class="form-control">
+
+                                        <% if (customers.length == 0) { %>
+                                        <option>No Customers Available</option>
+                                        <% } else { %>
+                                        <!-- else begin -->
+                                        <% _.each(customers, function(CUSTOMER) { %>
+                                        <option> <%= CUSTOMER.CUST_FNAME %> <%= CUSTOMER.CUST_LNAME %> <br/> </option>
+
+                                        <% }); %>
+
+                                        <!-- end of else -->
+                                        <% } %>
+                                        </select>
+                                    </div>
+                                 </div>
+                            </div>
+
+
+                            <div class="form-group">
+                                <label class="col-md-3 control-label">System Type:</label>
+                                    <div class="col-md-4">
+                                        <select class="form-control">
+                                            <option>MISTING</option>
+                                            <option>FOGGER</option>
+                                            <option>OTHER</option>
+                                        </select>
+                                    </div>
+                                 </div>
+                            
+
+                            <div class="form-group">
+                                <label class="col-md-3 control-label">System Info:</label>
+                                <div class="col-md-4">
+                                    <input type="text" class="form-control" id="system_serial" placeholder="Serial #" required autofocus>
+                                    <input type="text" class="form-control" id="system_name" placeholder="Name" required autofocus>
+                                    <input type="date" class="form-control" id="system_name" placeholder="Install Date" required autofocus>
+
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label class="col-md-3 control-label">Phone:</label>
+                                <div class="col-md-4">
+                                    <input type="text" class="form-control" id="customer_cell" placeholder="Cell" required autofocus>
+                                    <input type="text" class="form-control" id="customer_home" placeholder="Home" required autofocus>
+
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label class="col-md-3 control-label">Email:</label>
+                                <div class="col-md-4">
+                                    <input type="text" class="form-control" id="customer_email" placeholder="email" required autofocus>
+
+
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label class="col-md-3 control-label">Address Info:</label>
+                                <div class="col-md-4">
+                                    <input type="text" class="form-control" id="system_address" placeholder="Physical Address" required autofocus>
+                                    <input type="text" class="form-control" id="system_city" placeholder="City" required autofocus>
+                                    <input type="text" class="form-control" id="system_state" placeholder="State" required autofocus>
+                                    <input type="text" class="form-control" id="system_zip" placeholder="Zip" required autofocus>
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label class="col-md-3 control-label">System Operations:</label>
+                                <div class="col-md-4">
+                                    <input type="text" class="form-control" id="system_address" placeholder="Nozzle Count" required autofocus>
+                                    <input type="text" class="form-control" id="system_city" placeholder="Service Frequency" required autofocus>
+                                    <input type="text" class="form-control" id="system_state" placeholder="Notes" required autofocus>
+                                    <input type="text" class="form-control" id="system_zip" placeholder="Spray Times" required autofocus>
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label class="col-md-3 control-label">Referral Info:</label>
+                                <div class="col-md-4">
+                                    <input type="text" class="form-control" id="system_referral_name" placeholder="Name" required autofocus>
+                                    <input type="text" class="form-control" id="system_referral_type" placeholder="Type" required autofocus>
+                                </div>
+                            </div>                            
+
+
+                        <div class="form-actions fluid">
+                            <div class="col-md-offset-3 col-md-9">
+                                <div id="create-category-error" class="error" style="display:none"></div>
+                                <button type="button" class="btn blue" id="btn_addCustomer">Add System</button>
+                                <a href="#/groups" class="btn default">Cancel</a>
+                            </div>
+                        </div>
+                        </div>
+                    </form>
+
+                 </div>
+            </div>
+
+
+
+
+
+        </div>
 
 
             </div>

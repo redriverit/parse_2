@@ -45,26 +45,6 @@ var CustomerCollection = Parse.Collection.extend(
 
 );
 
-//ingredients
-
-    var system = Parse.Object.extend("SYSTEM");
-
-    var SystemCollection = Parse.Collection.extend(
-    {
-        model:system
-    }
-    );
-
-//steps
-
-    var service = Parse.Object.extend("SERVICE");
-
-    var ServiceCollection = Parse.Collection.extend(
-    {
-        model:service
-    }
-    );
-
 // activity
 var activity = Parse.Object.extend('ACTIVITY');
 
@@ -79,6 +59,24 @@ var chemical = Parse.Object.extend('CHEMICAL');
 var ChemicalCollection = Parse.Collection.extend(
     {
         model:chemical
+    }
+);
+
+// system
+var system = Parse.Object.extend('SYSTEM');
+
+var SystemCollection = Parse.Collection.extend(
+    {
+        model:system
+    }
+);
+
+// service
+var service = Parse.Object.extend('SERVICE');
+
+var ServiceCollection = Parse.Collection.extend(
+    {
+        model:service
     }
 );
 
@@ -453,6 +451,33 @@ var DashboardView = Parse.View.extend({
                 this.customers.query.equalTo("groupId", this.groupId);
             }
 
+            // retrieving groups chemicals
+            this.chemicals = new ChemicalCollection();
+            this.chemicals.bind('reset', this.render);
+            this.chemicals.query = new Parse.Query(chemical);
+
+            if (this.groupId && this.groupId != '') {
+                this.chemicals.query.equalTo("groupId", this.groupId);
+            }
+
+            // retrieving groups systems
+            this.systems = new SystemCollection();
+            this.systems.bind('reset', this.render);
+            this.systems.query = new Parse.Query(system);
+
+            if (this.groupId && this.groupId != '') {
+                this.systems.query.equalTo("groupId", this.groupId);
+            }
+
+            // retrieving groups services
+            this.services = new ServiceCollection();
+            this.services.bind('reset', this.render);
+            this.services.query = new Parse.Query(service);
+
+            if (this.groupId && this.groupId != '') {
+                this.services.query.equalTo("groupId", this.groupId);
+            }
+
             //Need help implementing this so I can show some statistics on dashboard *****************//////////************** ??????????????
             var activitycount = this.activities.query.count;
 
@@ -466,6 +491,9 @@ var DashboardView = Parse.View.extend({
                 success:function () {
                     self.activities.fetch();
                     self.customers.fetch();
+                    self.chemicals.fetch();
+                    self.systems.fetch();
+                    self.services.fetch();
                 },
 
                 error:function () {
@@ -480,6 +508,9 @@ var DashboardView = Parse.View.extend({
                 {
                     'activities':this.activities.toJSON(),
                     'customers':this.customers.toJSON(),
+                    'chemicals':this.chemicals.toJSON(),
+                    'systems':this.systems.toJSON(),
+                    'chemicals':this.services.toJSON(),
                     'group':this.group.toJSON(),
 
                 })
