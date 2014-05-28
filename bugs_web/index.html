@@ -560,15 +560,37 @@
             </div>
             <!-- END PAGE HEADER-->
             <!-- BEGIN DASHBOARD STATS -->
+
+
+ 
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+        <h4 class="modal-title" id="myModalLabel">Modal title</h4>
+      </div>
+      <div class="modal-body">
+        ...
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-primary">Save changes</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+
             <div class="row">
                 <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
                     <div class="dashboard-stat blue-madison">
                         <div class="visual">
-                            <i class="fa fa-comments"></i>
+                            <i class="fa fa-male"></i>
                         </div>
                         <div class="details">
                             <div class="number">
-                                 134
+                                 <%= customers.length%>
                             </div>
                             <div class="desc">
                                  Active Customers
@@ -580,13 +602,13 @@
                     </div>
                 </div>
                 <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
-                    <div class="dashboard-stat red-intense">
+                    <div class="dashboard-stat green-haze">
                         <div class="visual">
                             <i class="fa fa-bar-chart-o"></i>
                         </div>
                         <div class="details">
                             <div class="number">
-                                 257
+                                 <%= systems.length %>
                             </div>
                             <div class="desc">
                                  Active Systems
@@ -598,16 +620,16 @@
                     </div>
                 </div>
                 <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
-                    <div class="dashboard-stat green-haze">
+                    <div class="dashboard-stat red-intense">
                         <div class="visual">
-                            <i class="fa fa-shopping-cart"></i>
+                            <i class="fa fa-fire-extinguisher"></i>
                         </div>
                         <div class="details">
                             <div class="number">
-                                 549
+                                 <%= chemicals.length%>
                             </div>
                             <div class="desc">
-                                 Services
+                                 Chemicals
                             </div>
                         </div>
                         <a class="more" href="#">
@@ -622,10 +644,10 @@
                         </div>
                         <div class="details">
                             <div class="number">
-                                 33
+                                <%= users.length%>
                             </div>
                             <div class="desc">
-                                 Upcoming Service Appointments
+                                 Company Employees
                             </div>
                         </div>
                         <a class="more" href="#">
@@ -735,6 +757,9 @@
                                          Activity Type
                                     </th>
                                     <th>
+                                         Detail
+                                    </th>
+                                    <th>
                                          Date
                                     </th>
                                     <th>
@@ -759,9 +784,19 @@
                                                     <%= ACTIVITY.TYPE %> <br/>
                                                 
                                             </td>
-                                                                                        <td>
+                                            <td>
+                
+                                                    <%= ACTIVITY.DETAIL %> <br/>
+                                                
+                                            </td>
+                                            <td>
                 
                                                     <%= ACTIVITY.createdAt %> <br/>
+                                                
+                                            </td>
+                                            <td>
+                
+                                                    <%= ACTIVITY.CreatedBy_Username%> <br/>
                                                 
                                             </td>
 
@@ -824,13 +859,13 @@
                                         <tr>
                                             <td>
                 
-                                                    <%= CHEMICAL.CHEM_NAME %> <br/>
+                                                    <%= CHEMICAL.CHEMICAL_NAME %> <br/>
                                                 
                                             </td>
 
                                                 <td>
 
-                                                    <%= CHEMICAL.CHEM_EPA %> <br/>
+                                                    <%= CHEMICAL.CHEMICAL_EPA %> <br/>
                                                 
                                             </td>
 
@@ -866,7 +901,7 @@
                                 <thead>
                                 <tr>
                                     <th>
-                                         Date
+                                         Service Appointment
                                     </th>
                                     <th>
                                          Location
@@ -890,17 +925,17 @@
                                         <tr>
                                             <td>
     
-                                                    <%= SYSTEM.SYS_NEXTSERVICE %> <br/>
+                                                    <%= SYSTEM.test%> 
                                                 
                                             </td>
                                             <td>
                 
-                                                    <%= SYSTEM.SYS_ADDRESS %> <br/>
+                                                    <%= SYSTEM.SYSTEM_CITY%>
                                                 
                                             </td>
                                              <td>
                 
-                                                    <%= SYSTEM.SYS_SERVICE_STATUS %> <br/>
+                                                    <%= SYSTEM.SYSTEM_STATUS %> <br/>
                                                 
                                             </td>
 
@@ -947,7 +982,7 @@
                                             <label class="control-label col-md-3">First Name:</label>
                                             <div class="col-md-9">
                                                 <p class="form-control-static">
-                                                     Jay
+                                                     
                                                 </p>
                                             </div>
                                         </div>
@@ -1016,22 +1051,22 @@
 
                             <tbody>
 
-                                <% if (activities.length == 0) { %>
+                                <% if (users.length == 0) { %>
                                 <tr>
                                     <td colspan="2" class="title"> No activities</td>
                                 </tr>
                                 <% } else { %>
                                 <!-- else begin -->
-                                <% _.each(activities, function(ACTIVITY) { %>
+                                <% _.each(users, function(USER) { %>
                                 <tr>
                                     <td>
         
-                                            <%= ACTIVITY.TYPE %> <br/>
+                                            <%= USER.username %> <br/>
                                         
                                     </td>
                                                                                 <td>
         
-                                            <%= ACTIVITY.createdAt %> <br/>
+                                            <%= USER.createdAt %> <br/>
                                         
                                     </td>
 
@@ -1172,14 +1207,14 @@
                             <div class="form-group">
                                 <label class="col-md-3 control-label">Select a Customer:</label>
                                     <div class="col-md-4">
-                                        <select class="form-control">
+                                        <select class="form-control" id="system_customer_pointer">
 
                                         <% if (customers.length == 0) { %>
                                         <option>No Customers Available</option>
                                         <% } else { %>
                                         <!-- else begin -->
                                         <% _.each(customers, function(CUSTOMER) { %>
-                                        <option> <%= CUSTOMER.CUST_FNAME %> <%= CUSTOMER.CUST_LNAME %> <br/> </option>
+                                        <option value=<%=CUSTOMER.objectId%>> <%= CUSTOMER.CUST_FNAME %> <%= CUSTOMER.CUST_LNAME %> </option>
 
                                         <% }); %>
 
@@ -1194,7 +1229,7 @@
                             <div class="form-group">
                                 <label class="col-md-3 control-label">System Type:</label>
                                     <div class="col-md-4">
-                                        <select class="form-control">
+                                        <select class="form-control" id="system_type">
                                             <option>MISTING</option>
                                             <option>FOGGER</option>
                                             <option>OTHER</option>
@@ -1208,28 +1243,12 @@
                                 <div class="col-md-4">
                                     <input type="text" class="form-control" id="system_serial" placeholder="Serial #" required autofocus>
                                     <input type="text" class="form-control" id="system_name" placeholder="Name" required autofocus>
-                                    <input type="date" class="form-control" id="system_name" placeholder="Install Date" required autofocus>
+                                    <input type="date" class="form-control" id="system_install" placeholder="Install Date" required autofocus>
 
                                 </div>
                             </div>
 
-                            <div class="form-group">
-                                <label class="col-md-3 control-label">Phone:</label>
-                                <div class="col-md-4">
-                                    <input type="text" class="form-control" id="customer_cell" placeholder="Cell" required autofocus>
-                                    <input type="text" class="form-control" id="customer_home" placeholder="Home" required autofocus>
 
-                                </div>
-                            </div>
-
-                            <div class="form-group">
-                                <label class="col-md-3 control-label">Email:</label>
-                                <div class="col-md-4">
-                                    <input type="text" class="form-control" id="customer_email" placeholder="email" required autofocus>
-
-
-                                </div>
-                            </div>
 
                             <div class="form-group">
                                 <label class="col-md-3 control-label">Address Info:</label>
@@ -1244,10 +1263,10 @@
                             <div class="form-group">
                                 <label class="col-md-3 control-label">System Operations:</label>
                                 <div class="col-md-4">
-                                    <input type="text" class="form-control" id="system_address" placeholder="Nozzle Count" required autofocus>
-                                    <input type="text" class="form-control" id="system_city" placeholder="Service Frequency" required autofocus>
-                                    <input type="text" class="form-control" id="system_state" placeholder="Notes" required autofocus>
-                                    <input type="text" class="form-control" id="system_zip" placeholder="Spray Times" required autofocus>
+                                    <input type="text" class="form-control" id="system_nozzle_count" placeholder="Nozzle Count" required autofocus>
+                                    <input type="text" class="form-control" id="system_service_freq" placeholder="Service Frequency" required autofocus>
+                                    <input type="text" class="form-control" id="system_notes" placeholder="Notes" required autofocus>
+                                    <input type="text" class="form-control" id="system_spray_times" placeholder="Spray Times" required autofocus>
                                 </div>
                             </div>
 
@@ -1263,8 +1282,8 @@
                         <div class="form-actions fluid">
                             <div class="col-md-offset-3 col-md-9">
                                 <div id="create-category-error" class="error" style="display:none"></div>
-                                <button type="button" class="btn blue" id="btn_addCustomer">Add System</button>
-                                <a href="#/groups" class="btn default">Cancel</a>
+                                <button type="button" class="btn blue" id="btn_addSystem">Add System</button>
+                                <a href="#modal" class="btn default">Cancel</a>
                             </div>
                         </div>
                         </div>
@@ -1277,11 +1296,74 @@
 
 
 
-        </div>
+       
+<div class="col-md-6 col-sm-6">
 
+        <div class="portlet box red-intense">
+                            <div class="portlet-title">
+                               <div class="caption">
+                                    <i class="fa fa-add"></i>Add New Chemical
+                                </div>
+       
+                            </div>
+
+                <div class="portlet-body form">
+                                        <!-- BEGIN FORM-->
+                    <form class="form-horizontal">
+                        <div class="form-body">
+
+
+                            <div class="form-group">
+                                <label class="col-md-3 control-label">Chemical Type:</label>
+                                    <div class="col-md-4">
+                                        <select class="form-control" id="system_type">
+                                            <option>PESTICIDE</option>
+                                            <option>TYPE 2</option>
+                                            <option>TYPE 3</option>
+                                        </select>
+                                    </div>
+                                 </div>
+                            
+
+                            <div class="form-group">
+                                <label class="col-md-3 control-label">Chemical Info:</label>
+                                <div class="col-md-4">
+                                    <input type="text" class="form-control" id="chemical_name" placeholder="Name" required autofocus>
+                                    <input type="text" class="form-control" id="chemical_brand" placeholder="Brand" required autofocus>
+                                    <input type="text" class="form-control" id="chemical_epa" placeholder="EPA #" required autofocus>
+                                    <input type="text" class="form-control" id="chemical_price" placeholder="Price" required autofocus>
+                                    <input type="text" class="form-control" id="chemical_cost" placeholder="Cost" required autofocus>
+                                    <input type="text" class="form-control" id="chemical_volume" placeholder="Volume" required autofocus>
+                                    <input type="text" class="form-control" id="chemical_notes" placeholder="Notes" required autofocus>
+                                </div>
+                            </div>
+                          
+
+
+                        <div class="form-actions fluid">
+                            <div class="col-md-offset-3 col-md-9">
+                                <div id="create-category-error" class="error" style="display:none"></div>
+                                <button type="button" class="btn blue" id="btn_addChemical">Add Chemical</button>
+                                <a href="#" class="btn default">Cancel</a>
+                            </div>
+                        </div>
+                        </div>
+                    </form>
+
+                 </div>
+            </div>
+
+
+ </div>
+
+
+        </div>
 
             </div>
         </div>
+
+
+
     </div>
 
 
@@ -1289,6 +1371,10 @@
 </div>
 <!-- END CONTAINER -->
 <!-- BEGIN FOOTER -->
+
+
+
+
 <div class="page-footer">
     <div class="page-footer-inner">
          2014 &copy; Metronic by keenthemes.
@@ -1328,251 +1414,17 @@
     </div>
 </script>
 
-<script type="text/template" id="recipeDetailTemplate">
-    <div class="container">
 
-        <div class="panel panel-default">
-            <div class="panel-heading">
 
-                <h3 class="panel-title">
 
-                <a href="#/category/<%= recipe.categoryId %>" class="btn btn-lg btn-primary" id="back-to-recipe-list">Back</button></a>
-                 
-                 <h3 class="panel-title" style="text-align:center">
 
-                 Recipe Details</h3>
 
-            </div>
 
-                     
-            <div class="panel-body">
 
-            <div class="row">
-                 <div class="col-md-4">
 
-    
-                         <table class="table table-bordered table-responsive">
-                                 <thead>
-                            <tr>
 
-                                <h2>
-                                    <th colspan="2" style="text-align: center">INGREDIENTS</th>
 
-                                </h2>
-                            </tr>
-                            </thead>
 
-                            <tbody>
-
-                            <% if (ingredients.length == 0) { %>
-                            <tr>
-                                <td colspan="2" class="title"> No ingredients</td>
-                            </tr>
-                            <% } else { %>
-                            <!-- else begin -->
-                            <% _.each(ingredients, function(INGREDIENT) { %>
-                            <tr>
-                                <td style="width: 30%">
-
-                                    <%= INGREDIENT.NAME %> <br/>
-
-                                </td>
-
-                            </tr>
-                            <% }); %>
-
-                            <!-- end of else -->
-                            <% } %>
-
-                            </tbody>
-                        </table>
-
-                 </div>
-
-                <div class="col-md-8">
-
-            <h3><%= recipe.NAME %></h3>
-            <h5>Original Cook: <h4><%= recipe.Cook %></h4></h5>
-
-
-                    <table class="table">
-                <thead>
-                <tr>
-
-                    <h2>
-                        <th colspan="2" style="text-align: left">Steps:</th>
-
-                    </h2>
-                </tr>
-                </thead>
-
-                <tbody>
-
-                <% if (ingredients.length == 0) { %>
-                <tr>
-                    <td colspan="2" class="title"> No ingredients</td>
-                </tr>
-                <% } else { %>
-                <!-- else begin -->
-                <% _.each(steps, function(STEPS) { %>
-                <tr>
-                    <td style="width: 70%">
-                            <%= STEPS.STEP %>
-                            <%= STEPS.DESCRIPTION %> <br/>
-
-                    </td>
-
-                </tr>
-                <% }); %>
-
-                <!-- end of else -->
-                <% } %>
-
-                </tbody>
-            </table>
-
-
-                </div>
-            
-
-
-
-
-            </div>
-
-       
-  </div>
-</div>
-    </div>
-</script>
-
-
-
-<script type="text/template" id="recipeListTemplate">
-    <div class="container">
-
-            <table class="table table-bordered">
-                <thead>
-                <tr>
-
-                    <h2>
-                    <a href="#/" class="btn btn-lg btn-primary" id="back-to-recipe-list">Back</button></a>
-                        <th colspan="2" style="text-align: center">Select a Recipe to View</th>
-
-                    </h2>
-                </tr>
-                </thead>
-
-                <tbody>
-
-                <% if (recipes.length == 0) { %>
-                <tr>
-                    <td colspan="2" class="title"> no recipes</td>
-                </tr>
-                <% } else { %>
-                <!-- else begin -->
-                <% _.each(recipes, function(recipe) { %>
-                <tr>
-                    <td style="width: 80%">
-
-                        <h2>
-                            <img width="120" src="<%= recipe.photo %>" class="img-rounded">
-                            <%= recipe.NAME %> <br/>
-                            
-                        </h2>
-
-                        <h5><%= recipe.Cook %></h5>
-                           <span class="badge pull-right">
-                            <%=recipe.Cook_Time%> 
-                            </span>
-
-                    </td>
-
-                    <td style="vertical-align:middle">
-                     <a href="#/recipe/<%=recipe.objectId %>" class="btn btn-success"> <span class="glyphicon glyphicon-cutlery"></span> View Recipe</a>
-                        </button
-                    </td>
-                </tr>
-                <% }); %>
-
-                <!-- end of else -->
-                <% } %>
-
-                </tbody>
-            </table>
-
-        <div class="row">
-
-            <div class="col-md-6">
-                <a href="#/create-recipe" id="createRecipe" class="btn btn-primary btn-sm btn-block">Add New Recipe</a>
-            </div>
-
-        </div>
-    </div>
-
-</script>
-
-
-
-
-
-<script type="text/template" id="equipmentEdit">
-    <div class="container">
-
-        <form class="form-signin" role="form">
-            <h2 class="form-signup-heading">Please fill equipment details:</h2>
-            <input type="text" class="form-control" id="new-equipment-name" placeholder="Name" required autofocus/>
-            <input type="text" class="form-control" id="new-equipment-type" placeholder="Type" required/>
-            <input type="text" class="form-control" id="new-equipment-value" placeholder="Value" required/>
-            <input type="text" class="form-control" id="new-equipment-notes" placeholder="Notes" required/>
-
-            <div id="equipment-edit-error" class="error" style="display:none"></div>
-            <button class="btn btn-lg btn-primary btn-block form-button" id="saveEquipment" type="button">Save</button>
-            <button class="btn btn-lg btn-block btn-danger">Cancel</button>
-        </form>
-
-    </div>
-</script>
-
-<script type="text/template" id="computerEdit">
-    <div class="container">
-
-        <form class="form-signin" role="form">
-            <h2 class="form-signup-heading">Please fill equipment details:</h2>
-            <input type="text" class="form-control" id="new-computer-name" placeholder="Name" required autofocus/>
-            <input type="text" class="form-control" id="new-computer-type" placeholder="Type" required/>
-            <input type="text" class="form-control" id="new-computer-value" placeholder="Value" required/>
-            <input type="text" class="form-control" id="new-computer-notes" placeholder="Notes" required/>
-
-            <div id="computer-edit-error" class="error" style="display:none"></div>
-            <button class="btn btn-lg btn-primary btn-block form-button" id="saveComputer" type="button">Save</button>
-            <button class="btn btn-lg btn-block btn-danger">Cancel</button>
-        </form>
-
-    </div>
-</script>
-
-<script type="text/template" id="groupEdit">
-    <div class="container">
-
-        <form class="form-signin" role="form">
-            <h2 class="form-signup-heading">Please update Group details:</h2>
-            <input type="text" class="form-control" id="edit-group-name" placeholder="Name" value="<%= group.name %>"
-                   required autofocus/>
-            <input type="text" class="form-control" id="edit-group-description" placeholder="Description"
-                   value="<%= group.description %>" required/>
-            <input type="text" class="form-control" id="edit-group-notes" placeholder="Notes" value="<%= group.notes %>"
-                   required/>
-            <input type="file" class="form-control" id="edit-group-logo" placeholder="Logo" required/>
-
-            <div id="save-group-error" class="error" style="display:none"></div>
-            <button class="btn btn-lg btn-primary btn-block form-button" id="saveEditGroup" type="button">Save Group
-            </button>
-            <a href="#/group/<%= group.objectId %>" class="btn btn-lg btn-block btn-danger">Cancel</a>
-        </form>
-
-    </div>
-</script>
 
 
 

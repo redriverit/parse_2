@@ -45,6 +45,15 @@ var CustomerCollection = Parse.Collection.extend(
 
 );
 
+var user = Parse.Object.extend("User");
+
+var UserCollection = Parse.Collection.extend(
+    {
+        model:user
+    }
+
+);
+
 // activity
 var activity = Parse.Object.extend('ACTIVITY');
 
@@ -90,6 +99,7 @@ var ReferralCollection = Parse.Collection.extend(
 );
 
 // views
+
 
 //********************************************************************************************   LOGIN VIEW
 var LoginView = Parse.View.extend({
@@ -421,7 +431,9 @@ var DashboardView = Parse.View.extend({
     events:{
 
         'click #logoutBtn':'logout',
-        'click #btn_addCustomer':'addCustomer'
+        'click #btn_addCustomer':'addCustomer',
+        'click #btn_addSystem':'addSystem',
+        'click #btn_addChemical':'addChemical',
     },
 
     
@@ -440,6 +452,7 @@ var DashboardView = Parse.View.extend({
             if (this.groupId && this.groupId != '') {
                 this.activities.query.equalTo("groupId", this.groupId);
                 this.activities.query.descending("createdAt");
+
             }
 
             // retrieving groups customers
@@ -449,6 +462,15 @@ var DashboardView = Parse.View.extend({
 
             if (this.groupId && this.groupId != '') {
                 this.customers.query.equalTo("groupId", this.groupId);
+            }
+
+            // retrieving groups users
+            this.users = new UserCollection();
+            this.users.bind('reset', this.render);
+            this.users.query = new Parse.Query(user);
+
+            if (this.groupId && this.groupId != '') {
+                //this.users.query.equalTo("groupId", this.groupId);
             }
 
             // retrieving groups chemicals
@@ -476,22 +498,20 @@ var DashboardView = Parse.View.extend({
 
             if (this.groupId && this.groupId != '') {
                 this.services.query.equalTo("groupId", this.groupId);
+                //this.services.query.descending("SYSTEM_NEXTSERVICE");
             }
-
-            //Need help implementing this so I can show some statistics on dashboard *****************//////////************** ??????????????
-            var activitycount = this.activities.query.count;
-
-
 
             this.group = new group({'objectId':this.groupId});
 
             var self = this;
+            var currentuser = Parse.User.current();
 
             this.group.fetch({
                 success:function () {
                     self.activities.fetch();
                     self.customers.fetch();
                     self.chemicals.fetch();
+                    self.users.fetch();
                     self.systems.fetch();
                     self.services.fetch();
                 },
@@ -510,8 +530,10 @@ var DashboardView = Parse.View.extend({
                     'customers':this.customers.toJSON(),
                     'chemicals':this.chemicals.toJSON(),
                     'systems':this.systems.toJSON(),
-                    'chemicals':this.services.toJSON(),
+                    'services':this.services.toJSON(),
+                    'users':this.users.toJSON(),
                     'group':this.group.toJSON(),
+                    //'currentuser':this.currentuser,
 
                 })
             );
@@ -519,7 +541,8 @@ var DashboardView = Parse.View.extend({
 
         addCustomer:function () {
 
-
+        //Information for Current User Adding a new Customer
+        var customer_user = Parse.User.current();
           
         var firstname = this.$('#customer_fname').val();
         var lastname = this.$('#customer_lname').val();
@@ -530,6 +553,7 @@ var DashboardView = Parse.View.extend({
         var city = this.$('#customer_city').val();
         var state = this.$('#customer_state').val();
         var zip = this.$('#customer_zip').val();
+        var fullname = (firstname + " " + lastname);
 
         var self = this;
 
@@ -549,25 +573,194 @@ var DashboardView = Parse.View.extend({
         this.customer.set('CUST_ZIP', zip);
         this.customer.set('CUST_STATUS', "ACTIVE");
         this.customer.set('groupId', this.groupId);
-        this.customer.set('CUST_AddedBy', Parse.User.current());
+        this.customer.set('CUST_AddedBy', customer_user);
 
         var groupnum = this.groupId;
-        alert(groupnum);
 
         this.customer.save({
 
             success:function () {
                 alert("Successfully created new customer");
 
+                var customer_user = Parse.User.current();
+                var createdbyusername = customer_user.get("username");
+
+
                 this.activity = new activity();
 
                 this.activity.set('TYPE', "NEW CUSTOMER ADDED");
-                this.activity.set('CreatedBy', Parse.User.current());
+                this.activity.set('CreatedBy', customer_user);
+                this.activity.set('CreatedBy_Username', customer_user.get("username"));
+                this.activity.set('DETAIL', fullname);
                 this.activity.set('groupId', groupnum);
 
                 this.activity.save({
                     success:function () {
                         alert("Activity Saved");
+                    },
+                    error:function () {
+                        alert("error:activity not saved");
+                    },
+                })
+
+                //router.navigate('#/group', true);
+            },
+            
+            error:function () {
+                // save-group-error
+                self.$("#create-category-error .error").html("Failed to save group. Please try again later.").show();
+            },
+            
+        }
+        );
+
+        },
+
+        addSystem:function () {
+
+
+          
+        var customer_pointer_id = this.$('#system_customer_pointer').val();
+        
+        var customer_relation = new customer();
+            customer_relation.id = customer_pointer_id;
+
+
+        var system_type = this.$('#system_type').val();
+        var system_install = this.$('#system_install').val();
+        var system_address = this.$('#system_address').val();
+        var system_city = this.$('#system_city').val();        
+        var system_state = this.$('#system_state').val();
+        var system_zip = this.$('#system_zip').val();
+
+        var system_nozzle_count = this.$('#system_nozzle_count').val();
+        var system_service_frequency = this.$('#system_service_freq').val();
+        var system_notes = this.$('#system_notes').val();
+        var system_spray_times = this.$('#system_spray_times').val();        
+        var system_referral_name = this.$('#system_referral_name').val();
+        var system_referral_type = this.$('#system_referral_type').val();
+        
+
+        var next_service = new Date( system_install );
+        var intvalue = Math.round( system_service_frequency );
+        next_service.setDate(next_service.getDate() + intvalue);
+
+        alert(next_service);
+
+
+        var self = this;
+
+         // disable to avoid double submit
+         //this.$('#btn_saveGroup').attr('disabled', 'disabled');
+
+        this.system = new system();
+
+        this.system.set('SYSTEM_TYPE', system_type);
+        this.system.set('SYSTEM_CUSTOMER', customer_relation);
+        this.system.set('SYSTEM_ADDRESS', system_address);
+        this.system.set('SYSTEM_CITY', system_city);
+        this.system.set('SYSTEM_STATE', system_state);
+        this.system.set('SYSTEM_ZIP', system_zip);
+
+
+        this.system.set('SYSTEM_STATUS', "ACTIVE");
+        this.system.set('SYSTEM_NEXTSERVICE', next_service);
+        this.system.set('groupId', this.groupId);
+        this.system.set('SYSTEM_AddedBy', Parse.User.current());
+
+        var groupnum = this.groupId;
+        alert(groupnum);
+
+        this.system.save({
+
+            success:function () {
+                alert("Successfully created new system");
+                var customer_user = Parse.User.current();
+                var createdbyusername = customer_user.get("username");
+
+                this.activity = new activity();
+
+                this.activity.set('TYPE', "NEW SYSTEM ADDED");
+                this.activity.set('CreatedBy', Parse.User.current());
+                this.activity.set('DETAIL', system_type);
+                this.activity.set('groupId', groupnum);
+                this.activity.set('CreatedBy_Username', customer_user.get("username"));
+
+                this.activity.save({
+                    success:function () {
+                        alert("Activity Saved");
+                    },
+                    error:function () {
+                        alert("error:activity not saved");
+                    },
+                })
+
+                //router.navigate('#/group', true);
+            },
+            
+            error:function () {
+                // save-group-error
+                self.$("#create-category-error .error").html("Failed to save group. Please try again later.").show();
+            },
+            
+        }
+        );
+
+        },
+
+
+        addChemical:function () {
+
+
+        var chemical_name = this.$('#chemical_name').val();
+        var chemical_type = this.$('#chemical_type').val();
+        var chemical_epa = this.$('#chemical_epa').val();
+        var chemical_cost = this.$('#chemical_cost').val();
+        var chemical_price = this.$('#chemical_price').val();
+        var chemical_brand = this.$('#chemical_brand').val();
+        var chemical_volume= this.$('#chemical_volume').val();
+        var chemical_notes = this.$('#chemical_notes').val();
+
+
+        var self = this;
+
+        this.chemical = new chemical();
+
+        this.chemical.set('CHEMICAL_TYPE', chemical_type);
+        this.chemical.set('CHEMICAL_NAME', chemical_name);
+        this.chemical.set('CHEMICAL_EPA', chemical_epa);
+        this.chemical.set('CHEMICAL_COST', chemical_cost);
+        this.chemical.set('CHEMICAL_PRICE', chemical_price);
+        this.chemical.set('SYSTEM_BRAND', chemical_brand);
+        this.chemical.set('CHEMICAL_VOLUME', chemical_volume);
+        this.chemical.set('SYSTEM_NOTES', chemical_notes);
+
+        this.chemical.set('CHEMICAL_STATUS', "ACTIVE");
+        this.chemical.set('groupId', this.groupId);
+        this.chemical.set('CHEMICAL_AddedBy', Parse.User.current());
+
+        var groupnum = this.groupId;
+        alert(groupnum);
+
+        this.chemical.save({
+
+            success:function () {
+                alert("Successfully created new chemical");
+
+                var customer_user = Parse.User.current();
+                var createdbyusername = customer_user.get("username");
+
+                this.activity = new activity();
+
+                this.activity.set('TYPE', "NEW CHEMICAL ADDED");
+                this.activity.set('DETAIL', chemical_name);
+                this.activity.set('CreatedBy', Parse.User.current());
+                this.activity.set('groupId', groupnum);
+                this.activity.set('CreatedBy_Username', customer_user.get("username"));
+
+                this.activity.save({
+                    success:function () {
+                        alert("CHEMICAL Saved");
                     },
                     error:function () {
                         alert("error:activity not saved");
@@ -597,285 +790,7 @@ var DashboardView = Parse.View.extend({
 
 });
 
-//**************************************************************************************** RECIPE DETAIL
 
-    var RecipeDetailView = Parse.View.extend({
-
-        defaults:{
-            recipeId:''
-        },
-
-        el:'#content',
-
-        events:{
-
-        },
-
-        initialize:function (options) {
-            _.bindAll(this, 'render');
-
-            if (options.hasOwnProperty('recipeId')) {
-                this.recipeId = options['recipeId'];
-            }
-
-            // retrieving ingredients for recipe
-            this.ingredients = new IngredientsCollection();
-            this.ingredients.bind('reset', this.render);
-            this.ingredients.query = new Parse.Query(ingredients);
-
-            if (this.recipeId && this.recipeId != '') {
-                this.ingredients.query.equalTo("recipeId", this.recipeId);
-            }
-
-            // retrieving steps for recipe
-            this.steps = new StepsCollection();
-            this.steps.query = new Parse.Query(steps);
-            this.steps.bind('reset', this.render);
-            if (this.recipeId && this.recipeId != '') {
-                this.steps.query.equalTo("recipeId", this.recipeId);
-                this.steps.query.ascending("STEP");
-            }
-
-            this.recipe = new recipe({'objectId':this.recipeId});
-
-            var self = this;
-
-            this.recipe.fetch({
-                success:function () {
-                    self.ingredients.fetch();
-                    self.steps.fetch();
-                },
-
-                error:function () {
-                    router.navigate('groups', true);
-                }
-            });
-
-        },
-
-        render:function () {
-            $(this.el).html(_.template($('#recipeDetailTemplate').html(),
-                {
-                    'ingredients':this.ingredients.toJSON(),
-                    'steps':this.steps.toJSON(),
-                    'recipe':this.recipe.toJSON()
-                })
-            );
-        },
-
-        logout:function () {
-            // logging out current user
-            Parse.User.logOut();
-
-            // getting back to login view
-            router.navigate('', true);
-        }
-
-    });
-
-var GroupDetailsView = Parse.View.extend({
-
-    defaults:{
-        groupId:''
-    },
-
-    el:'#content',
-
-    events:{
-        'click #backToList':'backToGroupsList',
-        'click #editGroup':'editGroup',
-        'click #equipmentListBtn':'showEquipmentList',
-        'click #inventoryListBtn':'showInventoryList',
-        'click .equipmentView':'showEquipmentDetails',
-        'click .inventoryView':'showInventoryDetails'
-    },
-
-    initialize:function (options) {
-        _.bindAll(this, 'render');
-
-        if (options.hasOwnProperty('groupId')) {
-            this.groupId = options['groupId'];
-        }
-
-        // retrieving activities for group
-        this.activities = new ActivitiesCollection();
-        this.activities.bind('reset', this.render);
-        this.activities.query = new Parse.Query(Activity);
-
-        if (this.groupId && this.groupId != '') {
-            this.activities.query.equalTo("groupId", this.groupId);
-        }
-
-        // retrieving equipment for group
-        this.equipment = new EquipmentCollection();
-        this.equipment.query = new Parse.Query(Equipment);
-        this.equipment.bind('reset', this.render);
-        if (this.groupId && this.groupId != '') {
-            this.equipment.query.equalTo('groupId', this.groupId);
-        }
-
-        // retrieving computers for group
-        this.inventory = new ComputersCollection();
-        this.inventory.query = new Parse.Query(Computer);
-        this.inventory.bind('reset', this.render);
-        if (this.groupId && this.groupId != '') {
-            this.inventory.query.equalTo('groupId', this.groupId);
-        }
-
-        this.group = new Group({'objectId':this.groupId});
-
-        var self = this;
-
-        this.group.fetch({
-            success:function () {
-                self.activities.fetch();
-                self.equipment.fetch();
-                self.inventory.fetch();
-            },
-
-            error:function () {
-                router.navigate('groups', true);
-            }
-        });
-
-    },
-
-    render:function () {
-        $(this.el).html(_.template($('#groupDetailsTemplate').html(),
-            {
-                'activities':this.activities.toJSON(),
-                'equipment':this.equipment.toJSON(),
-                'inventory':this.inventory.toJSON(),
-                'group':this.group.toJSON()
-            })
-        );
-    },
-
-    backToGroupsList:function () {
-        router.navigate('groups', true);
-    },
-
-    showEquipmentInventory:function (whatToShow) {
-        var showInventory = whatToShow == 'inventory';
-
-        if (showInventory) {
-            this.$('#inventoryListBtn').attr('disabled', 'disabled');
-            this.$('#equipmentListBtn').removeAttr('disabled');
-
-            this.$('#inventoryList').show();
-            this.$('#equipmentList').hide();
-        } else {
-            this.$('#inventoryListBtn').removeAttr('disabled');
-            this.$('#equipmentListBtn').attr('disabled', 'disabled');
-
-            this.$('#inventoryList').hide();
-            this.$('#equipmentList').show();
-        }
-
-    },
-
-    showEquipmentList:function () {
-        // triggering reusable function
-        this.showEquipmentInventory('equipment');
-    },
-
-    showEquipmentDetails:function (event) {
-        var id = this.$(event.currentTarget).data("id");
-
-        this.$("#equipmentDialog").dialog({
-            height:300,
-            width:350,
-            modal:true
-        });
-
-    },
-
-    showInventoryDetails:function (event) {
-        var id = $(event.currentTarget).data("id");
-
-    },
-
-    showInventoryList:function () {
-        // triggering reusable function
-        this.showEquipmentInventory('inventory');
-    },
-
-    editGroup:function () {
-        router.navigate('group/edit/' + this.groupId, true);
-    }
-
-});
-
-
-
-
-var EditCategoryView = Parse.View.extend({
-
-    defaults:{
-        groupId:''
-    },
-
-    el:'#content',
-
-    events:{
-        'click #saveEditGroup':'saveGroup'
-    },
-
-    initialize:function (options) {
-        _.bindAll(this, 'render');
-
-        this.group = new Group();
-
-        if (options.hasOwnProperty('groupId')) {
-            this.group.set('objectId', options['groupId']);
-        } else {
-            router.navigate('groups', true);
-        }
-
-        var self = this;
-
-        this.group.fetch(
-            {
-                success:function () {
-                    self.render();
-                },
-                error:function () {
-                    router.navigate('groups', true);
-                }
-            });
-    },
-
-    render:function () {
-        $(this.el).html(_.template($('#groupEdit').html(), {'group':this.group.toJSON()}));
-    },
-
-    saveGroup:function () {
-        // disable to avoid double submit
-        this.$('#saveEditGroup').attr('disabled', 'disabled');
-
-        var groupName = this.$('#edit-group-name').val();
-        var groupDescription = this.$('#edit-group-description').val();
-        var groupNotes = this.$('#edit-group-notes').val();
-//            var groupLogo = this.$('#new-group-logo').val();
-
-        this.group.set('name', groupName);
-        this.group.set('description', groupDescription);
-        this.group.set('notes', groupNotes);
-//            this.model.set('logo', groupLogo);
-        this.group.set('ownerId', Parse.User.current().id);
-
-        this.group.save({
-            error:function () {
-                self.$("#edit-group-error .error").html("Failed to save group. Please try again later.").show();
-                self.$('#saveEditGroup').removeAttr('disabled');
-            },
-            success:function () {
-                router.navigate("/groups", true);
-            }
-        });
-    }
-
-});
 
 var AppRouter = Parse.Router.extend({
         routes:{
@@ -889,16 +804,11 @@ var AppRouter = Parse.Router.extend({
             'group/:id':"dashboard",
             'files':'handleFiles',
             'recipe/:id':"recipeView",
-            'create-recipe':"newrecipe"
+            'create-recipe':"newrecipe",
         },
 
-//recipe view
-            recipeView:function (recipeId) {
 
-                if (this.checkAuthorized()) {
-                    this.loadView(new RecipeDetailView({'recipeId':recipeId}));
-                }
-            },
+
 
         login:function () {
             this.loadView(new LoginView());
@@ -951,6 +861,10 @@ var AppRouter = Parse.Router.extend({
         },
 
         loadView:function (view) {
+
+            if(this.view) {
+                this.view.undelegateEvents();
+            }
             this.view = view;
         },
 
