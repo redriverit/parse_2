@@ -533,7 +533,9 @@ var DashboardView = Parse.View.extend({
                     'services':this.services.toJSON(),
                     'users':this.users.toJSON(),
                     'group':this.group.toJSON(),
-                    //'currentuser':this.currentuser,
+                    
+
+                    //'currentuser':this.currentuser,   **** How would i pull a current users attributes in index.html?
 
                 })
             );
