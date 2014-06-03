@@ -1,0 +1,19 @@
+I updated my Bug App Code and here are some items and screencasts:
+
+1) Modal forms - since all of my objects tend to be related to the main group view,
+i need to be able to have many modal forms appear so i can add, edit or delete an object from a table.
+Also, once this update occurs, the tables need to be refreshed to show the most recent content.
+http://www.screencast.com/t/2epyzV19
+
+2) Dates - i need help formatting dates
+  For formatting dates - we have http://blog.stevenlevithan.com/archives/date-time-format library
+
+
+3) Data Tables - i would like to be able to scroll through all the records (scrollbars)
+    as well as search for data in a table (search field)
+
+4) Global variable - how do i pass a calculation or variable from javascript to html.
+     I see where 'customers': this.customers.toJSON but if i wanted to pass say the current username and
+     full name or any other variable, how would i do this?
+
+http://www.screencast.com/t/WzFGqtRVQh

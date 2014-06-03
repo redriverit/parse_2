@@ -14,8 +14,8 @@ $(function () {
 
 // This is the transient application state, not persisted on Parse
     var AppState = Parse.Object.extend("AppState", {
-        defaults: {
-            view: "index"
+        defaults:{
+            view:"index"
         }
     });
 
@@ -24,16 +24,16 @@ $(function () {
 // group
     var Group = Parse.Object.extend('Group',
         {
-            defaults: {
-                "name": "",
-                "dateCreated": ""
+            defaults:{
+                "name":"",
+                "dateCreated":""
             }
         }
     );
 
     var GroupsCollection = Parse.Collection.extend(
         {
-            myGroups: Group
+            myGroups:Group
         }
     );
 
@@ -41,7 +41,7 @@ $(function () {
     var Activity = Parse.Object.extend('Activity');
 
     var ActivitiesCollection = Parse.Collection.extend({
-        myGroups: Activity
+        myGroups:Activity
     });
 
 // computer
@@ -49,7 +49,7 @@ $(function () {
 
     var ComputersCollection = Parse.Collection.extend(
         {
-            myGroups: Computer
+            myGroups:Computer
         }
     );
 
@@ -58,26 +58,26 @@ $(function () {
 
     var EquipmentCollection = Parse.Collection.extend(
         {
-            myGroups: Equipment
+            model:Equipment
         }
     );
 
 // views
     var LoginView = Parse.View.extend({
 
-        el: '#content',
+        el:'#content',
 
-        template: _.template($('#loginTemplate').html()),
-
-        events: {
-            "click #signIn": "signIn"
+        events:{
+            "click #signIn":"signIn"
         },
 
-        initialize: function () {
+        initialize:function () {
+            _.bindAll(this, 'render');
+
             this.render();
         },
 
-        signIn: function () {
+        signIn:function () {
             // prevent double submit
             this.$("#signInForm button").attr("disabled", "disabled");
 
@@ -87,13 +87,13 @@ $(function () {
             var password = this.$('#signin-password').val();
 
             Parse.User.logIn(username, password, {
-                success: function () {
+                success:function () {
                     router.navigate('groups', true);
 
                     self.$("#signInForm button").removeAttr('disabled');
                 },
 
-                error: function () {
+                error:function () {
                     self.$("#signInForm .error").html("Invalid username or password. Please try again.").show();
                     self.$("#signInForm button").removeAttr("disabled");
                 }
@@ -101,8 +101,13 @@ $(function () {
 
         },
 
-        render: function () {
-            $(this.el).html(this.template);
+        render:function () {
+            //TODO please note - this is hack in order to demonstrate how to use
+            $(this.el).html(_.template($('#loginTemplate').html(),
+                {
+                    'message':'Hello message!',
+                    'inputDate':new Date()
+                }));
 
             return this;
         }
@@ -111,23 +116,23 @@ $(function () {
 
     var SignUpView = Parse.View.extend({
 
-        el: '#content',
+        el:'#content',
 
-        template: _.template($('#signUpTemplate').html()),
+        template:_.template($('#signUpTemplate').html()),
 
-        events: {
-            "click #signUp": "signUp"
+        events:{
+            "click #signUp":"signUp"
         },
 
-        initialize: function () {
+        initialize:function () {
             this.render();
         },
 
-        render: function () {
+        render:function () {
             $(this.el).html(this.template);
         },
 
-        signUp: function () {
+        signUp:function () {
             // turning off button
             this.$("#signUpForm button").attr("disabled", "disabled");
 
@@ -148,17 +153,17 @@ $(function () {
             var self = this;
 
             Parse.User.signUp(username, password, {
-                    'email': email,
-                    'name': name,
-                    'type': type,
-                    'value': value,
-                    'notes': notes},
+                    'email':email,
+                    'name':name,
+                    'type':type,
+                    'value':value,
+                    'notes':notes},
                 {
-                    success: function () {
+                    success:function () {
                         router.navigate('groups', true);
                     },
 
-                    error: function () {
+                    error:function () {
                         self.$("#signUpForm button").removeAttr("disabled");
                         self.$('#signup-error').html('Email was already taken, please try other').show();
                     }
@@ -170,23 +175,23 @@ $(function () {
     var ForgotPasswordView = Parse.View.extend(
         {
 
-            el: '#content',
+            el:'#content',
 
-            template: _.template($('#forgotPasswordTemplate').html()),
+            template:_.template($('#forgotPasswordTemplate').html()),
 
-            events: {
-                "click #forgotPassword": "restorePassword"
+            events:{
+                "click #forgotPassword":"restorePassword"
             },
 
-            initialize: function () {
+            initialize:function () {
                 this.render();
             },
 
-            render: function () {
+            render:function () {
                 $(this.el).html(this.template);
             },
 
-            restorePassword: function () {
+            restorePassword:function () {
             }
 
         }
@@ -194,14 +199,14 @@ $(function () {
 
     var GroupsListView = Parse.View.extend({
 
-        el: '#content',
+        el:'#content',
 
-        events: {
+        events:{
 
-            'click #logoutBtn': 'logout'
+            'click #logoutBtn':'logout'
         },
 
-        initialize: function () {
+        initialize:function () {
             _.bindAll(this, 'render');
 
             // retrieving my groups
@@ -229,15 +234,15 @@ $(function () {
             this.otherGroups.fetch();
         },
 
-        render: function () {
+        render:function () {
             $(this.el).html(_.template($('#groupListTemplate').html(),
                 {
-                    'myGroups': this.myGroups.toJSON(),
-                    'otherGroups': this.otherGroups.toJSON()
+                    'myGroups':this.myGroups.toJSON(),
+                    'otherGroups':this.otherGroups.toJSON()
                 }));
         },
 
-        logout: function () {
+        logout:function () {
             // logging out current user
             Parse.User.logOut();
 
@@ -249,24 +254,24 @@ $(function () {
 
     var GroupDetailsView = Parse.View.extend({
 
-        defaults: {
-            groupId: ''
+        defaults:{
+            groupId:''
         },
 
-        el: '#content',
+        el:'#content',
 
-        events: {
-            'click #backToList': 'backToGroupsList',
-            'click #editGroup': 'editGroup',
-            'click #equipmentListBtn': 'showEquipmentList',
-            'click #inventoryListBtn': 'showInventoryList',
-            'click .equipmentView': 'showEquipmentDetails',
-            'click .inventoryView': 'showInventoryDetails',
-            'click #createNewEquipment': 'createNewEquipment'
+        events:{
+            'click #backToList':'backToGroupsList',
+            'click #editGroup':'editGroup',
+            'click #equipmentListBtn':'showEquipmentList',
+            'click #inventoryListBtn':'showInventoryList',
+            'click .equipmentView':'showEquipmentDetails',
+            'click .inventoryView':'showInventoryDetails',
+            'click #createNewEquipment':'createNewEquipment'
 
         },
 
-        initialize: function (options) {
+        initialize:function (options) {
             _.bindAll(this, 'render');
 
             if (options.hasOwnProperty('groupId')) {
@@ -298,40 +303,40 @@ $(function () {
                 this.inventory.query.equalTo('groupId', this.groupId);
             }
 
-            this.group = new Group({'objectId': this.groupId});
+            this.group = new Group({'objectId':this.groupId});
 
             var self = this;
 
             this.group.fetch({
-                success: function () {
+                success:function () {
                     self.activities.fetch();
                     self.equipment.fetch();
                     self.inventory.fetch();
                 },
 
-                error: function () {
+                error:function () {
                     router.navigate('groups', true);
                 }
             });
 
         },
 
-        render: function () {
+        render:function () {
             $(this.el).html(_.template($('#groupDetailsTemplate').html(),
                 {
-                    'activities': this.activities.toJSON(),
-                    'equipment': this.equipment.toJSON(),
-                    'inventory': this.inventory.toJSON(),
-                    'group': this.group.toJSON()
+                    'activities':this.activities.toJSON(),
+                    'equipment':this.equipment.toJSON(),
+                    'inventory':this.inventory.toJSON(),
+                    'group':this.group.toJSON()
                 })
             );
         },
 
-        backToGroupsList: function () {
+        backToGroupsList:function () {
             router.navigate('groups', true);
         },
 
-        showEquipmentInventory: function (whatToShow) {
+        showEquipmentInventory:function (whatToShow) {
             var showInventory = whatToShow == 'inventory';
 
             if (showInventory) {
@@ -350,18 +355,18 @@ $(function () {
 
         },
 
-        createNewEquipment: function (event) {
+        createNewEquipment:function (event) {
             var groupId = this.$(event.currentTarget).data("id");
 
             router.navigate('create-equipment/' + groupId, true);
         },
 
-        showEquipmentList: function () {
+        showEquipmentList:function () {
             // triggering reusable function
             this.showEquipmentInventory('equipment');
         },
 
-        showEquipmentDetails: function (event) {
+        showEquipmentDetails:function (event) {
             var id = this.$(event.currentTarget).data("id");
 
             router.navigate('edit-equipment/' + id, true);
@@ -375,17 +380,17 @@ $(function () {
 
         },
 
-        showInventoryDetails: function (event) {
+        showInventoryDetails:function (event) {
             var id = $(event.currentTarget).data("id");
 
         },
 
-        showInventoryList: function () {
+        showInventoryList:function () {
             // triggering reusable function
             this.showEquipmentInventory('inventory');
         },
 
-        editGroup: function () {
+        editGroup:function () {
             router.navigate('group/edit/' + this.groupId, true);
         }
 
@@ -393,28 +398,28 @@ $(function () {
 
     var CreateGroupView = Parse.View.extend({
 
-        defaults: {
-            groupId: ''
+        defaults:{
+            groupId:''
         },
 
-        el: '#content',
+        el:'#content',
 
-        events: {
-            'click #saveGroup': 'saveGroup'
+        events:{
+            'click #saveGroup':'saveGroup'
         },
 
-        initialize: function () {
+        initialize:function () {
             _.bindAll(this, 'render');
 
             this.render();
         },
 
-        render: function () {
+        render:function () {
             $(this.el).html(_.template($('#groupNew').html()));
         },
 
-        saveGroup: function () {
-
+        saveGroup:function () {
+            console.log('Saving Group');
             this.group = new Group();
 
             var groupName = this.$('#new-group-name').val();
@@ -429,11 +434,11 @@ $(function () {
             this.group.set('ownerId', Parse.User.current().id);
 
             this.group.save({
-                error: function () {
+                error:function () {
                     // save-group-error
                     self.$("#create-group-error .error").html("Failed to save group. Please try again later.").show();
                 },
-                success: function () {
+                success:function () {
                     router.navigate("/groups", true);
                 }
             });
@@ -443,20 +448,20 @@ $(function () {
 
     var CreateEquipmentView = Parse.View.extend({
 
-        defaults: {
-            groupId: '',
-            isUpdate: false,
-            equipment: null
+        defaults:{
+            groupId:'',
+            isUpdate:false,
+            equipment:null
         },
 
-        el: '#content',
+        el:'#content',
 
-        events: {
-            'click #saveEquipment': 'saveEquipment',
-            'click #cancelSaveEquipment': 'backToGroup'
+        events:{
+            'click #saveEquipment':'saveEquipment',
+            'click #cancelSaveEquipment':'backToGroup'
         },
 
-        initialize: function (options) {
+        initialize:function (options) {
 
             if (options.hasOwnProperty('groupId')) {
                 this.groupId = options['groupId'];
@@ -469,7 +474,7 @@ $(function () {
             if (options.hasOwnProperty('equipmentId')) {
                 this.equipment.set('id', options['equipmentId']);
                 this.equipment.fetch({
-                    success: function () {
+                    success:function () {
                         self.groupId = self.equipment.get('groupId');
                         self.render();
                     }
@@ -481,12 +486,14 @@ $(function () {
             this.render();
         },
 
-        render: function () {
-            $(this.el).html(_.template($('#equipmentEdit').html(), {'equipment': this.equipment.toJSON()}));
+        render:function () {
+            $(this.el).html(_.template($('#equipmentEdit').html(), {'equipment':this.equipment.toJSON()}));
 
         },
 
-        saveEquipment: function () {
+        saveEquipment:function () {
+            console.log('Saving equipment');
+
             var equipmentName = this.$('#new-equipment-name').val();
             var equipmentType = this.$('#new-equipment-type').val();
             var equipmentValue = this.$('#new-equipment-value').val();
@@ -504,18 +511,18 @@ $(function () {
             var self = this;
 
             this.equipment.save({
-                error: function () {
+                error:function () {
                     // save-group-error
                     self.$("#new-equipment-error .error").html("Failed to save equipment. Please try again later.").show();
                 },
-                success: function () {
+                success:function () {
                     console.log('Success group: ' + self.groupId);
                     router.navigate("/group/" + self.groupId, true);
                 }
             });
         },
 
-        backToGroup: function () {
+        backToGroup:function () {
             router.navigate('group/' + this.groupId, true);
         }
 
@@ -523,17 +530,17 @@ $(function () {
 
     var EditGroupView = Parse.View.extend({
 
-        defaults: {
-            groupId: ''
+        defaults:{
+            groupId:''
         },
 
-        el: '#content',
+        el:'#content',
 
-        events: {
-            'click #saveEditGroup': 'saveGroup'
+        events:{
+            'click #saveEditGroup':'saveGroup'
         },
 
-        initialize: function (options) {
+        initialize:function (options) {
             _.bindAll(this, 'render');
 
             this.group = new Group();
@@ -548,20 +555,20 @@ $(function () {
 
             this.group.fetch(
                 {
-                    success: function () {
+                    success:function () {
                         self.render();
                     },
-                    error: function () {
+                    error:function () {
                         router.navigate('groups', true);
                     }
                 });
         },
 
-        render: function () {
-            $(this.el).html(_.template($('#groupEdit').html(), {'group': this.group.toJSON()}));
+        render:function () {
+            $(this.el).html(_.template($('#groupEdit').html(), {'group':this.group.toJSON()}));
         },
 
-        saveGroup: function () {
+        saveGroup:function () {
             // disable to avoid double submit
             this.$('#saveEditGroup').attr('disabled', 'disabled');
 
@@ -577,11 +584,11 @@ $(function () {
             this.group.set('ownerId', Parse.User.current().id);
 
             this.group.save({
-                error: function () {
+                error:function () {
                     self.$("#edit-group-error .error").html("Failed to save group. Please try again later.").show();
                     self.$('#saveEditGroup').removeAttr('disabled');
                 },
-                success: function () {
+                success:function () {
                     router.navigate("/groups", true);
                 }
             });
@@ -590,79 +597,79 @@ $(function () {
     });
 
     var AppRouter = Parse.Router.extend({
-            routes: {
-                '': "index",
-                'login': 'login',
-                'forgotPassword': 'forgotPassword',
-                'signup': 'signUp',
-                'groups': 'groupsList',
-                'group/:id': 'groupDetails',
-                'create-group': 'createGroup',
-                'group/edit/:id': 'editGroup',
-                'create-equipment/:id': 'createEquipment',
-                'edit-equipment/:id': 'editEquipment'
+            routes:{
+                '':"index",
+                'login':'login',
+                'forgotPassword':'forgotPassword',
+                'signup':'signUp',
+                'groups':'groupsList',
+                'group/:id':'groupDetails',
+                'create-group':'createGroup',
+                'group/edit/:id':'editGroup',
+                'create-equipment/:id':'createEquipment',
+                'edit-equipment/:id':'editEquipment'
             },
 
-            login: function () {
+            login:function () {
                 this.loadView(new LoginView());
             },
 
-            index: function () {
+            index:function () {
                 if (this.checkAuthorized()) {
                     // groups list is our main
                     this.groupsList();
                 }
             },
 
-            forgotPassword: function () {
+            forgotPassword:function () {
                 this.loadView(new ForgotPasswordView());
             },
 
-            signUp: function () {
+            signUp:function () {
                 this.loadView(new SignUpView());
             },
 
-            createGroup: function () {
+            createGroup:function () {
                 if (this.checkAuthorized()) {
                     this.loadView(new CreateGroupView());
                 }
             },
 
-            createEquipment: function (groupId) {
+            createEquipment:function (groupId) {
                 if (this.checkAuthorized()) {
-                    this.loadView(new CreateEquipmentView({'groupId': groupId}));
+                    this.loadView(new CreateEquipmentView({'groupId':groupId}));
                 }
             },
 
-            editEquipment: function (equipmentId) {
+            editEquipment:function (equipmentId) {
                 if (this.checkAuthorized()) {
-                    this.loadView(new CreateEquipmentView({'isUpdate': true, 'equipmentId': equipmentId}));
+                    this.loadView(new CreateEquipmentView({'isUpdate':true, 'equipmentId':equipmentId}));
                 }
             },
 
-            editGroup: function (groupId) {
+            editGroup:function (groupId) {
                 if (this.checkAuthorized()) {
-                    this.loadView(new EditGroupView({'groupId': groupId}));
+                    this.loadView(new EditGroupView({'groupId':groupId}));
                 }
             },
 
-            groupsList: function () {
+            groupsList:function () {
                 if (this.checkAuthorized()) {
                     this.loadView(new GroupsListView());
                 }
             },
 
-            groupDetails: function (id) {
+            groupDetails:function (id) {
                 if (this.checkAuthorized()) {
-                    this.loadView(new GroupDetailsView({'groupId': id}));
+                    this.loadView(new GroupDetailsView({'groupId':id}));
                 }
             },
 
-            loadView: function (view) {
+            loadView:function (view) {
                 this.view = view;
             },
 
-            checkAuthorized: function () {
+            checkAuthorized:function () {
                 if (Parse.User.current() == null) {
                     router.navigate('login', true);
 
