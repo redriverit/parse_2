@@ -106,7 +106,8 @@ $(function () {
             $(this.el).html(_.template($('#loginTemplate').html(),
                 {
                     'message':'Hello message!',
-                    'inputDate':new Date()
+                    'inputDate':new Date(),
+                    'customData': 'This is another custom data value!!'
                 }));
 
             return this;
